@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:rush/features/auth/screens/splash_screen.dart';
+import 'package:rush/utils/message.dart';
 import 'package:rush/utils/navigation.dart';
 
 
@@ -19,6 +21,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return  MaterialApp(
     navigatorKey: navigatorKey,
+    scaffoldMessengerKey: snackbarKey,
       debugShowCheckedModeBanner: false,
       title: 'Rush',
       home: const SplashScreen(),

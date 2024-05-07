@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rush/features/auth/screens/login_image.dart';
+import 'package:rush/utils/navigation.dart';
+import 'package:rush/utils/secure_storage%20copy.dart';
 
 import '../../../utils/sizes.dart';
 
@@ -69,12 +73,22 @@ class CusDrawer extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.w500)),
           onTap: () {},
         ),
-        ListTile(
-          leading: const Icon(Icons.logout, color: Colors.red),
-          title: const Text("Logout",
-              style: TextStyle(fontWeight: FontWeight.w500, color: Colors.red)),
-          onTap: () {},
-        ),
+        Consumer(
+          builder: (BuildContext context, WidgetRef ref, Widget? child) {
+
+
+          return ListTile(
+            leading: const Icon(Icons.logout, color: Colors.red),
+            title: const Text("Logout",
+                style:
+                    TextStyle(fontWeight: FontWeight.w500, color: Colors.red)),
+            onTap: () async {
+
+              ref.read(secureStoargeProvider).deleteData("authToken");
+              navigateTo(const LoginImage());
+            },
+          );
+        })
       ],
     );
   }

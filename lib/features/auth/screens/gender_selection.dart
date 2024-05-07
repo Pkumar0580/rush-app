@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rush/features/auth/screens/age_selection.dart';
 import '../../../utils/button.dart';
 import '../../../utils/colors.dart';
+import '../../../utils/message.dart';
 import '../../../utils/navigation.dart';
 import '../../../utils/sizes.dart';
 
@@ -48,7 +49,7 @@ class _GenderScreenState extends State<GenderScreen> {
                 text: "Continue",
                 onPressed: () {
                   if (selectedGender == null) {
-                    snackBarMsg("plese select vlaue");
+                    ShowSnackBarMsg("plese select vlaue");
                   }
                   navigationPush(
                       context,
@@ -64,7 +65,6 @@ class _GenderScreenState extends State<GenderScreen> {
 }
 
 List<String> items = [
-  "Select Here",
   "Male",
   "Female",
   "Other",
@@ -88,9 +88,6 @@ class _GenderDropDawnState extends State<GenderDropDawn> {
       child: Card(
         color: Colors.white,
         elevation: 2,
-        // shape: RoundedRectangleBorder(
-        //   borderRadius: BorderRadius.circular(8.0),
-        // ),
         child: DropdownButtonHideUnderline(
           child: Padding(
             padding: const EdgeInsets.all(10.0),
@@ -119,7 +116,7 @@ class _GenderDropDawnState extends State<GenderDropDawn> {
                 setState(
                   () {
                     selectedItem = item;
-                    log("Selected Item=> ${selectedItem.runtimeType}");
+                    log("Selected Item=> ${selectedItem}");
 
                     widget.onChanged(item);
                   },
@@ -131,16 +128,4 @@ class _GenderDropDawnState extends State<GenderDropDawn> {
       ),
     );
   }
-}
-
-final GlobalKey<ScaffoldMessengerState> snackbarKey =
-    GlobalKey<ScaffoldMessengerState>();
-
-void snackBarMsg(String message, {Color? color}) {
-  final snackBar = SnackBar(
-    content: Text(message),
-    duration: const Duration(seconds: 3),
-    backgroundColor: color,
-  );
-  snackbarKey.currentState?.showSnackBar(snackBar);
 }

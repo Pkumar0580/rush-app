@@ -36,8 +36,9 @@ class AuthController {
       if (res != null &&
           res["status"] != null &&
           res["status"]["code"] == 290) {
+            ShowSnackBarMsg("Otp Send Successfully $mobile", color: Colors.green);
         navigateTo(OtpScreen(mobile: mobile));
-        snackBarMsessege("Otp Send Successfully", color: Colors.green);
+        
       }
 
       log("Send Otp Controller Response=> $res");
@@ -54,7 +55,7 @@ class AuthController {
 
       if (res['already_registered'] == false) {
         navigateTo(const GenderScreen());
-          ref
+        ref
             .watch(secureStoargeProvider)
             .writeData(key: "authToken", value: "${res['token']}");
       } else {
