@@ -18,9 +18,9 @@ class _AgeSelectionDropdownState extends State<AgeSelectionDropdown> {
     return Card(
       color: Colors.white,
       elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8.0),
-      ),
+      // shape: RoundedRectangleBorder(
+      //   borderRadius: BorderRadius.circular(8.0),
+      // ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: DropdownButtonFormField<String>(
@@ -38,8 +38,8 @@ class _AgeSelectionDropdownState extends State<AgeSelectionDropdown> {
             );
           }).toList(),
           decoration: const InputDecoration(
-            hintText: 'Select Your Age', // Placeholder text
-            border: InputBorder.none, // Remove internal border
+            hintText: 'Select Your Age', 
+            border: InputBorder.none, 
           ),
         ),
       ),

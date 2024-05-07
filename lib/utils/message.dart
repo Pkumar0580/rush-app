@@ -8,7 +8,7 @@ class Msg {
 final GlobalKey<ScaffoldMessengerState> snackbarKey =
     GlobalKey<ScaffoldMessengerState>();
 
-void snackBarMsg(String message, {Color? color}) {
+void snackBarMsessege(String message, {Color? color}) {
   final snackBar = SnackBar(
     content: Text(message),
     duration: const Duration(seconds: 3),

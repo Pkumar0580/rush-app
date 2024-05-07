@@ -1,9 +1,7 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rush/features/auth/screens/age_selection.dart';
-
 import '../../../utils/button.dart';
 import '../../../utils/colors.dart';
 import '../../../utils/navigation.dart';
@@ -89,6 +87,10 @@ class _GenderDropDawnState extends State<GenderDropDawn> {
       width: width(context),
       child: Card(
         color: Colors.white,
+        elevation: 2,
+        // shape: RoundedRectangleBorder(
+        //   borderRadius: BorderRadius.circular(8.0),
+        // ),
         child: DropdownButtonHideUnderline(
           child: Padding(
             padding: const EdgeInsets.all(10.0),
@@ -101,15 +103,17 @@ class _GenderDropDawnState extends State<GenderDropDawn> {
               value: selectedItem,
               style: const TextStyle(color: Colors.black, fontSize: 22),
               items: items
-                  .map((item) => DropdownMenuItem(
-                        alignment: AlignmentDirectional.centerStart,
-                        value: item,
-                        child: Text(
-                          item,
-                          style: const TextStyle(
-                              fontSize: 18.0, fontWeight: FontWeight.w500),
-                        ),
-                      ))
+                  .map(
+                    (item) => DropdownMenuItem(
+                      alignment: AlignmentDirectional.centerStart,
+                      value: item,
+                      child: Text(
+                        item,
+                        style: const TextStyle(
+                            fontSize: 18.0, fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  )
                   .toList(),
               onChanged: (item) {
                 setState(
@@ -128,23 +132,6 @@ class _GenderDropDawnState extends State<GenderDropDawn> {
     );
   }
 }
-
-// class GenderDropdown extends ConsumerWidget {
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final selectedGender = ref.watch(selectedGenderProvider);
-//     final List<String> genderValue = ['Male', 'Female', 'Other'];
-
-//     return DropdownButton<String>(
-//       value: selectedGender,
-//       items: genderValue
-//           .map((e) => DropdownMenuItem(value: e, child: Text(e)))
-//           .toList(),
-//       onChanged: (value) =>
-//           ref.read(selectedGenderProvider.notifier).state = value!,
-//     );
-//   }
-// }
 
 final GlobalKey<ScaffoldMessengerState> snackbarKey =
     GlobalKey<ScaffoldMessengerState>();

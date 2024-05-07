@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'utils/bottom_bar.dart';
-
+import 'package:rush/features/auth/screens/splash_screen.dart';
+import 'package:rush/utils/navigation.dart';
 
 
 void main() {
@@ -17,15 +17,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  const  MaterialApp(
+    return  MaterialApp(
+    navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
       title: 'Rush',
-      home:BottomBar()
+      home: const SplashScreen(),
     );
   }
 }
-
-
-
-
-

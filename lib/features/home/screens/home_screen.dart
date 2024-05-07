@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-
 import 'package:rush/common/image_slider.dart';
-import 'package:rush/features/offer/screens/myoffer_screen.dart';
 import 'package:rush/utils/colors.dart';
 import 'package:rush/utils/navigation.dart';
 import 'package:rush/utils/sizes.dart';
-
-import '../scr/search_bar.dart';
+import '../scr/drawer.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -18,7 +15,9 @@ class HomeScreen extends StatelessWidget {
       child: Scaffold(
           backgroundColor: AppColor.backgroundColor,
           key: scaffoldKey,
-          drawer: const Drawer(),
+          drawer: const Drawer(
+            child: CusDrawer(),
+          ),
           appBar: AppBar(
             backgroundColor: AppColor.appbarColor,
             leading: InkWell(
@@ -46,7 +45,7 @@ class HomeScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SearchBarItem(),
+                // const SearchBarItem(),
                 const ImageSlide(),
                 const Padding(
                   padding: EdgeInsets.only(top: 10, left: 25),
@@ -115,7 +114,7 @@ class MensFashionScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SearchBarItem(),
+                // const SearchBarItem(),
                 const ImageSlide(),
                 const Padding(
                   padding: EdgeInsets.only(top: 10, left: 25),

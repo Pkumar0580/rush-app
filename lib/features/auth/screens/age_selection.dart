@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rush/features/auth/screens/name.dart';
+import 'package:rush/features/auth/screens/name_screen.dart';
 import 'package:rush/utils/button.dart';
 import 'package:rush/utils/navigation.dart';
 import '../../../utils/colors.dart';

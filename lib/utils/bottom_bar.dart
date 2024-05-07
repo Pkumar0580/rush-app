@@ -1,28 +1,46 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:rush/features/brand/screens/my_brand.dart';
-import 'package:rush/features/offer/screens/myoffer_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rush/features/brand/screens/brands.dart';
+import 'package:rush/features/offer/screens/offers_screen.dart';
 import 'package:rush/features/profile/screens/profile_screen.dart';
+import 'package:rush/utils/secure_storage%20copy.dart';
 
 import '../features/home/screens/home_screen.dart';
 import 'colors.dart';
 
-class BottomBar extends StatefulWidget {
+final getTokenProvider = FutureProvider.autoDispose((ref) async{
+  final token = await ref.watch(secureStoargeProvider).readData("authToken");
+
+  return token;
+});
+
+
+
+
+class BottomBar extends ConsumerStatefulWidget {
   const BottomBar({super.key});
 
   @override
-  State<BottomBar> createState() => _BottomBarState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _BottomBarState();
 }
 
-class _BottomBarState extends State<BottomBar> {
+class _BottomBarState extends ConsumerState<BottomBar> {
+
   var pages = [
     const HomeScreen(),
-    const MyOfferScreen(),
-    const MyBrandScreen(),
+    const OffersScreen(),
+    const BrandScreen(),
      ProfileScreen()
   ];
-  int selectedItem = 0;
+  int selectedItem=0;
+
   @override
   Widget build(BuildContext context) {
+   final gettoken=  ref.watch(getTokenProvider);
+
+   log("Get token in Bottom Bar=> ${gettoken}");
     return Scaffold(
       // appBar: AppBar(),
       body: pages[selectedItem],
@@ -45,13 +63,13 @@ class _BottomBarState extends State<BottomBar> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.local_offer),
-            label: 'MY OFFERS',
+            label: 'OFFERS',
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.branding_watermark,
             ),
-            label: 'MY BRANDS',
+            label: 'BRANDS',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_outlined),
