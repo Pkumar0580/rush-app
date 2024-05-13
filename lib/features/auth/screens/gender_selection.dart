@@ -1,14 +1,10 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rush/features/auth/screens/age_selection.dart';
 import '../../../utils/button.dart';
 import '../../../utils/colors.dart';
 import '../../../utils/message.dart';
 import '../../../utils/navigation.dart';
 import '../../../utils/sizes.dart';
-
-final selectedGenderProvider = StateProvider<String>((ref) => '');
 
 class GenderScreen extends StatefulWidget {
   const GenderScreen({super.key});
@@ -39,9 +35,11 @@ class _GenderScreenState extends State<GenderScreen> {
                   fontWeight: FontWeight.w700),
             ),
             heightSizedBox(20.0),
-            GenderDropDawn(
-              onChanged: (value) {
-                selectedGender = value;
+            GenderSelectionDropdown(
+              onGenderSelected: (gender) {
+                setState(() {
+                  selectedGender = gender;
+                });
               },
             ),
             const Spacer(),
@@ -49,13 +47,15 @@ class _GenderScreenState extends State<GenderScreen> {
                 text: "Continue",
                 onPressed: () {
                   if (selectedGender == null) {
-                    ShowSnackBarMsg("plese select vlaue");
+                    ShowSnackBarMsg("Plese select your gender?",
+                        color: Colors.red);
+                  } else {
+                    navigationPush(
+                        context,
+                        AgeScreen(
+                          gender: "$selectedGender",
+                        ));
                   }
-                  navigationPush(
-                      context,
-                      AgeScreen(
-                        gender: "$selectedGender",
-                      ));
                 })
           ],
         ),
@@ -64,65 +64,58 @@ class _GenderScreenState extends State<GenderScreen> {
   }
 }
 
-List<String> items = [
+List<String> genderItems = [
   "Male",
   "Female",
   "Other",
 ];
 
-class GenderDropDawn extends StatefulWidget {
-  final ValueChanged<String?> onChanged;
-  const GenderDropDawn({super.key, required this.onChanged});
+class GenderSelectionDropdown extends StatefulWidget {
+  final void Function(String) onGenderSelected;
+
+  const GenderSelectionDropdown({super.key, required this.onGenderSelected});
 
   @override
-  State<GenderDropDawn> createState() => _GenderDropDawnState();
+  _GenderSelectionDropdownState createState() =>
+      _GenderSelectionDropdownState();
 }
 
-class _GenderDropDawnState extends State<GenderDropDawn> {
-  String? selectedItem = items.first;
+class _GenderSelectionDropdownState extends State<GenderSelectionDropdown> {
+  String selectedGender = genderItems.first;
+
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 55,
-      width: width(context),
-      child: Card(
-        color: Colors.white,
-        elevation: 2,
-        child: DropdownButtonHideUnderline(
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: DropdownButton<String>(
-              icon: const Icon(Icons.arrow_drop_down),
-              dropdownColor: Colors.white,
-              iconSize: 36,
-              isExpanded: true,
-              elevation: 1,
-              value: selectedItem,
-              style: const TextStyle(color: Colors.black, fontSize: 22),
-              items: items
-                  .map(
-                    (item) => DropdownMenuItem(
-                      alignment: AlignmentDirectional.centerStart,
-                      value: item,
-                      child: Text(
-                        item,
-                        style: const TextStyle(
-                            fontSize: 18.0, fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                  )
-                  .toList(),
-              onChanged: (item) {
-                setState(
-                  () {
-                    selectedItem = item;
-                    log("Selected Item=> ${selectedItem}");
+    return Card(
+      color: Colors.white,
+      elevation: 2,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: DropdownButtonFormField<String>(
+          onChanged: (value) {
+            setState(() {
+              selectedGender = value!;
 
-                    widget.onChanged(item);
-                  },
-                );
-              },
-            ),
+              widget.onGenderSelected(selectedGender);
+            });
+          },
+          items: genderItems
+              .map(
+                (item) => DropdownMenuItem(
+                  alignment: AlignmentDirectional.centerStart,
+                  value: item,
+                  child: Text(
+                    item,
+                    style: const TextStyle(
+                        fontSize: 18.0, fontWeight: FontWeight.w500),
+                  ),
+                ),
+              )
+              .toList(),
+          decoration: const InputDecoration(
+            hintText: 'Select Your Gender',
+            hintStyle: TextStyle(
+                fontWeight: FontWeight.bold, color: Colors.black, fontSize: 16),
+            border: InputBorder.none,
           ),
         ),
       ),

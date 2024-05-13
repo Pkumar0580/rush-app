@@ -1,23 +1,18 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rush/features/brand/screens/brands.dart';
 import 'package:rush/features/offer/screens/offers_screen.dart';
 import 'package:rush/features/profile/screens/profile_screen.dart';
 import 'package:rush/utils/secure_storage%20copy.dart';
-
 import '../features/home/screens/home_screen.dart';
 import 'colors.dart';
 
-final getTokenProvider = FutureProvider.autoDispose((ref) async{
+final getTokenProvider = FutureProvider.autoDispose((ref) async {
   final token = await ref.watch(secureStoargeProvider).readData("authToken");
 
   return token;
 });
-
-
-
 
 class BottomBar extends ConsumerStatefulWidget {
   const BottomBar({super.key});
@@ -27,63 +22,63 @@ class BottomBar extends ConsumerStatefulWidget {
 }
 
 class _BottomBarState extends ConsumerState<BottomBar> {
-
   var pages = [
-    const HomeScreen(),
+    HomeScreen(),
     const OffersScreen(),
     const BrandScreen(),
-     ProfileScreen()
+    ProfileScreen()
   ];
-  int selectedItem=0;
+  int selectedItem = 0;
 
   @override
   Widget build(BuildContext context) {
-   final gettoken=  ref.watch(getTokenProvider);
-
-   log("Get token in Bottom Bar=> ${gettoken}");
-    return Scaffold(
-      // appBar: AppBar(),
-      body: pages[selectedItem],
-
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: AppColor.btnColor,
-        iconSize: 22.0,
-        selectedFontSize: 14.0,
-        unselectedFontSize: 12.0,
-        unselectedItemColor: AppColor.primaryColor,
-        showSelectedLabels: true,
-        showUnselectedLabels: true,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home_outlined,
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        SystemNavigator.pop();
+      },
+      child: Scaffold(
+        body: pages[selectedItem],
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: AppColor.btnColor,
+          iconSize: 22.0,
+          selectedFontSize: 14.0,
+          unselectedFontSize: 12.0,
+          unselectedItemColor: AppColor.primaryColor,
+          showSelectedLabels: true,
+          showUnselectedLabels: true,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home_outlined,
+              ),
+              label: 'HOME',
             ),
-            label: 'HOME',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.local_offer),
-            label: 'OFFERS',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.branding_watermark,
+            BottomNavigationBarItem(
+              icon: Icon(Icons.local_offer),
+              label: 'OFFERS',
             ),
-            label: 'BRANDS',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle_outlined),
-            label: 'Profile',
-          ),
-        ],
-        currentIndex: selectedItem,
-        onTap: (value) {
-          setState(
-            () {
-              selectedItem = value;
-            },
-          );
-        },
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.branding_watermark,
+              ),
+              label: 'BRANDS',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.account_circle_outlined),
+              label: 'Profile',
+            ),
+          ],
+          currentIndex: selectedItem,
+          onTap: (value) {
+            setState(
+              () {
+                selectedItem = value;
+              },
+            );
+          },
+        ),
       ),
     );
   }

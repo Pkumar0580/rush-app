@@ -66,7 +66,8 @@ class Stores extends StatelessWidget {
                                   child: Text(
                                 stores[i]['name'],
                                 textAlign: TextAlign.center,
-                                style: const TextStyle(fontWeight: FontWeight.w500),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w500),
                               )),
                               heightSizedBox(2.0),
                               Text(
@@ -122,15 +123,31 @@ class TopBanner extends StatelessWidget {
             height: 140,
             width: 150,
             child: Card(
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Image.network(
-                  // "assets/images/amazon-logo-s3f.png",
-                  logo,
-                  fit: BoxFit.contain,
+                color: Colors.white,
+                child: Container(
+                  height: 127,
+                  width: 148,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    color: Colors.white,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Image.network(
+                      logo,
+                    ),
+                  ),
+                )
+
+                //  Padding(
+                //   padding: const EdgeInsets.all(15.0),
+                //   child: Image.network(
+                //     // "assets/images/amazon-logo-s3f.png",
+                //     logo,
+                //     fit: BoxFit.contain,
+                //   ),
+                // ),
                 ),
-              ),
-            ),
           ),
           heightSizedBox(5.0),
           Text(

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-
 Future<dynamic> navigateTo(Widget widget) {
   return navigatorKey.currentState!
       .push(MaterialPageRoute(builder: (context) => widget));
@@ -27,15 +25,21 @@ pushRoute(BuildContext context, String pageName, {Object? arguments}) {
 }
 
 //  Naviation
-navigationRemoveUntil(BuildContext context, Widget widget) {
-  Navigator.of(context).pushAndRemoveUntil(
+navigationRemoveUntil( Widget widget) {
+  return navigatorKey.currentState!.pushAndRemoveUntil(
       MaterialPageRoute(builder: (context) => widget),
       (Route<dynamic> route) => false);
 }
 
-navigationPushReplacement(BuildContext context, Widget widget) {
-  Navigator.pushReplacement(
-      context, MaterialPageRoute(builder: (context) => widget));
+// navigationPushReplacement(BuildContext context, Widget widget) {
+//   Navigator.pushReplacement(
+//       context, MaterialPageRoute(builder: (context) => widget));
+// }
+
+
+Future<dynamic> navigatePushReplacement(Widget widget) {
+  return navigatorKey.currentState!
+      .pushReplacement(MaterialPageRoute(builder: (context) => widget));
 }
 
 Future navigationPush(BuildContext context, Widget widget) {

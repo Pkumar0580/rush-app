@@ -157,6 +157,15 @@ validateField(String value) {
   }
 }
 
+
+validateName(String value) {
+  if (value.isEmpty) {
+    return 'Name is Required.';
+  } else {
+    return null;
+  }
+}
+
 validateMobile(String value) {
   if (value.isEmpty) {
     return 'Mobile Number is Required.';
@@ -172,10 +181,10 @@ validateMobile(String value) {
 validateOTP(String value) {
   if (value.isEmpty) {
     return 'OTP is Required.';
-  } else if (value.length < 4) {
-    return 'OTP required at least 4 numbers';
-  } else if (value.length > 4) {
-    return 'OTP required at most 4 numbers';
+  } else if (value.length < 6) {
+    return 'OTP required at least 6 numbers';
+  } else if (value.length > 6) {
+    return 'OTP required at most 6 numbers';
   } else {
     return null;
   }

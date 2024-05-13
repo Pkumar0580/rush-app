@@ -1,45 +1,66 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:rush/features/auth/screens/gender_selection.dart';
+
+List<String> ageItems = [
+  "Below 15",
+  "15 to 20",
+  "20 to 25",
+  "25 to 30",
+  "30 to 35",
+  "35 to 50",
+  "50 above",
+];
 
 class AgeSelectionDropdown extends StatefulWidget {
-  const AgeSelectionDropdown({super.key});
+  final void Function(String) onAgeSelected;
+
+  const AgeSelectionDropdown({super.key, required this.onAgeSelected});
 
   @override
   _AgeSelectionDropdownState createState() => _AgeSelectionDropdownState();
 }
 
 class _AgeSelectionDropdownState extends State<AgeSelectionDropdown> {
-  String selectedAge = items.first;
+  String selectedAge = ageItems.first;
+
+  _AgeSelectionDropdownState();
 
   @override
   Widget build(BuildContext context) {
     return Card(
       color: Colors.white,
       elevation: 2,
-      // shape: RoundedRectangleBorder(
-      //   borderRadius: BorderRadius.circular(8.0),
-      // ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: DropdownButtonFormField<String>(
-          // value: selectedAge,
           onChanged: (value) {
             setState(() {
               selectedAge = value!;
+
+              widget.onAgeSelected(selectedAge);
+
               log("Age=>$selectedAge");
             });
           },
-          items: List.generate(100, (index) => index + 1).map((age) {
-            return DropdownMenuItem<String>(
-              value: age.toString(),
-              child: Text(age.toString()),
-            );
-          }).toList(),
+          items: ageItems
+              .map(
+                (item) => DropdownMenuItem(
+                  alignment: AlignmentDirectional.centerStart,
+                  value: item,
+                  child: Text(
+                    item,
+                    style: const TextStyle(
+                        fontSize: 18.0, fontWeight: FontWeight.w500),
+                  ),
+                ),
+              )
+              .toList(),
           decoration: const InputDecoration(
-            hintText: 'Select Your Age', 
-            border: InputBorder.none, 
+            hintText: 'Select Your Age',
+            hintStyle: TextStyle(
+                fontWeight: FontWeight.bold, color: Colors.black, fontSize: 16),
+            border: InputBorder.none,
           ),
         ),
       ),

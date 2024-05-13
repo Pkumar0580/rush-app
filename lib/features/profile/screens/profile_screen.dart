@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
@@ -7,39 +8,23 @@ import 'package:rush/utils/sizes.dart';
 import '../../../utils/colors.dart';
 import '../../../utils/fields.dart';
 
-
-
-// final getProfileProvider = FutureProvider.family((ref, String id) async {
-//   final getdata = await ref.watch(profileRepoProvider).getProfile(id);
-
-//   return getdata;
-// });
-
-
-final getProfileProvider = FutureProvider((ref, ) async {
+final getProfileProvider = FutureProvider.autoDispose((ref) async {
+  ref.keepAlive();
   final getdata = await ref.watch(profileRepoProvider).getProfile();
 
   return getdata;
 });
 
-
 class ProfileScreen extends ConsumerWidget {
-
-
-  TextEditingController name = TextEditingController();
-  TextEditingController phone = TextEditingController();
-  TextEditingController email = TextEditingController();
-  TextEditingController location = TextEditingController();
-  ProfileScreen(  {super.key});
+  final TextEditingController name = TextEditingController();
+  final TextEditingController phone = TextEditingController();
+  final TextEditingController email = TextEditingController();
+  final TextEditingController location = TextEditingController();
+  ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
-    
     final getProfileData = ref.watch(getProfileProvider);
-
-    // log("Profile Screen GetData=> $getProfileData");
-
     statusBarColorChange(AppColor.statusBarColor);
 
     return SafeArea(
@@ -54,7 +39,7 @@ class ProfileScreen extends ConsumerWidget {
         ),
         body: getProfileData.when(
           data: (data) {
-            log("Data==========>$data");
+            // log("Data==========>$data");
             return SingleChildScrollView(
               child: Column(
                 children: [
@@ -76,30 +61,18 @@ class ProfileScreen extends ConsumerWidget {
                                 decoration: const BoxDecoration(
                                   shape: BoxShape.circle,
                                 ),
-                                child: CircleAvatar(
+                                child: const CircleAvatar(
                                   radius: 50,
                                   backgroundColor: Colors.grey,
                                   backgroundImage:
-                                      NetworkImage(data[0]['profile_pic']),
+                                      AssetImage("assets/images/avator.png"),
                                 ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: InkWell(
                                   onTap: () {
-                                    final imagePicker = ImagePicker();
-
-                                    Future<void> pickImageFromGallery() async {
-                                      final pickedFile =
-                                          await imagePicker.pickImage(
-                                              source: ImageSource.gallery);
-
-                                      if (pickedFile != null) {
-                                      } else {
-                                        print(
-                                            'User canceled or failed to pick an image');
-                                      }
-                                    }
+                                    getImage();
                                   },
                                   child: Container(
                                     padding: const EdgeInsets.all(6),
@@ -117,9 +90,9 @@ class ProfileScreen extends ConsumerWidget {
                             ],
                           ),
                         ),
+                        heightSizedBox(10.0),
                         Text(
-                          data[0]['name'],
-                          // data['name'].toString(),
+                          "${data['name']}",
                           style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
@@ -137,14 +110,16 @@ class ProfileScreen extends ConsumerWidget {
                         children: [
                           CusTextField(
                             labelText: "Name",
-                            initialValue: data[0]['name'],
-                            onTap: () {},
+                            initialValue: "${data['name']}",
+                            onTap: () {
+                              name.text = "${data['name']}";
+                            },
                             keyboardType: TextInputType.name,
                           ),
                           heightSizedBox(10.0),
                           CusTextField(
                             labelText: 'Phone no.',
-                            initialValue: data[0]['phone_no'],
+                            initialValue: "${data['phone_no']}",
                             onTap: () {
                               log("Btn Pressed");
                             },
@@ -153,7 +128,7 @@ class ProfileScreen extends ConsumerWidget {
                           heightSizedBox(10.0),
                           CusTextField(
                             labelText: 'Email id',
-                            initialValue: data[0]['email'],
+                            initialValue: "${data['email']}",
                             onTap: () {
                               log("Btn Pressed");
                             },
@@ -207,7 +182,7 @@ class CusTextField extends StatelessWidget {
     return TxtField(
       fillColor: Colors.white,
       initialValue: initialValue,
-      enabled: false,
+      enabled: true,
       controller: controller,
       labelText: labelText,
       keyboardType: keyboardType,
@@ -241,29 +216,23 @@ class CusTextField extends StatelessWidget {
 
 
 
+Future<File?> getImage() async {
+  try {
+    ImagePicker imagePicker = ImagePicker();
+    XFile? pickedFile =
+        await imagePicker.pickImage(source: ImageSource.gallery);
 
+    if (pickedFile != null) {
+      File imageFile = File(pickedFile.path);
+      log('Image Path: ${imageFile.path}');
+      return imageFile;
+    } else {
+      log('User canceled or failed to pick an image');
+      return null;
+    }
+  } catch (e) {
+    log('Error picking image: $e');
+    return null;
+  }
+}
 
-// class ProfileUploadScr extends ConsumerWidget {
-//   const ProfileUploadScr({super.key});
-
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     // final picBuild = ref.watch(profilePicProvider);
-
-//     return InkWell(
-//       splashColor: Colors.white,
-//       onTap: () async {
-//         Uint8List? imageData = await pickImageFromGallery();
-
-//         ref.read(profilePicProvider.notifier).state = imageData;
-
-//         snackBarMsg(imageData != null ? picUplodMsg : picNotUploadMsg,
-//             color: imageData != null ? Colors.green : Colors.red);
-//       },
-//       child: Center(
-//           child: picBuild != null
-//               ? CircleProfilePage(bytes: picBuild, radius1: 50, radius2: 49)
-//               : CircleProfilePage(radius1: 50, radius2: 49)),
-//     );
-//   }
-// }

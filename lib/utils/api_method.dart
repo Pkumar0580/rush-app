@@ -16,14 +16,16 @@ class ApiMethod {
 
   Future getDioRequest() async {
     try {
-      log("Get Api Url=> $url");
-      token != null ? headers['Authorization'] = "Bearer $token" : null;
-      log("Get Token=> $token");
+      // log("Get Api Url=> $url");
+      token != null ? headers['Authorization'] = "$token" : null;
+      // log("Get Token=> $token");
       Response response =
           await dio.get(url, options: Options(headers: headers));
-      log("Response getDio=> $response ${response.data}");
 
-      log("Response Type Get Dio=> ${response.data.runtimeType}");
+          log("Options=> $token");
+      // log("Response getDio=> $response ${response.data}");
+
+      // log("Response Type Get Dio=> ${response.data.runtimeType}");
       if (response.statusCode == 200) {
         log("Get dio Response=> ${response.data}");
         return response.data;
@@ -36,15 +38,36 @@ class ApiMethod {
 
   Future postDioRequest({required Map data}) async {
     try {
-      log("post url  $url ");
-      log("Post Dio Data $data");
+      // log("post url  $url ");
+      // log("Post Dio Data $data");
       token != null ? headers['Authorization'] = "Bearer $token" : null;
-      log("Post Token=> $token");
+      // log("Post Token=> $token");
       Response response =
           await dio.post(url, data: data, options: Options(headers: headers));
 
+      // log("response status ${response.statusCode}");
+      // log("PostMethod Response=> ${response.data}");
+
+      if (response.statusCode == 200) {
+        return response.data;
+      }
+    } on DioException {
+      // print("post statusCode ${err.response?.statusCode.toString()}");
+      // print("post type ${err.response?.data.toString()} ");
+    }
+  }
+
+  Future putDioRequest({required Map data}) async {
+    try {
+      log("Put url  $url ");
+      log("Put Dio Data $data");
+      token != null ? headers['Authorization'] = "Bearer $token" : null;
+      log("Put Token=> $token");
+      Response response =
+          await dio.put(url, data: data, options: Options(headers: headers));
+
       log("response status ${response.statusCode}");
-      log("PostMethod Response=> ${response.data}");
+      log("Put Method Response ${response.data}");
 
       if (response.statusCode == 200) {
         return response.data;
@@ -55,11 +78,11 @@ class ApiMethod {
     }
   }
 
-  Future putDioRequest({required Map data}) async {
+  Future putDioFormData({required FormData data}) async {
     try {
       log("Put url  $url ");
       log("Put Dio Data $data");
-      token != null ? headers['Authorization'] = "Bearer $token" : null;
+      token != null ? headers['Authorization'] = "$token" : null;
       log("Put Token=> $token");
       Response response =
           await dio.put(url, data: data, options: Options(headers: headers));
@@ -84,6 +107,7 @@ class ApiUrl {
   static const getOffers = "$baseUrl/offer";
   static const sendOtp = "$baseUrl/otp";
   static const verifyOtp = "$baseUrl/otp";
+  static const createUser = "$baseUrl/user";
 }
 
 Dio dio = Dio();
@@ -94,6 +118,7 @@ Future<void> fetchData(void Function(List<dynamic>) fun) async {
         await dio.get("https://offers-listing-app-backend.vercel.app/brand");
 
     if (response.statusCode == 200) {
+      log("fatch Data=> ${response.data}");
       fun(response.data);
     }
   } on DioException catch (err) {

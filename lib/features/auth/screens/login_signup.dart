@@ -1,18 +1,22 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rush/features/auth/controller/sendOtp_controller.dart';
+import 'package:rush/features/auth/controller/auth_controller.dart';
 import 'package:rush/utils/button.dart';
 import 'package:rush/utils/fields.dart';
 import 'package:rush/utils/sizes.dart';
 import '../../../utils/colors.dart';
 
+final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
 final loadingStateProvider = StateProvider<bool>((ref) => false);
 
 class LoginSignup extends ConsumerWidget {
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  TextEditingController phone = TextEditingController();
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  final TextEditingController phone = TextEditingController();
   LoginSignup({super.key});
+
+  
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -100,6 +104,7 @@ class LoginSignup extends ConsumerWidget {
     );
   }
 }
+
 
 
 

@@ -25,9 +25,7 @@ class _ImageSlideState extends State<ImageSlide> {
         Stack(
           children: [
             InkWell(
-              onTap: () {
-                print(currentIndex);
-              },
+              onTap: () {},
               child: CarouselSlider(
                   carouselController: carouselController,
                   items: itemList
@@ -49,31 +47,32 @@ class _ImageSlideState extends State<ImageSlide> {
                       })),
             ),
             Positioned(
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 10,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    for (int i = 0; i < itemList.length; i++)
-                      Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: Container(
-                          height: 8,
-                          width: 8,
-                          // width: currentIndex == i ? 25 : 15,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(21),
-                            color: currentIndex == i
-                                ? AppColor.btnColor
-                                : Colors.white,
-                          ),
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 10,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  for (int i = 0; i < itemList.length; i++)
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Container(
+                        height: 8,
+                        width: 8,
+                        // width: currentIndex == i ? 25 : 15,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(21),
+                          color: currentIndex == i
+                              ? AppColor.btnColor
+                              : Colors.white,
                         ),
-                      )
-                  ],
-                ))
+                      ),
+                    )
+                ],
+              ),
+            )
           ],
         )
       ],
