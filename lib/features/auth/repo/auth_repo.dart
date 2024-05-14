@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rush/utils/api_method.dart';
@@ -37,6 +38,7 @@ class AuthRepo {
     required String age,
     required String gender,
     required String name,
+  
   }) async {
     try {
       final token =

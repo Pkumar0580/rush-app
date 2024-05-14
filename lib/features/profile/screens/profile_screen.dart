@@ -3,28 +3,36 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:rush/features/profile/controller/profile_controller.dart';
 import 'package:rush/features/profile/repo/profile_repo.dart';
 import 'package:rush/utils/sizes.dart';
 import '../../../utils/colors.dart';
 import '../../../utils/fields.dart';
 
 final getProfileProvider = FutureProvider.autoDispose((ref) async {
-  ref.keepAlive();
+  // ref.keepAlive();
   final getdata = await ref.watch(profileRepoProvider).getProfile();
 
   return getdata;
 });
+
+final pickedImageProvider = StateProvider<File?>((ref) => null);
 
 class ProfileScreen extends ConsumerWidget {
   final TextEditingController name = TextEditingController();
   final TextEditingController phone = TextEditingController();
   final TextEditingController email = TextEditingController();
   final TextEditingController location = TextEditingController();
+
+//  final  File pickedImage;
+
   ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final getProfileData = ref.watch(getProfileProvider);
+    final pickedImage = ref.watch(pickedImageProvider);
+
     statusBarColorChange(AppColor.statusBarColor);
 
     return SafeArea(
@@ -39,7 +47,6 @@ class ProfileScreen extends ConsumerWidget {
         ),
         body: getProfileData.when(
           data: (data) {
-            // log("Data==========>$data");
             return SingleChildScrollView(
               child: Column(
                 children: [
@@ -55,24 +62,66 @@ class ProfileScreen extends ConsumerWidget {
                           child: Stack(
                             alignment: Alignment.bottomRight,
                             children: [
-                              Container(
-                                height: 130,
-                                width: 140,
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                ),
-                                child: const CircleAvatar(
-                                  radius: 50,
-                                  backgroundColor: Colors.grey,
-                                  backgroundImage:
-                                      AssetImage("assets/images/avator.png"),
-                                ),
-                              ),
+
+
+                               Container(
+        height: 130,
+        width: 140,
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+        ),
+        child: pickedImage != null
+            ? CircleAvatar(
+                radius: 50,
+                backgroundColor: Colors.grey,
+                backgroundImage: FileImage(pickedImage),
+              )
+            : data['profile_pic'] != null
+                ? CircleAvatar(
+                    radius: 50,
+                    backgroundColor: Colors.grey,
+                    backgroundImage: NetworkImage(data['profile_pic']),
+                  )
+                : const CircleAvatar(
+                    radius: 50,
+                    backgroundColor: Colors.grey,
+                    backgroundImage: AssetImage("assets/images/avator.png"),
+                  ),),
+                              // Container(
+                              //   height: 130,
+                                             //   width: 140,
+                              //   decoration: const BoxDecoration(
+                              //     shape: BoxShape.circle,
+                              //   ),
+                              //   child: data['profile_pic'] != null
+                              //       ? CircleAvatar(
+                              //           radius: 50,
+                              //           backgroundColor: Colors.grey,
+                              //           backgroundImage:
+                              //               NetworkImage(data['profile_pic']))
+                              //       : pickedImage != null
+                              //           ? CircleAvatar(
+                              //               radius: 50,
+                              //               backgroundColor: Colors.grey,
+                              //               backgroundImage:
+                              //                   FileImage(pickedImage))
+                              //           : const CircleAvatar(
+                              //               radius: 50,
+                              //               backgroundColor: Colors.grey,
+                              //               backgroundImage: AssetImage(
+                              //                   "assets/images/avator.png"),
+                              //             ),
+                              // ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: InkWell(
-                                  onTap: () {
-                                    getImage();
+                                  onTap: () async {
+                                    File? image = await getImage(ref);
+                                    if (image != null) {
+                                      ref
+                                          .read(profileControllerProvider)
+                                          .imageUpload(image: image);
+                                    }
                                   },
                                   child: Container(
                                     padding: const EdgeInsets.all(6),
@@ -92,7 +141,7 @@ class ProfileScreen extends ConsumerWidget {
                         ),
                         heightSizedBox(10.0),
                         Text(
-                          "${data['name']}",
+                          data['name'] != null ? "${data['name']}" : "N/A",
                           style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
@@ -110,7 +159,9 @@ class ProfileScreen extends ConsumerWidget {
                         children: [
                           CusTextField(
                             labelText: "Name",
-                            initialValue: "${data['name']}",
+                            initialValue: data['name'] != null
+                                ? "${data['name']}"
+                                : "N/A",
                             onTap: () {
                               name.text = "${data['name']}";
                             },
@@ -119,7 +170,9 @@ class ProfileScreen extends ConsumerWidget {
                           heightSizedBox(10.0),
                           CusTextField(
                             labelText: 'Phone no.',
-                            initialValue: "${data['phone_no']}",
+                            initialValue: data['phone_no'] != null
+                                ? "${data['phone_no']}"
+                                : "N/A",
                             onTap: () {
                               log("Btn Pressed");
                             },
@@ -128,7 +181,9 @@ class ProfileScreen extends ConsumerWidget {
                           heightSizedBox(10.0),
                           CusTextField(
                             labelText: 'Email id',
-                            initialValue: "${data['email']}",
+                            initialValue: data['email'] != null
+                                ? "${data['email']}"
+                                : "N/A",
                             onTap: () {
                               log("Btn Pressed");
                             },
@@ -138,6 +193,7 @@ class ProfileScreen extends ConsumerWidget {
                           heightSizedBox(10.0),
                           CusTextField(
                             labelText: 'Location',
+                            initialValue: data['location'] ?? "N/A",
                             onTap: () {
                               log("Btn Pressed");
                             },
@@ -213,10 +269,7 @@ class CusTextField extends StatelessWidget {
   }
 }
 
-
-
-
-Future<File?> getImage() async {
+Future<File?> getImage(WidgetRef ref) async {
   try {
     ImagePicker imagePicker = ImagePicker();
     XFile? pickedFile =
@@ -224,7 +277,10 @@ Future<File?> getImage() async {
 
     if (pickedFile != null) {
       File imageFile = File(pickedFile.path);
-      log('Image Path: ${imageFile.path}');
+      ref.read(pickedImageProvider.notifier).state = imageFile;
+      // File pickedImage = imageFile;
+
+      // log("Picked Image=>>>$pickedImage");
       return imageFile;
     } else {
       log('User canceled or failed to pick an image');
@@ -235,4 +291,3 @@ Future<File?> getImage() async {
     return null;
   }
 }
-

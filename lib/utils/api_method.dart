@@ -80,22 +80,22 @@ class ApiMethod {
 
   Future putDioFormData({required FormData data}) async {
     try {
-      log("Put url  $url ");
+      // log("Put url  $url ");
       log("Put Dio Data $data");
       token != null ? headers['Authorization'] = "$token" : null;
-      log("Put Token=> $token");
+      // log("Put Token=> $token");
       Response response =
           await dio.put(url, data: data, options: Options(headers: headers));
 
-      log("response status ${response.statusCode}");
+      // log("response status ${response.statusCode}");
       log("Put Method Response ${response.data}");
 
       if (response.statusCode == 200) {
         return response.data;
       }
     } on DioException catch (err) {
-      print("post statusCode ${err.response?.statusCode.toString()}");
-      print("post type ${err.response?.data.toString()} ");
+      log("post statusCode ${err.response?.statusCode.toString()}");
+      log("post type ${err.response?.data.toString()} ");
     }
   }
 }

@@ -1,5 +1,7 @@
 import 'dart:developer';
+import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rush/utils/api_method.dart';
 import 'package:rush/utils/secure_storage%20copy.dart';
@@ -25,6 +27,26 @@ class ProfileRepo {
       return response;
     } catch (err) {
       log("Profile Repo Error=> $err");
+    }
+  }
+
+  Future imageUpload({required File image}) async {
+    log("Image Repo=================> ${image.path}");
+
+    try {
+      FormData formData = FormData.fromMap({
+        "profile_pic": await MultipartFile.fromFile(
+          image.path,
+        ),
+      });
+      final token =
+          await ref.watch(secureStoargeProvider).readData("authToken");
+
+      final response = ApiMethod(url: ApiUrl.createUser, token: token)
+          .putDioFormData(data: formData);
+      return response;
+    } catch (err) {
+      log("Image Upload Error=> $err");
     }
   }
 }

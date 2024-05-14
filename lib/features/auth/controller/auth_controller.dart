@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rush/features/auth/repo/auth_repo.dart';
@@ -67,10 +68,11 @@ class AuthController {
   createProfileController(
       {required String age,
       required String gender,
-      required String name}) async {
+      required String name,
+    }) async {
     try {
-      final res =
-          await authRepo.creataProfile(age: age, gender: gender, name: name);
+      final res = await authRepo.creataProfile(
+          age: age, gender: gender, name: name,);
 
       if (res == null) {
         ShowSnackBarMsg("Plese try again", color: Colors.green);
@@ -83,4 +85,6 @@ class AuthController {
       log("Create Profile Controller Eror=>$error");
     }
   }
+
+  imageUpload(String image) async {}
 }
