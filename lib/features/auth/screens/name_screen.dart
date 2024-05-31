@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rush/features/auth/controller/auth_controller.dart';
-import 'package:rush/utils/bottom_bar.dart';
 import 'package:rush/utils/sizes.dart';
 import '../../../utils/button.dart';
 import '../../../utils/colors.dart';
 import '../../../utils/fields.dart';
-import '../../../utils/navigation.dart';
 import 'login_signup.dart';
 
 final GlobalKey<FormState> formKey = GlobalKey<FormState>();

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:rush/features/home/screens/accessries.dart';
+import 'package:rush/features/home/screens/kids_wear.dart';
+import 'package:rush/features/home/screens/womens_fashion.dart';
 
 import '../../../utils/navigation.dart';
-import '../screens/home_screen.dart';
+import '../screens/mens_fashion.dart';
 
 class ProdItem extends StatelessWidget {
   final String text;
@@ -41,8 +44,6 @@ class ProdItem extends StatelessWidget {
     );
   }
 }
-
-
 
 class ViewAll extends StatelessWidget {
   const ViewAll({
@@ -106,17 +107,23 @@ class HomeProdPage extends StatelessWidget {
             ProdItem(
               text: "Ladies Fashion",
               src: "assets/images/womensfashion.png",
-              onTap: () {},
+              onTap: () {
+                navigationPush(context, const WomensFashionScreen());
+              },
             ),
             ProdItem(
               text: "Kids Wear",
               src: "assets/images/kidsfashion.png",
-              onTap: () {},
+              onTap: () {
+                navigationPush(context, const KidsWear());
+              },
             ),
             ProdItem(
               text: "Accessories",
               src: "assets/images/accessories.png",
-              onTap: () {},
+              onTap: () {
+                navigationPush(context, const AccessoriesScreen());
+              },
             ),
           ],
         ),
@@ -124,8 +131,6 @@ class HomeProdPage extends StatelessWidget {
     );
   }
 }
-
-
 
 class GrabDealCard extends StatelessWidget {
   final String src, time;

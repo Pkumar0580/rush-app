@@ -11,10 +11,14 @@ class Stores extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return stores.isEmpty? const SizedBox():
+    
+    Padding(
       padding: const EdgeInsets.only(top: 10, left: 15, right: 15, bottom: 10),
       child: SingleChildScrollView(
-        child: Column(
+        child: 
+        
+        Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(

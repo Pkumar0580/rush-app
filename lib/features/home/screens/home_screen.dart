@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rush/common/image_slider.dart';
 import 'package:rush/utils/colors.dart';
-import 'package:rush/utils/navigation.dart';
 import 'package:rush/utils/sizes.dart';
 import '../scr/drawer.dart';
 import '../scr/home_screen_scr.dart';
@@ -51,76 +50,7 @@ class HomeScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // const SearchBarItem(),
-                const ImageSlide(),
-                const Padding(
-                  padding: EdgeInsets.only(top: 10, left: 25),
-                  child: Text("Top categories", style: TextStyle(fontSize: 16)),
-                ),
-                const HomeProdPage(),
-                heightSizedBox(5.0),
-                const ViewAll(),
-                heightSizedBox(5.0),
-                const SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      GrabDealCard(
-                        src: 'assets/images/calvinklein.png',
-                        time: '02:14:27',
-                      ),
-                      GrabDealCard(
-                        src: 'assets/images/tommy.png',
-                        time: '02:14:27',
-                      ),
-                      GrabDealCard(
-                        src: 'assets/images/calvinklein.png',
-                        time: '02:14:27',
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Image.asset(
-                    "assets/images/Rectangle21.png",
-                    fit: BoxFit.cover,
-                    width: width(context),
-                  ),
-                )
-              ],
-            ),
-          )),
-    );
-  }
-}
-
-class MensFashionScreen extends StatelessWidget {
-  const MensFashionScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    statusBarColorChange(AppColor.statusBarColor);
-    return SafeArea(
-      child: Scaffold(
-          backgroundColor: AppColor.backgroundColor,
-          appBar: AppBar(
-            foregroundColor: Colors.white,
-            backgroundColor: AppColor.appbarColor,
-            title: const Text(
-              "RUSH",
-              style: TextStyle(
-                fontSize: 35,
-                fontWeight: FontWeight.w900,
-                color: Colors.white,
-              ),
-            ),
-          ),
-          body: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // const SearchBarItem(),
+              
                 const ImageSlide(),
                 const Padding(
                   padding: EdgeInsets.only(top: 10, left: 25),

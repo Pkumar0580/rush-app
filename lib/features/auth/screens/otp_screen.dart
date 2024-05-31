@@ -5,7 +5,6 @@ import 'package:pinput/pinput.dart';
 import 'package:rush/features/auth/controller/auth_controller.dart';
 import 'package:rush/features/auth/screens/login_signup.dart';
 import 'package:rush/utils/colors.dart';
-import 'package:rush/utils/fields.dart';
 import 'package:rush/utils/message.dart';
 import 'package:rush/utils/navigation.dart';
 import 'package:rush/utils/sizes.dart';
@@ -165,10 +164,10 @@ class OtpScreen extends ConsumerWidget {
 
 class OtpField extends StatelessWidget {
   const OtpField({
-    Key? key,
+    super.key,
     required this.otp,
     this.validator,
-  }) : super(key: key);
+  });
 
   final TextEditingController otp;
   final String? Function(String?)? validator;
@@ -179,7 +178,7 @@ class OtpField extends StatelessWidget {
       height: 50,
       width: width(context),
       child: Container(
-        decoration: BoxDecoration(),
+        decoration: const BoxDecoration(),
         child: Pinput(
           defaultPinTheme: PinTheme(
             width: 56,
