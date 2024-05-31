@@ -122,7 +122,7 @@ class TopOffers extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                for (int a = 0; a < 5; a++) const OffersCard(),
+                for (int a = 0; a < 5; a++) const OffersCardBrandScr(),
               ],
             ),
           ),

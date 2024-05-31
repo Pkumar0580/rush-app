@@ -17,13 +17,9 @@ class ProfileRepo {
       final token =
           await ref.watch(secureStoargeProvider).readData('authToken');
 
-      log("token=>>>>>>>>>>$token");
-
       final response =
           await ApiMethod(url: ApiUrl.getUser, token: token).getDioRequest();
-      log(" Url =>${ApiUrl.getUser}");
 
-      log("Profile Repo Response => $response");
       return response;
     } catch (err) {
       log("Profile Repo Error=> $err");

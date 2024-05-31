@@ -16,18 +16,11 @@ class ApiMethod {
 
   Future getDioRequest() async {
     try {
-      // log("Get Api Url=> $url");
       token != null ? headers['Authorization'] = "$token" : null;
-      // log("Get Token=> $token");
       Response response =
           await dio.get(url, options: Options(headers: headers));
 
-          log("Options=> $token");
-      // log("Response getDio=> $response ${response.data}");
-
-      // log("Response Type Get Dio=> ${response.data.runtimeType}");
       if (response.statusCode == 200) {
-        log("Get dio Response=> ${response.data}");
         return response.data;
       }
     } on DioException catch (err) {

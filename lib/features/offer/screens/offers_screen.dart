@@ -8,9 +8,9 @@ import 'package:rush/utils/navigation.dart';
 import '../../../utils/colors.dart';
 import '../scr/offer_screen_scr.dart';
 
-final getOfferProvider = FutureProvider((ref) async {
+final getOfferProvider = FutureProvider.autoDispose((ref) async {
   final getOffer = await ref.watch(OffersRepoProvider).getOffers();
-  log("getOffer=>$getOffer");
+
   return getOffer;
 });
 
@@ -89,7 +89,7 @@ class _OffersScreenState extends ConsumerState<OffersScreen>
                     children: [
                       GridView.builder(
                           shrinkWrap: true,
-                          itemCount: 5,
+                          itemCount: data.length,
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
@@ -97,16 +97,18 @@ class _OffersScreenState extends ConsumerState<OffersScreen>
                             mainAxisSpacing: 10.0,
                           ),
                           itemBuilder: (context, index) {
-                            return const Row(
+                            return Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                OffersCard(),
+                                OffersCard(
+                                  data: data[index],
+                                ),
                               ],
                             );
                           }),
                       GridView.builder(
                           shrinkWrap: true,
-                          itemCount: 5,
+                           itemCount: data.length,
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
@@ -114,16 +116,18 @@ class _OffersScreenState extends ConsumerState<OffersScreen>
                             mainAxisSpacing: 10.0,
                           ),
                           itemBuilder: (context, index) {
-                            return const Row(
+                            return Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                OffersCard(),
+                                OffersCard(
+                                    data: data[index],
+                                    ),
                               ],
                             );
                           }),
                       GridView.builder(
                           shrinkWrap: true,
-                          itemCount: 5,
+                        itemCount: data.length,
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
@@ -131,16 +135,18 @@ class _OffersScreenState extends ConsumerState<OffersScreen>
                             mainAxisSpacing: 10.0,
                           ),
                           itemBuilder: (context, index) {
-                            return const Row(
+                            return Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                OffersCard(),
+                                OffersCard(
+                                    data: data[index],
+                                    ),
                               ],
                             );
                           }),
                       GridView.builder(
                           shrinkWrap: true,
-                          itemCount: 5,
+                          itemCount: data.length,
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
@@ -148,10 +154,12 @@ class _OffersScreenState extends ConsumerState<OffersScreen>
                             mainAxisSpacing: 10.0,
                           ),
                           itemBuilder: (context, index) {
-                            return const Row(
+                            return Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                OffersCard(),
+                                OffersCard(
+                                    data: data[index],
+                                    ),
                               ],
                             );
                           })

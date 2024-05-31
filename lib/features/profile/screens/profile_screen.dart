@@ -10,7 +10,6 @@ import '../../../utils/colors.dart';
 import '../../../utils/fields.dart';
 
 final getProfileProvider = FutureProvider.autoDispose((ref) async {
-  // ref.keepAlive();
   final getdata = await ref.watch(profileRepoProvider).getProfile();
 
   return getdata;
@@ -23,8 +22,6 @@ class ProfileScreen extends ConsumerWidget {
   final TextEditingController phone = TextEditingController();
   final TextEditingController email = TextEditingController();
   final TextEditingController location = TextEditingController();
-
-//  final  File pickedImage;
 
   ProfileScreen({super.key});
 
@@ -47,6 +44,7 @@ class ProfileScreen extends ConsumerWidget {
         ),
         body: getProfileData.when(
           data: (data) {
+            log("Top offers=> $data");
             return SingleChildScrollView(
               child: Column(
                 children: [
@@ -62,34 +60,35 @@ class ProfileScreen extends ConsumerWidget {
                           child: Stack(
                             alignment: Alignment.bottomRight,
                             children: [
-
-
-                               Container(
-        height: 130,
-        width: 140,
-        decoration: const BoxDecoration(
-          shape: BoxShape.circle,
-        ),
-        child: pickedImage != null
-            ? CircleAvatar(
-                radius: 50,
-                backgroundColor: Colors.grey,
-                backgroundImage: FileImage(pickedImage),
-              )
-            : data['profile_pic'] != null
-                ? CircleAvatar(
-                    radius: 50,
-                    backgroundColor: Colors.grey,
-                    backgroundImage: NetworkImage(data['profile_pic']),
-                  )
-                : const CircleAvatar(
-                    radius: 50,
-                    backgroundColor: Colors.grey,
-                    backgroundImage: AssetImage("assets/images/avator.png"),
-                  ),),
+                              Container(
+                                height: 130,
+                                width: 140,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                ),
+                                child: pickedImage != null
+                                    ? CircleAvatar(
+                                        radius: 50,
+                                        backgroundColor: Colors.grey,
+                                        backgroundImage: FileImage(pickedImage),
+                                      )
+                                    : data['profile_pic'] != null
+                                        ? CircleAvatar(
+                                            radius: 50,
+                                            backgroundColor: Colors.grey,
+                                            backgroundImage: NetworkImage(
+                                                data['profile_pic']),
+                                          )
+                                        : const CircleAvatar(
+                                            radius: 50,
+                                            backgroundColor: Colors.grey,
+                                            backgroundImage: AssetImage(
+                                                "assets/images/avator.png"),
+                                          ),
+                              ),
                               // Container(
                               //   height: 130,
-                                             //   width: 140,
+                              //   width: 140,
                               //   decoration: const BoxDecoration(
                               //     shape: BoxShape.circle,
                               //   ),
