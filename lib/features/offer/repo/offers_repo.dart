@@ -14,4 +14,19 @@ class OffersRepo {
       log("Get Offer Error=> $e");
     }
   }
+
+
+  Future getOffersById({ required String id}) async {
+    try {
+      final response = await ApiMethod(url: "${ApiUrl.getOffers}/$id").getDioRequest();
+
+    
+      return response;
+    } catch (e) {
+      log("Get Offer Error=> $e");
+    }
+  }
+
+
+
 }

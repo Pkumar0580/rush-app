@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../../utils/api_method.dart';
+import '../../../utils/bottom_bar.dart';
 import '../../../utils/colors.dart';
 import '../../../utils/navigation.dart';
 import 'brand_details.dart';
@@ -43,7 +44,11 @@ class _BrandScreenState extends State<BrandScreen> {
             foregroundColor: Colors.white,
             backgroundColor: AppColor.appbarColor,
             title: const Text("Brands"),
-            automaticallyImplyLeading: true,
+            leading: IconButton(
+                onPressed: () {
+                  navigateTo(const BottomBar());
+                },
+                icon: const Icon(Icons.arrow_back)),
           ),
           body: RefreshIndicator(
             onRefresh: _refreshData,
@@ -149,6 +154,7 @@ class BrendsLogoCard extends StatelessWidget {
             padding: const EdgeInsets.all(10.0),
             child: Image.network(
               src,
+              fit: BoxFit.contain,
             ),
           ),
         ),

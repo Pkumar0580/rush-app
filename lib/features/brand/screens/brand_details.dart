@@ -6,7 +6,7 @@ import '../../../utils/colors.dart';
 import '../../../utils/navigation.dart';
 import '../../../utils/sizes.dart';
 import '../../home/scr/home_screen_scr.dart';
-import '../../offer/scr/offer_screen_scr.dart';
+import '../../offer/components/offer_screen_comp.dart';
 import '../../offer/screens/offers_screen.dart';
 import '../scr/brand_detail_scr.dart';
 

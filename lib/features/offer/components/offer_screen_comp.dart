@@ -1,4 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:rush/features/offer/screens/offer_detail_screen.dart';
+import 'package:rush/utils/navigation.dart';
 import 'package:rush/utils/sizes.dart';
 
 class OffersCard extends StatelessWidget {
@@ -7,72 +11,79 @@ class OffersCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // log("Data=========> $data");
     return Stack(
       children: [
-        Card(
-          color: Colors.white,
-          elevation: 1,
-          child: Container(
-            height: 140,
-            width: 150,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              color: Colors.white,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                heightSizedBox(30.0),
-                data['brand']['logo']!=null?
-                Center(
-                  child: Image.network(
-                    data['brand']['logo'],
-                    height: 50,
-                    width: 120,
-                  ),
-                ): Center(
-                  child: Image.asset(
-                   "assets/images/amazon-logo-s3f.png",
-                    height: 50,
-                    width: 120,
-                  ),
-                ),
-                heightSizedBox(10.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    const Column(
-                      children: [
-                        Text(
-                          'Expires in',
-                          style: TextStyle(
-                              fontSize: 12, fontWeight: FontWeight.w600),
+        InkWell(
+          onTap: () {
+            navigationPush(context, OfferDetailScreen(id: data['_id']));
+          },
+          child: Card(
+            color: Colors.white,
+            elevation: 1,
+            child: Container(
+              height: 140,
+              width: 150,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                color: Colors.white,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  heightSizedBox(30.0),
+                  data['brand']['logo'] != null
+                      ? Center(
+                          child: Image.network(
+                            data['brand']['logo'],
+                            height: 50,
+                            width: 120,
+                          ),
+                        )
+                      : Center(
+                          child: Image.asset(
+                            "assets/images/amazon-logo-s3f.png",
+                            height: 50,
+                            width: 120,
+                          ),
                         ),
-                        Text(
-                          '02:14:27',
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.red,
-                              fontWeight: FontWeight.w600),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      height: 20,
-                      width: 65,
-                      decoration: BoxDecoration(
-                        color: Colors.orange,
-                        borderRadius: BorderRadius.circular(10),
+                  heightSizedBox(10.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      const Column(
+                        children: [
+                          Text(
+                            'Expires in',
+                            style: TextStyle(
+                                fontSize: 12, fontWeight: FontWeight.w600),
+                          ),
+                          Text(
+                            '02:14:27',
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.red,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ],
                       ),
-                      child: const Center(
-                          child: Text(
-                        'GRAB DEAL',
-                        style: TextStyle(color: Colors.white, fontSize: 10),
-                      )),
-                    ),
-                  ],
-                ),
-              ],
+                      Container(
+                        height: 20,
+                        width: 65,
+                        decoration: BoxDecoration(
+                          color: Colors.orange,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const Center(
+                            child: Text(
+                          'GRAB DEAL',
+                          style: TextStyle(color: Colors.white, fontSize: 10),
+                        )),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -103,11 +114,10 @@ class OffersCard extends StatelessWidget {
   }
 }
 
-
-
 class OffersCardBrandScr extends StatelessWidget {
-  
-  const OffersCardBrandScr({super.key, });
+  const OffersCardBrandScr({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -127,10 +137,9 @@ class OffersCardBrandScr extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 heightSizedBox(30.0),
-            
-            Center(
+                Center(
                   child: Image.asset(
-                   "assets/images/amazon-logo-s3f.png",
+                    "assets/images/amazon-logo-s3f.png",
                     height: 50,
                     width: 120,
                   ),

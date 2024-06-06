@@ -5,12 +5,12 @@ import 'package:rush/features/offer/repo/offers_repo.dart';
 import 'package:rush/utils/bottom_bar.dart';
 import 'package:rush/utils/navigation.dart';
 import '../../../utils/colors.dart';
-import '../scr/offer_screen_scr.dart';
+import '../components/offer_screen_comp.dart';
 
-final getOfferProvider = FutureProvider.autoDispose((ref) async {
-  final getOffer = await ref.watch(OffersRepoProvider).getOffers();
+final getOffersProvider = FutureProvider.autoDispose((ref) async {
+  final getOffers = await ref.watch(OffersRepoProvider).getOffers();
 
-  return getOffer;
+  return getOffers;
 });
 
 class OffersScreen extends ConsumerStatefulWidget {
@@ -26,7 +26,7 @@ class _OffersScreenState extends ConsumerState<OffersScreen>
   Widget build(BuildContext context) {
     TabController tabController = TabController(length: 4, vsync: this);
 
-    final getOfferData = ref.watch(getOfferProvider);
+    final getOfferData = ref.watch(getOffersProvider);
 
     return SafeArea(
       child: Scaffold(
@@ -43,7 +43,7 @@ class _OffersScreenState extends ConsumerState<OffersScreen>
                 navigateTo(const BottomBar());
               },
               icon: const Icon(Icons.arrow_back)),
-          // automaticallyImplyLeading: true,
+         
         ),
         body: getOfferData.when(
           data: (data) {

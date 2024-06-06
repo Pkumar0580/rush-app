@@ -6,8 +6,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:rush/features/profile/controller/profile_controller.dart';
 import 'package:rush/features/profile/repo/profile_repo.dart';
 import 'package:rush/utils/sizes.dart';
+import '../../../utils/bottom_bar.dart';
 import '../../../utils/colors.dart';
 import '../../../utils/fields.dart';
+import '../../../utils/navigation.dart';
 
 final getProfileProvider = FutureProvider.autoDispose((ref) async {
   final getdata = await ref.watch(profileRepoProvider).getProfile();
@@ -40,7 +42,11 @@ class ProfileScreen extends ConsumerWidget {
           foregroundColor: Colors.white,
           backgroundColor: const Color(0xff204571),
           title: const Text("Profile"),
-          automaticallyImplyLeading: true,
+            leading: IconButton(
+              onPressed: () {
+                navigateTo(const BottomBar());
+              },
+              icon: const Icon(Icons.arrow_back)),
         ),
         body: getProfileData.when(
           data: (data) {
