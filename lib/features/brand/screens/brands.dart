@@ -37,57 +37,55 @@ class _BrandScreenState extends State<BrandScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-          backgroundColor: AppColor.backgroundColor,
-          appBar: AppBar(
-            foregroundColor: Colors.white,
-            backgroundColor: AppColor.appbarColor,
-            title: const Text("Brands"),
-            leading: IconButton(
-                onPressed: () {
-                  navigateTo(const BottomBar());
-                },
-                icon: const Icon(Icons.arrow_back)),
-          ),
-          body: RefreshIndicator(
-            onRefresh: _refreshData,
-            child: data.isNotEmpty
-                ? SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Container(
-                          height: 100,
-                          width: double.infinity,
-                          decoration: const BoxDecoration(
-                            color: Color(0xff204571),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 30, bottom: 30.0, left: 10.0, right: 10.0),
-                            child: SizedBox(
-                              height: 40,
-                              child: CupertinoSearchTextField(
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(21)),
-                              ),
+    return Scaffold(
+        backgroundColor: AppColor.backgroundColor,
+        appBar: AppBar(
+          foregroundColor: Colors.white,
+          backgroundColor: AppColor.appbarColor,
+          title: const Text("Brands"),
+          leading: IconButton(
+              onPressed: () {
+                navigateTo(const BottomBar());
+              },
+              icon: const Icon(Icons.arrow_back)),
+        ),
+        body: RefreshIndicator(
+          onRefresh: _refreshData,
+          child: data.isNotEmpty
+              ? SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 100,
+                        width: double.infinity,
+                        decoration: const BoxDecoration(
+                          color: Color(0xff204571),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 30, bottom: 30.0, left: 10.0, right: 10.0),
+                          child: SizedBox(
+                            height: 40,
+                            child: CupertinoSearchTextField(
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(21)),
                             ),
                           ),
                         ),
-                        SingleChildScrollView(
-                          child: Column(
-                            children: [MyBrandTabScreen(data: data)],
-                          ),
-                        )
-                      ],
-                    ),
-                  )
-                : const Center(
-                    child: CircularProgressIndicator(),
+                      ),
+                      SingleChildScrollView(
+                        child: Column(
+                          children: [MyBrandTabScreen(data: data)],
+                        ),
+                      )
+                    ],
                   ),
-          )),
-    );
+                )
+              : const Center(
+                  child: CircularProgressIndicator(),
+                ),
+        ));
   }
 }
 
