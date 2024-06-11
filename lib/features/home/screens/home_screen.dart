@@ -5,17 +5,12 @@ import 'package:rush/utils/sizes.dart';
 import '../scr/drawer.dart';
 import '../scr/home_screen_scr.dart';
 
-
-
-
-
 class HomeScreen extends StatelessWidget {
   final GlobalKey<ScaffoldState> drawerKey = GlobalKey<ScaffoldState>();
-   HomeScreen({super.key});
+  HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    statusBarColorChange(AppColor.statusBarColor);
     return SafeArea(
       child: Scaffold(
           backgroundColor: AppColor.backgroundColor,
@@ -50,7 +45,6 @@ class HomeScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-              
                 const ImageSlide(),
                 const Padding(
                   padding: EdgeInsets.only(top: 10, left: 25),

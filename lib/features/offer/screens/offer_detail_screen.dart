@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:rush/utils/button.dart';
 import 'package:rush/utils/colors.dart';
 import '../../home/scr/home_screen_scr.dart';
 import '../components/offer_detail_comp.dart';
@@ -33,7 +34,12 @@ class OfferDetailScreen extends ConsumerWidget {
                 TopContainer(data: data),
                 AddressContainer(data: data),
                 BrandComp(data: data),
-                CategorieComp(data: data)
+                CategorieComp(data: data),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                  child: Btn(text: "Grab Deal", onPressed: () {}),
+                )
               ]),
             );
           },
