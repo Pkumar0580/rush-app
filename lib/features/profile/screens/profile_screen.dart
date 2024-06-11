@@ -11,13 +11,20 @@ import '../../../utils/colors.dart';
 import '../../../utils/fields.dart';
 import '../../../utils/navigation.dart';
 
+// Providers for managing state
 final getProfileProvider = FutureProvider.autoDispose((ref) async {
   final getdata = await ref.watch(profileRepoProvider).getProfile();
-
   return getdata;
 });
 
 final pickedImageProvider = StateProvider<File?>((ref) => null);
+final isLoadingProvider = StateProvider<bool>((ref) => false);
+
+// Providers for managing editable state of each text field
+final isNameEditableProvider = StateProvider<bool>((ref) => false);
+final isPhoneEditableProvider = StateProvider<bool>((ref) => false);
+final isEmailEditableProvider = StateProvider<bool>((ref) => false);
+final isLocationEditableProvider = StateProvider<bool>((ref) => false);
 
 class ProfileScreen extends ConsumerWidget {
   final TextEditingController name = TextEditingController();
@@ -31,135 +38,116 @@ class ProfileScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final getProfileData = ref.watch(getProfileProvider);
     final pickedImage = ref.watch(pickedImageProvider);
+    final isLoading = ref.watch(isLoadingProvider);
 
-    statusBarColorChange(AppColor.statusBarColor);
-
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: AppColor.backgroundColor,
-        appBar: AppBar(
-          toolbarHeight: 50,
-          foregroundColor: Colors.white,
-          backgroundColor: const Color(0xff204571),
-          title: const Text("Profile"),
-            leading: IconButton(
-              onPressed: () {
-                navigateTo(const BottomBar());
-              },
-              icon: const Icon(Icons.arrow_back)),
+    return Scaffold(
+      backgroundColor: AppColor.backgroundColor,
+      appBar: AppBar(
+        toolbarHeight: 50,
+        foregroundColor: Colors.white,
+        backgroundColor: const Color(0xff204571),
+        title: const Text("Profile"),
+        leading: IconButton(
+          onPressed: () {
+            navigateTo(const BottomBar());
+          },
+          icon: const Icon(Icons.arrow_back),
         ),
-        body: getProfileData.when(
-          data: (data) {
-            log("Top offers=> $data");
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  Container(
-                    height: null,
-                    width: double.infinity,
-                    decoration: const BoxDecoration(
-                      color: Color(0xff204571),
-                    ),
-                    child: Column(
-                      children: [
-                        Center(
-                          child: Stack(
-                            alignment: Alignment.bottomRight,
-                            children: [
-                              Container(
-                                height: 130,
-                                width: 140,
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
+      ),
+      body: Stack(
+        children: [
+          // Main content
+          getProfileData.when(
+            data: (data) {
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      decoration: const BoxDecoration(
+                        color: Color(0xff204571),
+                      ),
+                      child: Column(
+                        children: [
+                          Center(
+                            child: Stack(
+                              alignment: Alignment.bottomRight,
+                              children: [
+                                Container(
+                                  height: 130,
+                                  width: 140,
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: pickedImage != null
+                                      ? CircleAvatar(
+                                          radius: 50,
+                                          backgroundColor: Colors.grey,
+                                          backgroundImage:
+                                              FileImage(pickedImage),
+                                        )
+                                      : data['profile_pic'] != null
+                                          ? CircleAvatar(
+                                              radius: 50,
+                                              backgroundColor: Colors.grey,
+                                              backgroundImage: NetworkImage(
+                                                  data['profile_pic']),
+                                            )
+                                          : const CircleAvatar(
+                                              radius: 50,
+                                              backgroundColor: Colors.grey,
+                                              backgroundImage: AssetImage(
+                                                  "assets/images/avator.png"),
+                                            ),
                                 ),
-                                child: pickedImage != null
-                                    ? CircleAvatar(
-                                        radius: 50,
-                                        backgroundColor: Colors.grey,
-                                        backgroundImage: FileImage(pickedImage),
-                                      )
-                                    : data['profile_pic'] != null
-                                        ? CircleAvatar(
-                                            radius: 50,
-                                            backgroundColor: Colors.grey,
-                                            backgroundImage: NetworkImage(
-                                                data['profile_pic']),
-                                          )
-                                        : const CircleAvatar(
-                                            radius: 50,
-                                            backgroundColor: Colors.grey,
-                                            backgroundImage: AssetImage(
-                                                "assets/images/avator.png"),
-                                          ),
-                              ),
-                              // Container(
-                              //   height: 130,
-                              //   width: 140,
-                              //   decoration: const BoxDecoration(
-                              //     shape: BoxShape.circle,
-                              //   ),
-                              //   child: data['profile_pic'] != null
-                              //       ? CircleAvatar(
-                              //           radius: 50,
-                              //           backgroundColor: Colors.grey,
-                              //           backgroundImage:
-                              //               NetworkImage(data['profile_pic']))
-                              //       : pickedImage != null
-                              //           ? CircleAvatar(
-                              //               radius: 50,
-                              //               backgroundColor: Colors.grey,
-                              //               backgroundImage:
-                              //                   FileImage(pickedImage))
-                              //           : const CircleAvatar(
-                              //               radius: 50,
-                              //               backgroundColor: Colors.grey,
-                              //               backgroundImage: AssetImage(
-                              //                   "assets/images/avator.png"),
-                              //             ),
-                              // ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: InkWell(
-                                  onTap: () async {
-                                    File? image = await getImage(ref);
-                                    if (image != null) {
-                                      ref
-                                          .read(profileControllerProvider)
-                                          .imageUpload(image: image);
-                                    }
-                                  },
-                                  child: Container(
-                                    padding: const EdgeInsets.all(6),
-                                    decoration: const BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Color(0xff1F0A68),
-                                    ),
-                                    child: const Icon(
-                                      Icons.edit,
-                                      color: Colors.white,
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: InkWell(
+                                    onTap: () async {
+                                      File? image = await getImage(ref);
+                                      if (image != null) {
+                                        ref
+                                            .read(isLoadingProvider.notifier)
+                                            .state = true;
+                                        await ref
+                                            .read(profileControllerProvider)
+                                            .imageUpload(image: image);
+                                        ref
+                                            .read(isLoadingProvider.notifier)
+                                            .state = false;
+                                      }
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.all(6),
+                                      decoration: const BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Color(0xff1F0A68),
+                                      ),
+                                      child: const Icon(
+                                        Icons.edit,
+                                        color: Colors.white,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                        heightSizedBox(10.0),
-                        Text(
-                          data['name'] != null ? "${data['name']}" : "N/A",
-                          style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white),
-                        ),
-                        heightSizedBox(10.0),
-                      ],
+                          heightSizedBox(10.0),
+                          Text(
+                            data['name'] != null ? "${data['name']}" : "N/A",
+                            style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white),
+                          ),
+                          heightSizedBox(10.0),
+                        ],
+                      ),
                     ),
-                  ),
-                  heightSizedBox(10.0),
-                  Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: SingleChildScrollView(
+                    heightSizedBox(10.0),
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
                       child: Column(
                         children: [
                           CusTextField(
@@ -167,10 +155,7 @@ class ProfileScreen extends ConsumerWidget {
                             initialValue: data['name'] != null
                                 ? "${data['name']}"
                                 : "N/A",
-                            onTap: () {
-                              name.text = "${data['name']}";
-                            },
-                            keyboardType: TextInputType.name,
+                            isEditableProvider: isNameEditableProvider,
                           ),
                           heightSizedBox(10.0),
                           CusTextField(
@@ -178,10 +163,7 @@ class ProfileScreen extends ConsumerWidget {
                             initialValue: data['phone_no'] != null
                                 ? "${data['phone_no']}"
                                 : "N/A",
-                            onTap: () {
-                              log("Btn Pressed");
-                            },
-                            keyboardType: TextInputType.number,
+                            isEditableProvider: isPhoneEditableProvider,
                           ),
                           heightSizedBox(10.0),
                           CusTextField(
@@ -189,87 +171,98 @@ class ProfileScreen extends ConsumerWidget {
                             initialValue: data['email'] != null
                                 ? "${data['email']}"
                                 : "N/A",
-                            onTap: () {
-                              log("Btn Pressed");
-                            },
-                            // controller: email,
-                            keyboardType: TextInputType.emailAddress,
+                            isEditableProvider: isEmailEditableProvider,
                           ),
                           heightSizedBox(10.0),
                           CusTextField(
                             labelText: 'Location',
                             initialValue: data['location'] ?? "N/A",
-                            onTap: () {
-                              log("Btn Pressed");
-                            },
-                            // controller: location,
-                            keyboardType: TextInputType.text,
+                            isEditableProvider: isLocationEditableProvider,
                           ),
                         ],
                       ),
                     ),
-                  )
-                ],
-              ),
-            );
-          },
-          error: (error, stackTrace) =>
-              const Center(child: Text("Something Went Wrong")),
-          loading: () => const Center(
-            child: CircularProgressIndicator(),
+                  ],
+                ),
+              );
+            },
+            error: (error, stackTrace) =>
+                const Center(child: Text("Something Went Wrong")),
+            loading: () => const Center(child: CircularProgressIndicator()),
           ),
-        ),
+          // Loading indicator
+          if (isLoading)
+            Container(
+              color: Colors.black54,
+              child: const Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+        ],
       ),
     );
   }
 }
 
-class CusTextField extends StatelessWidget {
+class CusTextField extends ConsumerWidget {
   final String? labelText, initialValue;
-  final Function() onTap;
   final TextEditingController? controller;
-
+  final StateProvider<bool> isEditableProvider;
   final TextInputType? keyboardType;
-  const CusTextField(
+
+  CusTextField(
       {super.key,
       this.labelText,
-      required this.onTap,
       this.controller,
       this.keyboardType,
-      this.initialValue});
+      this.initialValue,
+      required this.isEditableProvider});
 
   @override
-  Widget build(BuildContext context) {
-    return TxtField(
-      fillColor: Colors.white,
-      initialValue: initialValue,
-      enabled: true,
-      controller: controller,
-      labelText: labelText,
-      keyboardType: keyboardType,
-      enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(21),
-          borderSide: const BorderSide(
-            width: 0.2,
-            color: Colors.black12,
-          )),
-      suffixIcon: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          InkWell(
-              onTap: onTap,
-              child: const Text(
-                "Edit",
-                style: TextStyle(
-                    fontWeight: FontWeight.w500, color: Color(0xff413DF8)),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isEditable = ref.watch(isEditableProvider);
+
+    return Stack(
+      alignment: Alignment.centerRight,
+      children: [
+        TxtField(
+          fillColor: Colors.white,
+          initialValue: initialValue,
+          enabled: isEditable,
+          controller: controller,
+          labelText: labelText,
+          keyboardType: keyboardType,
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(21),
+              borderSide: const BorderSide(
+                width: 0.2,
+                color: Colors.black12,
               )),
-          Container(
-            height: 1.5,
-            width: 23,
-            color: const Color(0xff413DF8),
-          )
-        ],
-      ),
+        ),
+        Positioned(
+          right: 10,
+          child: InkWell(
+            onTap: () {
+              ref.read(isEditableProvider.notifier).state = !isEditable;
+            },
+            child: Container(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: Text(
+                isEditable ? "Done" : "Edit",
+                style: const TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xff413DF8),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

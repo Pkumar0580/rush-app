@@ -144,7 +144,7 @@ class BrandComp extends StatelessWidget {
                       "${data['brand']['description']}",
                       style: const TextStyle(
                           color: Color(0xff7D7D7D), fontSize: 12, height: 1.2),
-                      maxLines: 5,
+                      maxLines: 4,
                       overflow: TextOverflow.ellipsis,
                     ),
                     heightSizedBox(10.0),

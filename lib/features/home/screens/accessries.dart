@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import '../../../common/image_slider.dart';
+import '../../../utils/colors.dart';
 
 class AccessoriesScreen extends StatelessWidget {
   const AccessoriesScreen({super.key});
@@ -8,7 +8,10 @@ class AccessoriesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Accessories")),
+      appBar: AppBar(
+          backgroundColor: AppColor.appbarColor,
+          foregroundColor: Colors.white,
+          title: const Text("Accessories")),
       body: const Column(
         children: [ImageSlide()],
       ),
