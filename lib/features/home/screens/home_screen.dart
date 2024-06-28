@@ -1,16 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rush/common/image_slider.dart';
+import 'package:rush/features/offer/components/offer_screen_comp.dart';
+import 'package:rush/features/offer/repo/offers_repo.dart';
+import 'package:rush/features/offer/screens/offers_screen.dart';
 import 'package:rush/utils/colors.dart';
 import 'package:rush/utils/sizes.dart';
 import '../scr/drawer.dart';
 import '../scr/home_screen_scr.dart';
 
-class HomeScreen extends StatelessWidget {
+final getHomeOffersProvider = FutureProvider.autoDispose((ref) async {
+  final getOffers = await ref.watch(OffersRepoProvider).getHomeOffers();
+
+  return getOffers;
+});
+
+class HomeScreen extends ConsumerWidget {
   final GlobalKey<ScaffoldState> drawerKey = GlobalKey<ScaffoldState>();
   HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
         backgroundColor: AppColor.backgroundColor,
         key: drawerKey,
@@ -53,33 +63,35 @@ class HomeScreen extends StatelessWidget {
               heightSizedBox(5.0),
               const ViewAll(),
               heightSizedBox(5.0),
-              const SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    GrabDealCard(
-                      src: 'assets/images/calvinklein.png',
-                      time: '02:14:27',
+              Consumer(
+                builder: (context, ref, child) {
+                  final getOffer = ref.watch(getHomeOffersProvider);
+                  return getOffer.when(
+                    data: (data) {
+                      return SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Row(
+                            children: [
+                              for (int i = 0; i < data.length; i++)
+                                OffersCard(
+                                  data: data[i],
+                                ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                    error: (error, stackTrace) =>
+                        const Text("Something Went Wrong"),
+                    loading: () => const Center(
+                      child: Text("Loading........"),
                     ),
-                    GrabDealCard(
-                      src: 'assets/images/tommy.png',
-                      time: '02:14:27',
-                    ),
-                    GrabDealCard(
-                      src: 'assets/images/calvinklein.png',
-                      time: '02:14:27',
-                    ),
-                  ],
-                ),
+                  );
+                },
               ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Image.asset(
-                  "assets/images/Rectangle21.png",
-                  fit: BoxFit.cover,
-                  width: width(context),
-                ),
-              )
+              BannerSlide()
             ],
           ),
         ));

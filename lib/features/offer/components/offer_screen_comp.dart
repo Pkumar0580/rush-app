@@ -1,22 +1,35 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rush/features/offer/repo/offers_repo.dart';
 import 'package:rush/features/offer/screens/offer_detail_screen.dart';
 import 'package:rush/utils/navigation.dart';
 import 'package:rush/utils/sizes.dart';
 
-class OffersCard extends StatelessWidget {
+//  final Provider = StateProvider<>((ref) {
+//   return ;
+// });
+
+class OffersCard extends StatefulWidget {
   final dynamic data;
   const OffersCard({super.key, this.data});
 
   @override
+  _OffersCardState createState() => _OffersCardState();
+}
+
+class _OffersCardState extends State<OffersCard> {
+  bool isFavorite = false;
+
+  @override
   Widget build(BuildContext context) {
-    // log("Data=========> $data");
+    log("Data=========> ${widget.data}");
     return Stack(
       children: [
         InkWell(
           onTap: () {
-            navigationPush(context, OfferDetailScreen(id: data['_id']));
+            navigationPush(context, OfferDetailScreen(id: widget.data['_id']));
           },
           child: Card(
             color: Colors.white,
@@ -32,10 +45,10 @@ class OffersCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   heightSizedBox(30.0),
-                  data['brand']['logo'] != null
+                  widget.data['image'] != null
                       ? Center(
                           child: Image.network(
-                            data['brand']['logo'],
+                            widget.data['image'],
                             height: 50,
                             width: 120,
                           ),
@@ -67,18 +80,30 @@ class OffersCard extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Container(
-                        height: 20,
-                        width: 65,
-                        decoration: BoxDecoration(
-                          color: Colors.orange,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: const Center(
-                            child: Text(
-                          'GRAB DEAL',
-                          style: TextStyle(color: Colors.white, fontSize: 10),
-                        )),
+                      Consumer(
+                        builder: (context, ref, child) {
+                          return InkWell(
+                            onTap: () async {
+                              await ref
+                                  .read(OffersRepoProvider)
+                                  .grabDeal(widget.data['_id']);
+                            },
+                            child: Container(
+                              height: 20,
+                              width: 65,
+                              decoration: BoxDecoration(
+                                color: Colors.orange,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: const Center(
+                                  child: Text(
+                                'GRAB DEAL',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 10),
+                              )),
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -104,10 +129,28 @@ class OffersCard extends StatelessWidget {
             )),
           ),
         ),
-        const Positioned(
-          top: 15,
-          left: 10,
-          child: Center(child: Icon(Icons.favorite_outline)),
+        Consumer(
+          builder: (context, ref, child) {
+            return Positioned(
+              top: 0,
+              left: 0,
+              child: Center(
+                  child: IconButton(
+                      onPressed: () {
+                        log("${widget.data['_id']}");
+                        setState(() {
+                          isFavorite = !isFavorite;
+                          ref
+                              .read(OffersRepoProvider)
+                              .saveOffer(widget.data['_id']);
+                        });
+                      },
+                      icon: Icon(
+                        isFavorite ? Icons.favorite : Icons.favorite_outline,
+                        color: isFavorite ? Colors.red : Colors.black,
+                      ))),
+            );
+          },
         ),
       ],
     );

@@ -7,7 +7,7 @@ import '../components/offer_detail_comp.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rush/features/offer/repo/offers_repo.dart';
 
-final getOfferProvoder = FutureProvider.family((ref, String id) {
+final getOfferProvoder = FutureProvider.autoDispose.family((ref, String id) {
   final getOffer = ref.watch(OffersRepoProvider).getOffersById(id: id);
 
   return getOffer;
@@ -24,6 +24,8 @@ class OfferDetailScreen extends ConsumerWidget {
     return Scaffold(
         backgroundColor: AppColor.backgroundColor,
         appBar: AppBar(
+          backgroundColor: AppColor.appbarColor,
+          foregroundColor: Colors.white,
           title: const Text("Offer Details"),
         ),
         body: getOffer.when(
@@ -38,7 +40,13 @@ class OfferDetailScreen extends ConsumerWidget {
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                  child: Btn(text: "Grab Deal", onPressed: () {}),
+                  child: Btn(
+                      text: "Grab Deal",
+                      onPressed: () async {
+                        await ref
+                            .read(OffersRepoProvider)
+                            .grabDeal(data['_id']);
+                      }),
                 )
               ]),
             );

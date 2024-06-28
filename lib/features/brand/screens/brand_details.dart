@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rush/features/brand/repo/brands_repo.dart';
@@ -5,17 +7,10 @@ import '../../../utils/api_method.dart';
 import '../../../utils/colors.dart';
 import '../../../utils/navigation.dart';
 import '../../../utils/sizes.dart';
-import '../../home/scr/home_screen_scr.dart';
 import '../../offer/components/offer_screen_comp.dart';
 import '../../offer/screens/offers_screen.dart';
 import '../scr/brand_detail_scr.dart';
 
-
-
-final getProfileProvider = FutureProvider.family((ref, String id) async {
-  final getdata = await ref.watch(brandRepoProvider).getBrendWithId(id);
-  return getdata;
-});
 
 
 class BrandsDetails extends StatefulWidget {
@@ -51,9 +46,6 @@ class _BrandsDetailsState extends State<BrandsDetails> {
 
   @override
   Widget build(BuildContext context) {
-    // log("Id===========>${widget.id}");
-    // log("Data===========>${data.logo}");
-
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppColor.backgroundColor,
@@ -65,10 +57,16 @@ class _BrandsDetailsState extends State<BrandsDetails> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TopBanner(logo: data.logo, title: data.title),
+                    TopBanner(
+                      logo: data.logo,
+                      title: data.title,
+                      url: data.redirectLink,
+                    ),
                     Stores(stores: data.stores),
-                    const Categories(),
-                    const TopOffers(),
+                    // const Categories(),
+                    TopOffers(
+                      id: widget.id,
+                    ),
                   ],
                 ),
               ),
@@ -77,87 +75,85 @@ class _BrandsDetailsState extends State<BrandsDetails> {
   }
 }
 
-class TopOffers extends StatelessWidget {
-  const TopOffers({
-    super.key,
-  });
+final getBrandOffer = FutureProvider.family((ref, String id) async {
+  final getdata = await ref.watch(brandRepoProvider).getBrandsOffers(id);
+  return getdata;
+});
+
+class TopOffers extends ConsumerWidget {
+  final String id;
+  const TopOffers({super.key, required this.id});
 
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10, left: 15, right: 15, bottom: 10),
-      child: Column(
-        children: [
-          Row(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final brandOffers = ref.watch(getBrandOffer(id));
+    return brandOffers.when(
+      data: (data) {
+        log("OffersBrand$data");
+        return Padding(
+          padding:
+              const EdgeInsets.only(top: 10, left: 15, right: 15, bottom: 10),
+          child: Column(
             children: [
-              const Text(
-                "Top Offers",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+              Row(
+                children: [
+                  const Text(
+                    "Top Offers",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                  ),
+                  const Spacer(),
+                  InkWell(
+                    onTap: () {
+                      navigationPush(context, const OffersScreen());
+                    },
+                    child: const Row(
+                      children: [
+                        Text(
+                          "VIEW ALL",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500, fontSize: 12),
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          size: 15,
+                          color: Color(0xff0D2949),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
               ),
-              const Spacer(),
-              InkWell(
-                onTap: () {
-                  navigationPush(context, const OffersScreen());
-                },
-                child: const Row(
-                  children: [
-                    Text(
-                      "VIEW ALL",
-                      style:
-                          TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 15,
-                      color: Color(0xff0D2949),
-                    ),
-                  ],
-                ),
-              )
+              heightSizedBox(10.0),
+              GridView.builder(
+                  shrinkWrap: true,
+                  itemCount: data.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 10.0,
+                    mainAxisSpacing: 0.0,
+                  ),
+                  itemBuilder: (context, index) {
+                    return OffersCard(
+                      data: data[index],
+                    );
+                  })
             ],
           ),
-          heightSizedBox(10.0),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                for (int a = 0; a < 5; a++) const OffersCardBrandScr(),
-              ],
-            ),
-          ),
-        ],
+        );
+      },
+      error: (error, stackTrace) {
+        log("Error in TopOffers: $error");
+        return const Text("Something went wrong");
+      },
+      loading: () => const Center(
+        child: Padding(
+          padding: EdgeInsets.only(top: 100),
+          child: CircularProgressIndicator(),
+        ),
       ),
     );
   }
 }
-
-class Categories extends StatelessWidget {
-  const Categories({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.only(top: 10, left: 15, right: 15, bottom: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Categories",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-          ),
-          HomeProdPage()
-        ],
-      ),
-    );
-  }
-}
-
-
-
-
 
 
 
@@ -203,12 +199,25 @@ class BrandDetail {
 
 
 
+// class Categories extends StatelessWidget {
+//   const Categories({
+//     super.key,
+//   });
 
-
-
-
-
-
-
-
-
+//   @override
+//   Widget build(BuildContext context) {
+//     return const Padding(
+//       padding: EdgeInsets.only(top: 10, left: 15, right: 15, bottom: 10),
+//       child: Column(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           Text(
+//             "Categories",
+//             style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+//           ),
+//           HomeProdPage()
+//         ],
+//       ),
+//     );
+//   }
+// }

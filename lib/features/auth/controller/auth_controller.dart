@@ -27,12 +27,11 @@ class AuthController {
       log("Mobile1=> $mobile");
 
       log("Send Otp Controller Response=> $res");
-      // log("Send Otp Controller Status=> ${res['status']}");
 
       if (res != null &&
           res["status"] != null &&
           res["status"]["code"] == 290) {
-        ShowSnackBarMsg("Otp Send Successfully $mobile", color: Colors.green);
+        ShowSnackBarMsg("Your Otp is ${res['otp']}", color: Colors.green);
         navigateTo(OtpScreen(mobile: mobile));
       }
 

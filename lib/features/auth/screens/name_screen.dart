@@ -71,20 +71,20 @@ class NameScreen extends ConsumerWidget {
                     keyboardType: TextInputType.name,
                     validator: validateName,
                   ),
-                  heightSizedBox(20.0),
-                  Align(
-                    alignment: Alignment.center,
-                    child: InkWell(
-                      onTap: () {},
-                      child: const Text(
-                        "Have a referral code ?",
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: Color(0xff534ff8),
-                            fontWeight: FontWeight.w700),
-                      ),
-                    ),
-                  ),
+                  // heightSizedBox(20.0),
+                  // Align(
+                  //   alignment: Alignment.center,
+                  //   child: InkWell(
+                  //     onTap: () {},
+                  //     child: const Text(
+                  //       "Have a referral code ?",
+                  //       style: TextStyle(
+                  //           fontSize: 14,
+                  //           color: Color(0xff534ff8),
+                  //           fontWeight: FontWeight.w700),
+                  //     ),
+                  //   ),
+                  // ),
                   const Spacer(),
                   Btn(
                     text: "Continue",

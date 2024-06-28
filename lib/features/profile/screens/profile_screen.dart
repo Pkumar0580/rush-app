@@ -44,6 +44,7 @@ class ProfileScreen extends ConsumerWidget {
       backgroundColor: AppColor.backgroundColor,
       appBar: AppBar(
         toolbarHeight: 50,
+       
         foregroundColor: Colors.white,
         backgroundColor: const Color(0xff204571),
         title: const Text("Profile"),
@@ -59,6 +60,7 @@ class ProfileScreen extends ConsumerWidget {
           // Main content
           getProfileData.when(
             data: (data) {
+              log("dataeaprofile=>>>$data");
               return SingleChildScrollView(
                 child: Column(
                   children: [

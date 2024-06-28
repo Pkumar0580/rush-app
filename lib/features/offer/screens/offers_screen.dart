@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rush/features/offer/repo/offers_repo.dart';
 import 'package:rush/utils/bottom_bar.dart';
 import 'package:rush/utils/navigation.dart';
+import '../../../common/image_slider.dart';
 import '../../../utils/colors.dart';
 import '../components/offer_screen_comp.dart';
 
@@ -13,8 +16,17 @@ final getOffersProvider = FutureProvider.autoDispose((ref) async {
   return getOffers;
 });
 
+final getMensOfferProvider =
+    FutureProvider.autoDispose.family((ref, String id) async {
+  final getOffers =
+      await ref.watch(OffersRepoProvider).getCategoriOffers(id: id);
+
+  return getOffers;
+});
+
 class OffersScreen extends ConsumerStatefulWidget {
-  const OffersScreen({super.key});
+  final int initialTabIndex;
+  const OffersScreen({super.key, this.initialTabIndex = 0});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _OffersScreenState();
@@ -22,10 +34,23 @@ class OffersScreen extends ConsumerStatefulWidget {
 
 class _OffersScreenState extends ConsumerState<OffersScreen>
     with TickerProviderStateMixin {
+  late TabController tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    tabController = TabController(
+        length: 4, vsync: this, initialIndex: widget.initialTabIndex);
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    TabController tabController = TabController(length: 4, vsync: this);
-
     final getOfferData = ref.watch(getOffersProvider);
 
     return Scaffold(
@@ -47,24 +72,7 @@ class _OffersScreenState extends ConsumerState<OffersScreen>
         data: (data) {
           return Column(
             children: [
-              Container(
-                height: 100,
-                width: double.infinity,
-                decoration: const BoxDecoration(color: Color(0xff204571)),
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      top: 30, bottom: 30.0, left: 10.0, right: 10.0),
-                  child: SizedBox(
-                    height: 40,
-                    child: CupertinoSearchTextField(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(21),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              const ImageSlide(),
               TabBar(
                 indicatorColor: const Color(0xff1F4570),
                 indicatorSize: TabBarIndicatorSize.tab,
@@ -74,92 +82,168 @@ class _OffersScreenState extends ConsumerState<OffersScreen>
                 ),
                 controller: tabController,
                 tabs: const [
-                  Tab(text: 'Popular'),
-                  Tab(text: 'Latest'),
-                  Tab(text: 'Expiring Soon'),
-                  Tab(text: 'Discount'),
+                  Tab(text: "Men's"),
+                  Tab(text: "Women's"),
+                  Tab(text: 'Kids'),
+                  Tab(text: 'Accessories'),
                 ],
               ),
               Expanded(
                 child: TabBarView(
                   controller: tabController,
                   children: [
-                    GridView.builder(
-                        shrinkWrap: true,
-                        itemCount: data.length,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 10.0,
-                          mainAxisSpacing: 10.0,
-                        ),
-                        itemBuilder: (context, index) {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              OffersCard(
-                                data: data[index],
-                              ),
-                            ],
-                          );
-                        }),
-                    GridView.builder(
-                        shrinkWrap: true,
-                        itemCount: data.length,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 10.0,
-                          mainAxisSpacing: 10.0,
-                        ),
-                        itemBuilder: (context, index) {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              OffersCard(
-                                data: data[index],
-                              ),
-                            ],
-                          );
-                        }),
-                    GridView.builder(
-                        shrinkWrap: true,
-                        itemCount: data.length,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 10.0,
-                          mainAxisSpacing: 10.0,
-                        ),
-                        itemBuilder: (context, index) {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              OffersCard(
-                                data: data[index],
-                              ),
-                            ],
-                          );
-                        }),
-                    GridView.builder(
-                        shrinkWrap: true,
-                        itemCount: data.length,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 10.0,
-                          mainAxisSpacing: 10.0,
-                        ),
-                        itemBuilder: (context, index) {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              OffersCard(
-                                data: data[index],
-                              ),
-                            ],
-                          );
-                        })
+                    Consumer(
+                      builder: (context, ref, child) {
+                        final getMensData = ref.watch(
+                            getMensOfferProvider('66332c9a65beb9b60342c7de'));
+                        return getMensData.when(
+                          data: (data) {
+                            if (data.isEmpty) {
+                              return const Center(child: Text("No Data"));
+                            }
+                            return GridView.builder(
+                                shrinkWrap: true,
+                                itemCount: data.length,
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 10.0,
+                                  mainAxisSpacing: 10.0,
+                                ),
+                                itemBuilder: (context, index) {
+                                  return Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      OffersCard(
+                                        data: data[index],
+                                      ),
+                                    ],
+                                  );
+                                });
+                          },
+                          error: (error, stackTrace) => const Text("Error"),
+                          loading: () => const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      },
+                    ),
+                    Consumer(
+                      builder: (context, ref, child) {
+                        final getMensData = ref.watch(
+                            getMensOfferProvider('66332d6765beb9b60342c7e4'));
+
+                        return getMensData.when(
+                          data: (data) {
+                            if (data.isEmpty) {
+                              return const Center(child: Text("No Data"));
+                            }
+
+                            return GridView.builder(
+                                shrinkWrap: true,
+                                itemCount: data.length,
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 10.0,
+                                  mainAxisSpacing: 10.0,
+                                ),
+                                itemBuilder: (context, index) {
+                                  return Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      OffersCard(
+                                        data: data[index],
+                                      ),
+                                    ],
+                                  );
+                                });
+                          },
+                          error: (error, stackTrace) => const Text("Error"),
+                          loading: () => const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      },
+                    ),
+                    Consumer(
+                      builder: (context, ref, child) {
+                        final getMensData = ref.watch(
+                            getMensOfferProvider('66332e22933f45c89ec839ce'));
+
+                        return getMensData.when(
+                          data: (data) {
+                            if (data.isEmpty) {
+                              return const Center(child: Text("No Data"));
+                            }
+                            return GridView.builder(
+                                shrinkWrap: true,
+                                itemCount: data.length,
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 10.0,
+                                  mainAxisSpacing: 10.0,
+                                ),
+                                itemBuilder: (context, index) {
+                                  return Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      OffersCard(
+                                        data: data[index],
+                                      ),
+                                    ],
+                                  );
+                                });
+                          },
+                          error: (error, stackTrace) => const Text("Error"),
+                          loading: () => const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      },
+                    ),
+                    Consumer(
+                      builder: (context, ref, child) {
+                        final getMensData = ref.watch(
+                            getMensOfferProvider('66332de865beb9b60342c7e7'));
+
+                        return getMensData.when(
+                          data: (data) {
+                            if (data.isEmpty) {
+                              return const Center(child: Text("No Data"));
+                            }
+                            return GridView.builder(
+                                shrinkWrap: true,
+                                itemCount: data.length,
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 10.0,
+                                  mainAxisSpacing: 10.0,
+                                ),
+                                itemBuilder: (context, index) {
+                                  return Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      OffersCard(
+                                        data: data[index],
+                                      ),
+                                    ],
+                                  );
+                                });
+                          },
+                          error: (error, stackTrace) => const Text("Error"),
+                          loading: () => const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),

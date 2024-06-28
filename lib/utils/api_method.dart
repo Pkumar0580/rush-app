@@ -15,6 +15,7 @@ class ApiMethod {
   ApiMethod({required this.url, this.token, this.data});
 
   Future getDioRequest() async {
+    log("Url=========>$url");
     try {
       token != null ? headers['Authorization'] = "$token" : null;
       Response response =
@@ -29,45 +30,57 @@ class ApiMethod {
     }
   }
 
+  // Future postDioRequest({required Map data}) async {
+  //   log("postdata=>>$data");
+  //   try {
+  //     token != null ? headers['Authorization'] = "$token" : null;
+  //     Response response =
+  //         await dio.post(url, data: data, options: Options(headers: headers));
+
+  //     log('response=<${response.statusCode}');
+
+  //     if (response.statusCode == 400) {
+  //       log("postresponse ${response.data}");
+  //       // Here you can handle the 404 error and its message
+  //       String errorMessage = response.data[
+  //           'message']; // Adjust 'message' to match your API response structure
+  //       // Example of how to use the error message:
+  //       print("Error: $errorMessage");
+  //       // You can also throw an exception or return null or any other handling mechanism as per your app's logic
+  //     }
+
+  //     return response.data;
+  //     // if (response.statusCode == 400) {
+  //     //   log("postresponse${response.data}");
+  //     //   return response.data;
+  //     // }
+  //   } catch (e) {
+  //     log("eror ${e}");
+  //   }
+  // }
   Future postDioRequest({required Map data}) async {
     try {
-      // log("post url  $url ");
-      // log("Post Dio Data $data");
-      token != null ? headers['Authorization'] = "Bearer $token" : null;
-      // log("Post Token=> $token");
+      token != null ? headers['Authorization'] = "$token" : null;
       Response response =
           await dio.post(url, data: data, options: Options(headers: headers));
 
-      // log("response status ${response.statusCode}");
-      // log("PostMethod Response=> ${response.data}");
-
-      if (response.statusCode == 200) {
-        return response.data;
-      }
-    } on DioException {
-      // print("post statusCode ${err.response?.statusCode.toString()}");
-      // print("post type ${err.response?.data.toString()} ");
+      return response.data;
+    } on DioException catch (e) {
+      throw e;
     }
   }
 
-  Future putDioRequest({required Map data}) async {
+  Future putDioRequest({Map? data}) async {
     try {
-      log("Put url  $url ");
-      log("Put Dio Data $data");
-      token != null ? headers['Authorization'] = "Bearer $token" : null;
-      log("Put Token=> $token");
+      token != null ? headers['Authorization'] = "$token" : null;
       Response response =
           await dio.put(url, data: data, options: Options(headers: headers));
-
-      log("response status ${response.statusCode}");
-      log("Put Method Response ${response.data}");
 
       if (response.statusCode == 200) {
         return response.data;
       }
     } on DioException catch (err) {
-      print("post statusCode ${err.response?.statusCode.toString()}");
-      print("post type ${err.response?.data.toString()} ");
+      throw err;
     }
   }
 
@@ -93,14 +106,26 @@ class ApiMethod {
   }
 }
 
+errorHandler(String errorMessage) {
+  log("dklgjdskgj;ldskjlg${errorMessage}");
+}
+
 class ApiUrl {
   static const baseUrl = "https://offers-listing-app-backend.vercel.app";
   static const getUser = "$baseUrl/user";
   static const getBrands = "$baseUrl/brand";
+  static const getBrandsOffer = "$baseUrl/offer";
+
   static const getOffers = "$baseUrl/offer";
+  static const getHomeOffers = "$baseUrl/home-offers";
+  static const getMansOffers = "$baseUrl/offer?category=";
+  static const getSavedOffers = "$baseUrl/saved-offers";
   static const sendOtp = "$baseUrl/otp";
   static const verifyOtp = "$baseUrl/otp";
   static const createUser = "$baseUrl/user";
+  static const saveOffer = "$baseUrl/offer";
+  static const grabDeal = "$baseUrl/offer";
+  static const rating = "$baseUrl/rating";
 }
 
 Dio dio = Dio();
@@ -111,7 +136,7 @@ Future<void> fetchData(void Function(List<dynamic>) fun) async {
         await dio.get("https://offers-listing-app-backend.vercel.app/brand");
 
     if (response.statusCode == 200) {
-      log("fatch Data=> ${response.data}");
+      // log("fatch Data=> ${response.data}");
       fun(response.data);
     }
   } on DioException catch (err) {
@@ -126,7 +151,7 @@ Future<void> fetchBrandDetailWithID(void Function(BrandDetail) fun,
         .get("https://offers-listing-app-backend.vercel.app/brand/$id");
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = response.data;
-      log("Response=>>>>${response.data}");
+      // log("Response=>>>>${response.data}");
       final BrandDetail brandDetail = BrandDetail.fromJson(responseData);
       fun(brandDetail);
     } else {
@@ -136,9 +161,6 @@ Future<void> fetchBrandDetailWithID(void Function(BrandDetail) fun,
     log(err.toString());
   }
 }
-
-
-
 
 // Future<void> fetchDataWithID(void Function(Map<dynamic>) fun,{required String id}) async {
 //   final response =
