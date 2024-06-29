@@ -44,7 +44,6 @@ class ProfileScreen extends ConsumerWidget {
       backgroundColor: AppColor.backgroundColor,
       appBar: AppBar(
         toolbarHeight: 50,
-       
         foregroundColor: Colors.white,
         backgroundColor: const Color(0xff204571),
         title: const Text("Profile"),
@@ -152,35 +151,48 @@ class ProfileScreen extends ConsumerWidget {
                       padding: const EdgeInsets.all(15.0),
                       child: Column(
                         children: [
-                          CusTextField(
+                          TxtField(
                             labelText: "Name",
+                            enabled: false,
                             initialValue: data['name'] != null
                                 ? "${data['name']}"
                                 : "N/A",
-                            isEditableProvider: isNameEditableProvider,
                           ),
                           heightSizedBox(10.0),
-                          CusTextField(
+                          TxtField(
                             labelText: 'Phone no.',
+                            enabled: false,
                             initialValue: data['phone_no'] != null
                                 ? "${data['phone_no']}"
                                 : "N/A",
-                            isEditableProvider: isPhoneEditableProvider,
                           ),
                           heightSizedBox(10.0),
-                          CusTextField(
+                          TxtField(
                             labelText: 'Email id',
+                            enabled: false,
                             initialValue: data['email'] != null
                                 ? "${data['email']}"
                                 : "N/A",
-                            isEditableProvider: isEmailEditableProvider,
                           ),
                           heightSizedBox(10.0),
-                          CusTextField(
+                          TxtField(
                             labelText: 'Location',
+                            enabled: false,
                             initialValue: data['location'] ?? "N/A",
-                            isEditableProvider: isLocationEditableProvider,
                           ),
+                          heightSizedBox(10.0),
+                          SizedBox(
+                              width: width(context),
+                              child: ElevatedButton(
+                                  onPressed: () {
+                                    _showEditDialog(context);
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: AppColor.appbarColor,
+                                      foregroundColor: Colors.white),
+                                  child: const Text(
+                                    "Edit",
+                                  )))
                         ],
                       ),
                     ),
@@ -206,67 +218,58 @@ class ProfileScreen extends ConsumerWidget {
   }
 }
 
-class CusTextField extends ConsumerWidget {
-  final String? labelText, initialValue;
-  final TextEditingController? controller;
-  final StateProvider<bool> isEditableProvider;
-  final TextInputType? keyboardType;
+void _showEditDialog(BuildContext context) {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController locationController = TextEditingController();
 
-  CusTextField(
-      {super.key,
-      this.labelText,
-      this.controller,
-      this.keyboardType,
-      this.initialValue,
-      required this.isEditableProvider});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final isEditable = ref.watch(isEditableProvider);
-
-    return Stack(
-      alignment: Alignment.centerRight,
-      children: [
-        TxtField(
-          fillColor: Colors.white,
-          initialValue: initialValue,
-          enabled: isEditable,
-          controller: controller,
-          labelText: labelText,
-          keyboardType: keyboardType,
-          enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(21),
-              borderSide: const BorderSide(
-                width: 0.2,
-                color: Colors.black12,
-              )),
-        ),
-        Positioned(
-          right: 10,
-          child: InkWell(
-            onTap: () {
-              ref.read(isEditableProvider.notifier).state = !isEditable;
-            },
-            child: Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8.0),
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        backgroundColor: AppColor.backgroundColor,
+        title: const Text('Edit Details'),
+        content: SingleChildScrollView(
+          child: Column(
+            children: [
+              TxtField(
+                labelText: "Name",
+                controller: nameController,
               ),
-              child: Text(
-                isEditable ? "Done" : "Edit",
-                style: const TextStyle(
-                  fontWeight: FontWeight.w500,
-                  color: Color(0xff413DF8),
-                ),
+              heightSizedBox(5.0),
+              TxtField(
+                labelText: "Email",
+                controller: emailController,
               ),
-            ),
+              heightSizedBox(5.0),
+              TxtField(
+                labelText: "Location",
+                controller: locationController,
+              ),
+            ],
           ),
         ),
-      ],
-    );
-  }
+        actions: [
+          TextButton(
+            child: const Text('Cancel'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          Consumer(
+            builder: (context, ref, child) {
+              return ElevatedButton(
+                child: const Text('Done'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              );
+            },
+          ),
+        ],
+      );
+    },
+  );
 }
 
 Future<File?> getImage(WidgetRef ref) async {

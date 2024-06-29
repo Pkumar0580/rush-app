@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:intl/intl.dart';
 import '../../../utils/colors.dart';
 import '../../../utils/navigation.dart';
 import '../../../utils/sizes.dart';
@@ -39,8 +38,7 @@ class AddressContainer extends StatelessWidget {
               widthSizedBox(10.0),
               Expanded(
                 child: Text(
-                  DateFormat('dd-MM-yyyy')
-                      .format(DateTime.parse(data['expires_in'])),
+                  formatDate("${data['expires_in']}"),
                   style: const TextStyle(color: Color(0xff7D7D7D)),
                 ),
               ),
@@ -82,8 +80,10 @@ class TopContainer extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              DateFormat('dd-MM-yyyy')
-                  .format(DateTime.parse(data['expires_in'])),
+              formatDate("${data['expires_in']}"),
+
+              // DateFormat('dd-MM-yyyy')
+              //     .format(DateTime.parse(data['expires_in'])),
               style: const TextStyle(
                   fontWeight: FontWeight.w500, color: AppColor.btnColor),
             ),

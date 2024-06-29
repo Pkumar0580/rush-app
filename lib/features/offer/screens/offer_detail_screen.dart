@@ -86,36 +86,39 @@ class CategorieComp extends StatelessWidget {
                       onTap: () {},
                     ),
                     Expanded(
-                      child: Wrap(
-                        direction: Axis.horizontal,
-                        spacing: 8.0,
-                        runSpacing: 10.0,
-                        children: [
-                          for (var i = 0;
-                              i <
-                                  data['brand']['categories'][0]
-                                          ['sub_categories']
-                                      .length;
-                              i++)
+                        child: Wrap(
+                      direction: Axis.horizontal,
+                      spacing: 8.0,
+                      runSpacing: 10.0,
+                      children: [
+                        for (var i = 0;
+                            i <
+                                data['brand']['categories'][0]['sub_categories']
+                                    .length;
+                            i++)
+                          if (data['brand']['categories'][0]['sub_categories']
+                                  [i] !=
+                              null)
                             Container(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 8),
                               height: 20,
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(21),
-                                  color: const Color(0xffD9D9D9),
-                                  border: Border.all(
-                                      color: const Color(0xff767676),
-                                      width: 0.3)),
+                                borderRadius: BorderRadius.circular(21),
+                                color: const Color(0xffD9D9D9),
+                                border: Border.all(
+                                  color: const Color(0xff767676),
+                                  width: 0.3,
+                                ),
+                              ),
                               child: Text(
                                 "${data['brand']['categories'][0]['sub_categories'][i]}",
                                 style:
                                     const TextStyle(color: Color(0xff5F5F5F)),
                               ),
                             ),
-                        ],
-                      ),
-                    ),
+                      ],
+                    )),
                   ],
                 ),
               ],

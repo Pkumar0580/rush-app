@@ -1,6 +1,4 @@
-import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rush/features/offer/repo/offers_repo.dart';
@@ -115,7 +113,7 @@ class _OffersScreenState extends ConsumerState<OffersScreen>
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceAround,
                                     children: [
-                                      OffersCard(
+                                      OfferCard(
                                         data: data[index],
                                       ),
                                     ],
@@ -154,7 +152,7 @@ class _OffersScreenState extends ConsumerState<OffersScreen>
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceAround,
                                     children: [
-                                      OffersCard(
+                                      OfferCard(
                                         data: data[index],
                                       ),
                                     ],
@@ -192,7 +190,7 @@ class _OffersScreenState extends ConsumerState<OffersScreen>
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceAround,
                                     children: [
-                                      OffersCard(
+                                      OfferCard(
                                         data: data[index],
                                       ),
                                     ],
@@ -230,7 +228,7 @@ class _OffersScreenState extends ConsumerState<OffersScreen>
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceAround,
                                     children: [
-                                      OffersCard(
+                                      OfferCard(
                                         data: data[index],
                                       ),
                                     ],

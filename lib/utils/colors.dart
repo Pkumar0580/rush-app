@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 class AppColor {
   static const btnColor = Color(0xffFF7918);
@@ -13,4 +14,11 @@ void statusBarColorChange(Color statusBarColor) {
     statusBarColor: statusBarColor,
     systemNavigationBarColor: statusBarColor,
   ));
+}
+
+
+String formatDate(String dateStr) {
+  DateTime dateTime = DateTime.parse(dateStr);
+  DateFormat dateFormat = DateFormat('dd MMM yyyy');
+  return dateFormat.format(dateTime);
 }

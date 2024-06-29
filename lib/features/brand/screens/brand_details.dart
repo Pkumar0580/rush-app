@@ -11,8 +11,6 @@ import '../../offer/components/offer_screen_comp.dart';
 import '../../offer/screens/offers_screen.dart';
 import '../scr/brand_detail_scr.dart';
 
-
-
 class BrandsDetails extends StatefulWidget {
   final String id;
 
@@ -133,12 +131,12 @@ class TopOffers extends ConsumerWidget {
                     mainAxisSpacing: 0.0,
                   ),
                   itemBuilder: (context, index) {
-                    return OffersCard(
+                    return OfferCard(
                       data: data[index],
                     );
                   })
             ],
-          ),
+          )
         );
       },
       error: (error, stackTrace) {

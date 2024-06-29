@@ -65,8 +65,8 @@ class ApiMethod {
           await dio.post(url, data: data, options: Options(headers: headers));
 
       return response.data;
-    } on DioException catch (e) {
-      throw e;
+    } on DioException {
+      rethrow;
     }
   }
 
@@ -79,8 +79,8 @@ class ApiMethod {
       if (response.statusCode == 200) {
         return response.data;
       }
-    } on DioException catch (err) {
-      throw err;
+    } on DioException {
+      rethrow;
     }
   }
 
@@ -107,7 +107,7 @@ class ApiMethod {
 }
 
 errorHandler(String errorMessage) {
-  log("dklgjdskgj;ldskjlg${errorMessage}");
+  log("dklgjdskgj;ldskjlg$errorMessage");
 }
 
 class ApiUrl {
@@ -124,6 +124,7 @@ class ApiUrl {
   static const verifyOtp = "$baseUrl/otp";
   static const createUser = "$baseUrl/user";
   static const saveOffer = "$baseUrl/offer";
+  static const removeOffer = "$baseUrl/offer";
   static const grabDeal = "$baseUrl/offer";
   static const rating = "$baseUrl/rating";
 }

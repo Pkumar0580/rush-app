@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rush/utils/colors.dart';
@@ -41,7 +40,7 @@ class MyOffers extends ConsumerWidget {
                     mainAxisSpacing: 0.0,
                   ),
                   itemBuilder: (context, index) {
-                    return OffersCard(
+                    return OfferCard(
                       data: data[index],
                     );
                   }),

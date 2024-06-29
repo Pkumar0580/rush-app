@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rush/common/image_slider.dart';
 import 'package:rush/features/offer/components/offer_screen_comp.dart';
 import 'package:rush/features/offer/repo/offers_repo.dart';
-import 'package:rush/features/offer/screens/offers_screen.dart';
 import 'package:rush/utils/colors.dart';
 import 'package:rush/utils/sizes.dart';
 import '../scr/drawer.dart';
@@ -75,7 +74,7 @@ class HomeScreen extends ConsumerWidget {
                           child: Row(
                             children: [
                               for (int i = 0; i < data.length; i++)
-                                OffersCard(
+                                OfferCard(
                                   data: data[i],
                                 ),
                             ],
@@ -91,7 +90,7 @@ class HomeScreen extends ConsumerWidget {
                   );
                 },
               ),
-              BannerSlide()
+              const BannerSlide()
             ],
           ),
         ));

@@ -26,6 +26,21 @@ class ProfileRepo {
     }
   }
 
+
+  Future editProfile() async {
+    try {
+      final token =
+          await ref.watch(secureStoargeProvider).readData('authToken');
+
+      final response =
+          await ApiMethod(url: ApiUrl.getUser, token: token).putDioRequest();
+
+      return response;
+    } catch (err) {
+      log("Profile Repo Error=> $err");
+    }
+  }
+
   Future imageUpload({required File image}) async {
     log("Image Repo=================> ${image.path}");
 

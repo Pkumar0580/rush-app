@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:rush/features/home/screens/accessries.dart';
-import 'package:rush/features/home/screens/kids_wear.dart';
-import 'package:rush/features/home/screens/womens_fashion.dart';
 import 'package:rush/features/offer/screens/offers_screen.dart';
 
 import '../../../utils/navigation.dart';
-import '../screens/mens_fashion.dart';
 
 class ProdItem extends StatelessWidget {
   final String text;
@@ -63,7 +59,9 @@ class ViewAll extends StatelessWidget {
           ),
           const Spacer(),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              navigationPush(context, const OffersScreen());
+            },
             child: const Row(
               children: [
                 Text(

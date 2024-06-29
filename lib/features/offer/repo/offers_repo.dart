@@ -77,7 +77,21 @@ class OffersRepo {
           await ApiMethod(url: "${ApiUrl.saveOffer}/$id/save", token: token)
               .putDioRequest();
       log("response$response");
+      ShowSnackBarMsg(response['message'], color: Colors.green);
+      return response;
+    } catch (e) {
+      log("Save offer error$e");
+    }
+  }
 
+  Future removeOffer(String id) async {
+    try {
+      final token =
+          await ref.watch(secureStoargeProvider).readData('authToken');
+      final response =
+          await ApiMethod(url: "${ApiUrl.removeOffer}/$id/unsave", token: token)
+              .putDioRequest();
+      ShowSnackBarMsg(response['message'], color: Colors.green);
       return response;
     } catch (e) {
       log("Save offer error$e");
@@ -91,10 +105,7 @@ class OffersRepo {
       final response =
           await ApiMethod(url: "${ApiUrl.grabDeal}/$id/grab", token: token)
               .putDioRequest();
-      log("response$response");
-
       ShowSnackBarMsg("${response["message"]}", color: Colors.green);
-
       return response;
     } on DioException catch (e) {
       ShowSnackBarMsg("${e.response!.data['error']}", color: Colors.red);
