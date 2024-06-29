@@ -13,6 +13,7 @@ import '../../profile/repo/profile_repo.dart';
 
 final getProfileProvider = FutureProvider.autoDispose((ref) async {
   final getdata = await ref.watch(profileRepoProvider).getProfile();
+
   return getdata;
 });
 

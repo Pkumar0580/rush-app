@@ -23,8 +23,9 @@ class AuthRepo {
 
   signIn({required String mobile, required String otp}) async {
     try {
-      final response = await ApiMethod(url: ApiUrl.verifyOtp)
-          .putDioRequest(data: {"phone_number": mobile, "otp": otp},);
+      final response = await ApiMethod(url: ApiUrl.verifyOtp).putDioRequest(
+        data: {"phone_number": mobile, "otp": otp},
+      );
 
       // log("SignIn Repo Response= $response");
       return response;
@@ -37,7 +38,6 @@ class AuthRepo {
     required String age,
     required String gender,
     required String name,
-  
   }) async {
     try {
       final token =
@@ -49,6 +49,27 @@ class AuthRepo {
           .putDioFormData(data: formData);
 
       // log("Create Profile Response=> $response");
+      return response;
+    } catch (err) {
+      log("creataProfile Repo Error= $err");
+    }
+  }
+
+  editProfile({
+    required String name,
+    required String email,
+    required String location,
+  }) async {
+    try {
+      final token =
+          await ref.watch(secureStoargeProvider).readData("authToken");
+
+      FormData formData = FormData.fromMap(
+          {"name": name, "email": email, "location": location});
+      final response = await ApiMethod(url: ApiUrl.createUser, token: token)
+          .putDioFormData(data: formData);
+
+      log("Create Profile Response=> $response");
       return response;
     } catch (err) {
       log("creataProfile Repo Error= $err");

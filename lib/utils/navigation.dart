@@ -46,3 +46,8 @@ Future navigationPush(BuildContext context, Widget widget) {
   return Navigator.of(context)
       .push(MaterialPageRoute(builder: (context) => widget));
 }
+
+// Future navigationPushReplacement(BuildContext context, Widget widget) {
+//   return Navigator.of(context)
+//       .pushReplacement(MaterialPageRoute(builder: (context) => widget));
+// }

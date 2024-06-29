@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rush/features/offer/repo/offers_repo.dart';
 import 'package:rush/features/offer/screens/offer_detail_screen.dart';
 import 'package:rush/utils/navigation.dart';
+import 'package:rush/utils/secure_storage%20copy.dart';
 import 'package:rush/utils/sizes.dart';
 import '../../../utils/colors.dart';
 
@@ -20,7 +21,7 @@ class _OfferCardState extends ConsumerState<OfferCard> {
 
   @override
   Widget build(BuildContext context) {
-    log("$isFavorite");
+    log("${widget.data}");
     return Stack(
       children: [
         InkWell(
@@ -139,9 +140,13 @@ class _OfferCardState extends ConsumerState<OfferCard> {
                       var data = await ref
                           .read(OffersRepoProvider)
                           .saveOffer(widget.data['_id']);
-                      setState(() {
-                        isFavorite = data['data']['following'];
-                      });
+
+                      ref
+                          .read(secureStoargeProvider)
+                          .writeData(key: "isFavorite", value: "True");
+                      // setState(() {
+                      //   isFavorite = data['data']['following'];
+                      // });
                       log("data=$data");
                     } else {
                       ref

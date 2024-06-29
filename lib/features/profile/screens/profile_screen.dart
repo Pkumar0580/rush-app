@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:rush/features/auth/repo/auth_repo.dart';
 import 'package:rush/features/profile/controller/profile_controller.dart';
 import 'package:rush/features/profile/repo/profile_repo.dart';
 import 'package:rush/utils/sizes.dart';
@@ -14,17 +15,12 @@ import '../../../utils/navigation.dart';
 // Providers for managing state
 final getProfileProvider = FutureProvider.autoDispose((ref) async {
   final getdata = await ref.watch(profileRepoProvider).getProfile();
+  ref.keepAlive();
   return getdata;
 });
 
 final pickedImageProvider = StateProvider<File?>((ref) => null);
 final isLoadingProvider = StateProvider<bool>((ref) => false);
-
-// Providers for managing editable state of each text field
-final isNameEditableProvider = StateProvider<bool>((ref) => false);
-final isPhoneEditableProvider = StateProvider<bool>((ref) => false);
-final isEmailEditableProvider = StateProvider<bool>((ref) => false);
-final isLocationEditableProvider = StateProvider<bool>((ref) => false);
 
 class ProfileScreen extends ConsumerWidget {
   final TextEditingController name = TextEditingController();
@@ -154,38 +150,50 @@ class ProfileScreen extends ConsumerWidget {
                           TxtField(
                             labelText: "Name",
                             enabled: false,
-                            initialValue: data['name'] != null
-                                ? "${data['name']}"
-                                : "N/A",
+                            controller: TextEditingController(
+                                text: data['name'] != null
+                                    ? "${data['name']}"
+                                    : "N/A"),
                           ),
                           heightSizedBox(10.0),
                           TxtField(
                             labelText: 'Phone no.',
                             enabled: false,
-                            initialValue: data['phone_no'] != null
-                                ? "${data['phone_no']}"
-                                : "N/A",
+                            // initialValue: data['phone_no'] != null
+                            //     ? "${data['phone_no']}"
+                            //     : "N/A",
+                            controller: TextEditingController(
+                                text: data['phone_no'] != null
+                                    ? "${data['phone_no']}"
+                                    : "N/A"),
                           ),
                           heightSizedBox(10.0),
                           TxtField(
                             labelText: 'Email id',
                             enabled: false,
-                            initialValue: data['email'] != null
-                                ? "${data['email']}"
-                                : "N/A",
+                            // initialValue: data['email'] != null
+                            //     ? "${data['email']}"
+                            //     : "N/A",
+                            controller: TextEditingController(
+                                text: data['email'] != null
+                                    ? "${data['email']}"
+                                    : "N/A"),
                           ),
                           heightSizedBox(10.0),
                           TxtField(
                             labelText: 'Location',
                             enabled: false,
-                            initialValue: data['location'] ?? "N/A",
+                            controller: TextEditingController(
+                                text: data['location'] != null
+                                    ? "${data['location']}"
+                                    : "N/A"),
                           ),
                           heightSizedBox(10.0),
                           SizedBox(
                               width: width(context),
                               child: ElevatedButton(
                                   onPressed: () {
-                                    _showEditDialog(context);
+                                    _showEditDialog(context, ref);
                                   },
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor: AppColor.appbarColor,
@@ -218,7 +226,7 @@ class ProfileScreen extends ConsumerWidget {
   }
 }
 
-void _showEditDialog(BuildContext context) {
+void _showEditDialog(BuildContext context, WidgetRef ref) {
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController locationController = TextEditingController();
@@ -260,7 +268,13 @@ void _showEditDialog(BuildContext context) {
             builder: (context, ref, child) {
               return ElevatedButton(
                 child: const Text('Done'),
-                onPressed: () {
+                onPressed: () async {
+                  await ref.read(authRepoProvider).editProfile(
+                      name: nameController.text,
+                      email: emailController.text,
+                      location: locationController.text);
+                  // Refresh the profile data provider
+                  ref.refresh(getProfileProvider);
                   Navigator.of(context).pop();
                 },
               );
