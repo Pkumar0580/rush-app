@@ -118,7 +118,7 @@ class _BannerSlideState extends State<BannerSlide> {
                               child: Image.asset(
                                 e['image'],
                                 fit: BoxFit.cover,
-                                width: double.infinity,
+                                // width: double.infinity,
                               ),
                             ),
                           ),

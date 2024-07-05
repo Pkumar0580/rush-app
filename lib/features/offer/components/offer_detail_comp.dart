@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../utils/colors.dart';
 import '../../../utils/navigation.dart';
 import '../../../utils/sizes.dart';
@@ -45,19 +46,19 @@ class AddressContainer extends StatelessWidget {
             ],
           ),
           heightSizedBox(10.0),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SvgPicture.asset('assets/images/rupees.svg'),
-              widthSizedBox(10.0),
-              Expanded(
-                child: Text(
-                  '${data['discount_value']}',
-                  style: const TextStyle(color: Color(0xff7D7D7D)),
-                ),
-              ),
-            ],
-          ),
+          // Row(
+          //   crossAxisAlignment: CrossAxisAlignment.start,
+          //   children: [
+          //     SvgPicture.asset('assets/images/rupees.svg'),
+          //     widthSizedBox(10.0),
+          //     Expanded(
+          //       child: Text(
+          //         '${data['discount_value']}',
+          //         style: const TextStyle(color: Color(0xff7D7D7D)),
+          //       ),
+          //     ),
+          //   ],
+          // ),
         ],
       ),
     );
@@ -153,9 +154,17 @@ class BrandComp extends StatelessWidget {
                       child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xff0D2949)),
-                          onPressed: () {
-                            navigationPush(context,
-                                BrandsDetails(id: data['brand']['_id']));
+                          onPressed: () async {
+                            final Uri redirectLink =
+                                Uri.parse("${data['brand']['redirect_link']}");
+                            if (await canLaunchUrl(redirectLink)) {
+                              await launchUrl(redirectLink);
+                            } else {
+                              throw 'Could not launch $redirectLink';
+                            }
+
+                            // navigationPush(context,
+                            //     BrandsDetails(id: data['brand']['_id']));
                           },
                           child: const Text(
                             "Visit Brand’s page",
