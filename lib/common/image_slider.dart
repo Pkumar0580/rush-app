@@ -127,7 +127,7 @@ class _BannerSlideState extends State<BannerSlide> {
                 options: CarouselOptions(
                     scrollPhysics: const BouncingScrollPhysics(),
                     autoPlay: true,
-                    aspectRatio: 2,
+                    aspectRatio: 2.2,
                     viewportFraction: 1,
                     onPageChanged: (index, reason) {
                       setState(() {

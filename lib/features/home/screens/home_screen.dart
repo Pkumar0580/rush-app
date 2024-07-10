@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:rush/common/image_slider.dart';
 import 'package:rush/features/offer/components/offer_screen_comp.dart';
 import 'package:rush/features/offer/repo/offers_repo.dart';
@@ -28,16 +31,15 @@ class HomeScreen extends ConsumerWidget {
         ),
         appBar: AppBar(
           backgroundColor: AppColor.appbarColor,
-          leading: InkWell(
-            onTap: () {
-              drawerKey.currentState?.openDrawer();
-            },
-            child: ColorFiltered(
-              colorFilter: const ColorFilter.mode(
-                Colors.white,
-                BlendMode.srcIn,
+          leading: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            child: InkWell(
+              onTap: () {
+                drawerKey.currentState?.openDrawer();
+              },
+              child: SvgPicture.asset(
+                'assets/images/Vector.svg',
               ),
-              child: Image.asset("assets/images/hamburger-icon.png"),
             ),
           ),
           title: const Text(

@@ -64,7 +64,7 @@ class _OfferCardState extends ConsumerState<OfferCard> {
                       Column(
                         children: [
                           const Text(
-                            'Expires in',
+                            'Expires on',
                             style: TextStyle(
                                 fontSize: 12, fontWeight: FontWeight.w600),
                           ),

@@ -80,17 +80,24 @@ class TopContainer extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              formatDate("${data['expires_in']}"),
+            Row(
+              children: [
+                const Text("Expires On : "),
+                Text(
+                  formatDate("${data['expires_in']}"),
 
-              // DateFormat('dd-MM-yyyy')
-              //     .format(DateTime.parse(data['expires_in'])),
-              style: const TextStyle(
-                  fontWeight: FontWeight.w500, color: AppColor.btnColor),
+                  // DateFormat('dd-MM-yyyy')
+                  //     .format(DateTime.parse(data['expires_in'])),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.w500, color: AppColor.btnColor),
+                ),
+              ],
             ),
             heightSizedBox(10.0),
             Center(
               child: Image.network(
+                filterQuality: FilterQuality.high,
+                // color: Colors.white,
                 data['brand']['logo'],
                 height: 150,
                 width: 200,
