@@ -112,13 +112,13 @@ errorHandler(String errorMessage) {
 
 class ApiUrl {
   static const baseUrl = "https://offers-listing-app-backend.vercel.app";
-  static const getUser = "$baseUrl/user";
+  static const getUser = "$baseUrl/user/users";
   static const getBrands = "$baseUrl/brand";
-  static const getBrandsOffer = "$baseUrl/offer";
+  static const getBrandsOffer = "$baseUrl/offers";
 
   static const getOffers = "$baseUrl/offer";
   static const getHomeOffers = "$baseUrl/home-offers";
-  static const getMansOffers = "$baseUrl/offer?category=";
+  static const getMansOffers = "$baseUrl/offers?category=";
   static const getSavedOffers = "$baseUrl/saved-offers";
   static const sendOtp = "$baseUrl/otp";
   static const verifyOtp = "$baseUrl/otp";

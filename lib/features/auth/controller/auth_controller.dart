@@ -7,7 +7,6 @@ import 'package:rush/features/auth/screens/otp_screen.dart';
 import 'package:rush/utils/bottom_bar.dart';
 import 'package:rush/utils/navigation.dart';
 import 'package:rush/utils/secure_storage%20copy.dart';
-
 import '../../../utils/message.dart';
 
 final authControllerProvider = Provider.autoDispose((ref) {
@@ -31,7 +30,7 @@ class AuthController {
       if (res != null &&
           res["status"] != null &&
           res["status"]["code"] == 290) {
-        ShowSnackBarMsg("Your Otp is ${res['otp']}", color: Colors.green);
+        ShowSnackBarMsg("Otp send is $mobile", color: Colors.green);
         navigateTo(OtpScreen(mobile: mobile));
       }
 
@@ -63,14 +62,17 @@ class AuthController {
     }
   }
 
-  createProfileController(
-      {required String age,
-      required String gender,
-      required String name,
-    }) async {
+  createProfileController({
+    required String age,
+    required String gender,
+    required String name,
+  }) async {
     try {
       final res = await authRepo.creataProfile(
-          age: age, gender: gender, name: name,);
+        age: age,
+        gender: gender,
+        name: name,
+      );
 
       if (res == null) {
         ShowSnackBarMsg("Plese try again", color: Colors.green);

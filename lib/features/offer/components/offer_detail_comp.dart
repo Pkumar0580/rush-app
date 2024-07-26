@@ -1,10 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../utils/colors.dart';
-import '../../../utils/navigation.dart';
 import '../../../utils/sizes.dart';
-import '../../brand/screens/brand_details.dart';
 import '../../brand/screens/brands.dart';
 
 class AddressContainer extends StatelessWidget {
@@ -24,7 +24,7 @@ class AddressContainer extends StatelessWidget {
               widthSizedBox(10.0),
               Expanded(
                 child: Text(
-                  "${data['location']}",
+                  "${data['offer']['location']}",
                   textAlign: TextAlign.start,
                   style: const TextStyle(color: Color(0xff7D7D7D)),
                 ),
@@ -39,7 +39,7 @@ class AddressContainer extends StatelessWidget {
               widthSizedBox(10.0),
               Expanded(
                 child: Text(
-                  formatDate("${data['expires_in']}"),
+                  formatDate("${data['offer']['expires_in']}"),
                   style: const TextStyle(color: Color(0xff7D7D7D)),
                 ),
               ),
@@ -71,6 +71,11 @@ class TopContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log("date1${data}");
+
+    log("expire1${data['offer']['expires_in']}");
+    log("image1${data['offer']['image']}");
+    log("description${data['offer']['description']}");
     return Container(
       height: null,
       width: 393,
@@ -84,10 +89,7 @@ class TopContainer extends StatelessWidget {
               children: [
                 const Text("Expires On : "),
                 Text(
-                  formatDate("${data['expires_in']}"),
-
-                  // DateFormat('dd-MM-yyyy')
-                  //     .format(DateTime.parse(data['expires_in'])),
+                  formatDate("${data['offer']['expires_in']}"),
                   style: const TextStyle(
                       fontWeight: FontWeight.w500, color: AppColor.btnColor),
                 ),
@@ -98,14 +100,14 @@ class TopContainer extends StatelessWidget {
               child: Image.network(
                 filterQuality: FilterQuality.high,
                 // color: Colors.white,
-                data['brand']['logo'],
+                data['offer']['image'],
                 height: 150,
                 width: 200,
                 fit: BoxFit.contain,
               ),
             ),
             heightSizedBox(10.0),
-            Text("${data['description']}")
+            Text("${data["offer"]['description']}")
           ],
         ),
       ),
@@ -132,7 +134,7 @@ class BrandComp extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               BrendsLogoCard(
-                src: '${data['brand']['logo']}',
+                src: '${data["offer"]['brand']['logo']}',
               ),
               widthSizedBox(10.0),
               Expanded(
@@ -141,7 +143,7 @@ class BrandComp extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${data['brand']['title']}',
+                      '${data["offer"]['brand']['title']}',
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -149,7 +151,7 @@ class BrandComp extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "${data['brand']['description']}",
+                      "${data["offer"]['brand']['description']}",
                       style: const TextStyle(
                           color: Color(0xff7D7D7D), fontSize: 12, height: 1.2),
                       maxLines: 4,
@@ -162,8 +164,8 @@ class BrandComp extends StatelessWidget {
                           style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xff0D2949)),
                           onPressed: () async {
-                            final Uri redirectLink =
-                                Uri.parse("${data['brand']['redirect_link']}");
+                            final Uri redirectLink = Uri.parse(
+                                "${data["offer"]['brand']['redirect_link']}");
                             if (await canLaunchUrl(redirectLink)) {
                               await launchUrl(redirectLink);
                             } else {

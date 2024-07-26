@@ -50,9 +50,7 @@ class _BottomBarState extends ConsumerState<BottomBar> {
           showUnselectedLabels: true,
           items: const [
             BottomNavigationBarItem(
-              icon: Icon(
-                Icons.home_outlined,
-              ),
+              icon: Icon(Icons.home_outlined),
               label: 'HOME',
             ),
             BottomNavigationBarItem(
@@ -60,9 +58,7 @@ class _BottomBarState extends ConsumerState<BottomBar> {
               label: 'OFFERS',
             ),
             BottomNavigationBarItem(
-              icon: Icon(
-                Icons.branding_watermark,
-              ),
+              icon: Icon(Icons.branding_watermark),
               label: 'BRANDS',
             ),
             BottomNavigationBarItem(

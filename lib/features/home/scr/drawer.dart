@@ -31,7 +31,14 @@ class CusDrawer extends ConsumerWidget {
             color: const Color(0xff133964),
             child: getProfile.when(
               data: (data) {
-                log("data=>$data");
+                if (data == null) {
+                  return const Center(
+                    child: Text(
+                      "Something went wrong",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  );
+                }
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -67,7 +74,9 @@ class CusDrawer extends ConsumerWidget {
                     ),
                     heightSizedBox(15.0),
                     Text(
-                      data['name'] ?? "N/A",
+                      "pk",
+
+                      // data['name'] ?? "N/A",
                       style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,

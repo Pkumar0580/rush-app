@@ -20,7 +20,7 @@ class OfferDetailScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final getOffer = ref.watch(getOfferProvoder(id));
-    log("id=$id");
+
     return Scaffold(
         backgroundColor: AppColor.backgroundColor,
         appBar: AppBar(
@@ -30,7 +30,6 @@ class OfferDetailScreen extends ConsumerWidget {
         ),
         body: getOffer.when(
           data: (data) {
-            log("Offer by id $data");
             return SingleChildScrollView(
               child: Column(children: [
                 TopContainer(data: data),
@@ -45,7 +44,7 @@ class OfferDetailScreen extends ConsumerWidget {
                       onPressed: () async {
                         await ref
                             .read(OffersRepoProvider)
-                            .grabDeal(data['_id']);
+                            .grabDeal(data['offer']['_id']);
                       }),
                 )
               ]),
@@ -67,7 +66,7 @@ class CategorieComp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return data['brand']['categories'][0] != null
+    return data["offer"]['brand']['categories'][0] != null
         ? Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
             child: Column(
@@ -93,11 +92,12 @@ class CategorieComp extends StatelessWidget {
                       children: [
                         for (var i = 0;
                             i <
-                                data['brand']['categories'][0]['sub_categories']
+                                data["offer"]['brand']['categories'][0]
+                                        ['sub_categories']
                                     .length;
                             i++)
-                          if (data['brand']['categories'][0]['sub_categories']
-                                  [i] !=
+                          if (data["offer"]['brand']['categories'][0]
+                                  ['sub_categories'][i] !=
                               null)
                             Container(
                               padding:
@@ -112,7 +112,7 @@ class CategorieComp extends StatelessWidget {
                                 ),
                               ),
                               child: Text(
-                                "${data['brand']['categories'][0]['sub_categories'][i]}",
+                                "${data["offer"]['brand']['categories'][0]['sub_categories'][i]}",
                                 style:
                                     const TextStyle(color: Color(0xff5F5F5F)),
                               ),
