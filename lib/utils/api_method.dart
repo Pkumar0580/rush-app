@@ -107,12 +107,12 @@ class ApiMethod {
 }
 
 errorHandler(String errorMessage) {
-  log("dklgjdskgj;ldskjlg$errorMessage");
+  log("Eroor$errorMessage");
 }
 
 class ApiUrl {
   static const baseUrl = "https://offers-listing-app-backend.vercel.app";
-  static const getUser = "$baseUrl/user/users";
+  static const getUser = "$baseUrl/user";
   static const getBrands = "$baseUrl/brand";
   static const getBrandsOffer = "$baseUrl/offers";
 

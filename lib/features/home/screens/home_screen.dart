@@ -58,7 +58,7 @@ class HomeScreen extends ConsumerWidget {
               const ImageSlide(),
               const Padding(
                 padding: EdgeInsets.only(top: 10, left: 25),
-                child: Text("Top categories", style: TextStyle(fontSize: 16)),
+                child: Text("Top Categories", style: TextStyle(fontSize: 16)),
               ),
               const HomeProdPage(),
               heightSizedBox(5.0),
