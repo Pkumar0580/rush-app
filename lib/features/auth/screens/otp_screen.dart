@@ -4,11 +4,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pinput/pinput.dart';
 import 'package:rush/features/auth/controller/auth_controller.dart';
 import 'package:rush/features/auth/screens/login_signup.dart';
+import 'package:rush/utils/bottom_bar.dart';
 import 'package:rush/utils/colors.dart';
 import 'package:rush/utils/message.dart';
 import 'package:rush/utils/navigation.dart';
 import 'package:rush/utils/sizes.dart';
 import '../../../utils/button.dart';
+import 'gender_selection.dart';
 
 class OtpScreen extends ConsumerWidget {
   final String mobile;
@@ -16,13 +18,11 @@ class OtpScreen extends ConsumerWidget {
   final TextEditingController otpController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-
   OtpScreen({super.key, required this.mobile});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
-      final isLoading = ref.watch(loadingStateProvider);
+    final isLoading = ref.watch(loadingStateProvider);
     // log("mobile=> $mobile");
     return Scaffold(
       backgroundColor: AppColor.backgroundColor,
@@ -99,13 +99,15 @@ class OtpScreen extends ConsumerWidget {
                   Btn(
                     text: "Continue",
                     onPressed: () {
-                      log("otp=>>>>>${otpController.text}");
-            
+                      // if(mobile=="9782209395" && otpController.text=="123456"){
+
+                      //    navigateTo(const BottomBar());
+                      // }
+
                       if (otpController.text.isEmpty) {
                         ShowSnackBarMsg("Otp is required", color: Colors.red);
                       } else {
-
-                        ref.read(loadingStateProvider.notifier).state==true;
+                        ref.read(loadingStateProvider.notifier).state == true;
                         ref.read(authControllerProvider).signInController(
                             mobile: mobile, otp: otpController.text);
                       }
@@ -114,8 +116,8 @@ class OtpScreen extends ConsumerWidget {
                 ],
               ),
             ),
-             if (isLoading) // Show circular progress indicator if loading
-             const  Center(
+            if (isLoading) // Show circular progress indicator if loading
+              const Center(
                 child: CircularProgressIndicator(),
               ),
           ],

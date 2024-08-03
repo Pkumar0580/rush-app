@@ -2,8 +2,10 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rush/features/auth/controller/auth_controller.dart';
+import 'package:rush/features/auth/screens/otp_screen.dart';
 import 'package:rush/utils/button.dart';
 import 'package:rush/utils/fields.dart';
+import 'package:rush/utils/navigation.dart';
 import 'package:rush/utils/sizes.dart';
 import '../../../utils/colors.dart';
 
@@ -15,8 +17,6 @@ class LoginSignup extends ConsumerWidget {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   final TextEditingController phone = TextEditingController();
   LoginSignup({super.key});
-
-  
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -77,9 +77,11 @@ class LoginSignup extends ConsumerWidget {
                         ? () {}
                         : () {
                             if (formKey.currentState!.validate()) {
+                              // if (phone.text == "9782209395") {
+                              //   navigateTo(OtpScreen(mobile: "9782209395"));
+                              // } else {}
                               ref.read(loadingStateProvider.notifier).state =
                                   true;
-                              log(" Phone=>${phone.text}");
 
                               ref
                                   .read(authControllerProvider)

@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rush/features/auth/screens/login_image.dart';
@@ -18,11 +17,7 @@ class SplashScreen extends ConsumerStatefulWidget {
 class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 2), () {
-      var token = ref.read(checkAuthorizeProvider);
-      log("Splash Chack => $token");
-      // navigationPush(context, const LoginImage());
-    });
+    ref.read(checkAuthorizeProvider);
     super.initState();
   }
 
@@ -46,9 +41,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 final checkAuthorizeProvider = FutureProvider.autoDispose((ref) async {
   String isLogin = await ref.watch(secureStoargeProvider).readData('authToken');
 
-  log("token=> $isLogin");
-
-  log(isLogin.toString());
   if (isLogin.isNotEmpty) {
     navigateTo(const BottomBar());
   } else {

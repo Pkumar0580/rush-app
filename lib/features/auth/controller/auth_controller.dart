@@ -17,24 +17,17 @@ final authControllerProvider = Provider.autoDispose((ref) {
 class AuthController {
   AutoDisposeProviderRef<Object?> ref;
   final AuthRepo authRepo;
-
   AuthController({required this.ref, required this.authRepo});
 
   sendOtpController(String mobile) async {
     try {
       final res = await authRepo.sendOtp(mobile);
-      log("Mobile1=> $mobile");
-
-      log("Send Otp Controller Response=> $res");
-
       if (res != null &&
           res["status"] != null &&
           res["status"]["code"] == 290) {
         ShowSnackBarMsg("Otp send is $mobile", color: Colors.green);
         navigateTo(OtpScreen(mobile: mobile));
       }
-
-      log("Send Otp Controller Response=> $res");
     } catch (error) {
       log("Send Otp Controller Eror=>$error");
     }
@@ -43,9 +36,6 @@ class AuthController {
   signInController({required String mobile, required String otp}) async {
     try {
       final res = await authRepo.signIn(mobile: mobile, otp: otp);
-      // log("Mobile1=> $mobile");
-      // log("otp=> $otp");
-
       if (res['already_registered'] == false) {
         navigateTo(const GenderScreen());
         ref
@@ -62,24 +52,18 @@ class AuthController {
     }
   }
 
-  createProfileController({
-    required String age,
-    required String gender,
-    required String name,
-  }) async {
+  createProfileController(
+      {required String age,
+      required String gender,
+      required String name}) async {
     try {
-      final res = await authRepo.creataProfile(
-        age: age,
-        gender: gender,
-        name: name,
-      );
-
+      final res =
+          await authRepo.creataProfile(age: age, gender: gender, name: name);
       if (res == null) {
         ShowSnackBarMsg("Plese try again", color: Colors.green);
       } else {
         navigatePushReplacement(const BottomBar());
       }
-
       log("Create Profile Controller Response=> $res");
     } catch (error) {
       log("Create Profile Controller Eror=>$error");
