@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,7 +19,6 @@ class RatingPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final rating = ref.watch(ratingProvider);
-    log("rating$rating");
     return Scaffold(
       backgroundColor: AppColor.backgroundColor,
       appBar: AppBar(
@@ -36,7 +34,6 @@ class RatingPage extends ConsumerWidget {
             children: [
               SizedBox(
                 width: width(context),
-                // height: 150,
                 child: Card(
                   color: Colors.white,
                   child: Padding(
@@ -82,21 +79,15 @@ class RatingPage extends ConsumerWidget {
                           ],
                         ),
                         heightSizedBox(25.0),
-                        TxtField(
-                          maxLines: 5,
-                          controller: ratingController,
-                        ),
+                        TxtField(maxLines: 5, controller: ratingController),
                         heightSizedBox(10.0),
                         Btn(
-                            text: "Submit",
-                            onPressed: () async {
-                              await ref.read(homeRepoProvider).postRating(
-                                  comment: ratingController.text,
-                                  rating: rating);
-
-                              // log("Rating$rating ");
-                              // log("Messege${ratingController.text} ");
-                            })
+                          text: "Submit",
+                          onPressed: () async {
+                            await ref.read(homeRepoProvider).postRating(
+                                comment: ratingController.text, rating: rating);
+                          },
+                        )
                       ],
                     ),
                   ),

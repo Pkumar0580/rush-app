@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:rush/utils/button.dart';
 import 'package:rush/utils/colors.dart';

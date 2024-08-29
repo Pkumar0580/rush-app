@@ -115,16 +115,16 @@ class _OfferCardState extends ConsumerState<OfferCard> {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 5),
             height: 20,
-            // width: 60,
             decoration: BoxDecoration(
               color: Colors.red,
               borderRadius: BorderRadius.circular(10),
             ),
             child: Center(
-                child: Text(
-              "${widget.data['discount_value']}₹ off",
-              style: const TextStyle(color: Colors.white, fontSize: 12),
-            )),
+              child: Text(
+                _calculateDiscountText(widget.data),
+                style: const TextStyle(color: Colors.white, fontSize: 12),
+              ),
+            ),
           ),
         ),
         Positioned(
@@ -162,6 +162,22 @@ class _OfferCardState extends ConsumerState<OfferCard> {
       ],
     );
   }
+}
+
+String _calculateDiscountText(Map<String, dynamic> data) {
+  // Convert amount and discount_value to double, defaulting to 0.0 if null or not parsable
+  double amount = data['amount'] != null
+      ? double.tryParse(data['amount'].toString()) ?? 0.0
+      : 0.0;
+  double discountValue = data['discount_value'] != null
+      ? double.tryParse(data['discount_value'].toString()) ?? 0.0
+      : 0.0;
+
+  // Calculate the discount percentage
+  double discountPercentage = amount != 0 ? (discountValue / amount) * 100 : 0;
+
+  // Return only the percentage text
+  return "${discountPercentage.toStringAsFixed(0)}% off";
 }
 
 // class OffersCard extends StatefulWidget {

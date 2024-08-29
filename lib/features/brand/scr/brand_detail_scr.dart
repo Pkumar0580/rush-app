@@ -1,4 +1,3 @@
-
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import 'package:flutter/material.dart';
@@ -44,7 +43,7 @@ class Stores extends StatelessWidget {
                             },
                             child: SizedBox(
                               height: null,
-                              width: 140,
+                              width: 150,
                               child: Card(
                                 color: Colors.white,
                                 child: Padding(
@@ -90,9 +89,10 @@ class Stores extends StatelessWidget {
                                       Text(
                                         stores[i]['address'],
                                         maxLines: 2,
+                                        textAlign: TextAlign.center,
                                         style: const TextStyle(
                                             color: Color(0xffFF6B00),
-                                            fontSize: 13),
+                                            fontSize: 12),
                                       )
                                     ],
                                   ),
