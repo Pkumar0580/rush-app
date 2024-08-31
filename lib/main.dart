@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rush/features/auth/screens/splash_screen.dart';
 import 'package:rush/utils/navigation.dart';
 import 'utils/message.dart';
@@ -17,12 +18,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      navigatorKey: navigatorKey,
-      scaffoldMessengerKey: snackbarKey,
-      debugShowCheckedModeBanner: false,
-      title: 'Rush',
-      home: const SplashScreen(),
+    return ScreenUtilInit(
+      splitScreenMode: true,
+      minTextAdapt: true,
+      designSize: ScreenUtil.defaultSize,
+      child: MaterialApp(
+        navigatorKey: navigatorKey,
+        scaffoldMessengerKey: snackbarKey,
+        debugShowCheckedModeBanner: false,
+        title: 'Rush',
+        home: const SplashScreen(),
+      ),
     );
   }
 }

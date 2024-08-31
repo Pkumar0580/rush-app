@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rush/features/offer/screens/offers_screen.dart';
 
 import '../../../utils/navigation.dart';
@@ -26,8 +27,8 @@ class ProdItem extends StatelessWidget {
                   highlightColor: Colors.white,
                   onTap: onTap,
                   child: Container(
-                    height: 60,
-                    width: 80,
+                    height: 60.h,
+                    width: 80.w,
                     decoration: BoxDecoration(
                         image: DecorationImage(image: AssetImage(src))),
                   ),
