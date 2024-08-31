@@ -130,20 +130,19 @@ class MyBrandTabScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2, // Number of columns
-        crossAxisSpacing: 10.0, // Spacing between columns
-        mainAxisSpacing: 10.0, // Spacing between rows
-      ),
-      itemCount: data.length,
-      itemBuilder: (context, index) {
-        return Padding(
-          padding:
-              const EdgeInsets.only(left: 15, right: 15, top: 0, bottom: 0),
-          child: BrendsLogoCard(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      child: GridView.builder(
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2, // Number of columns
+          crossAxisSpacing: 10.0, // Spacing between columns
+          mainAxisSpacing: 10.0, // Spacing between rows
+        ),
+        itemCount: data.length,
+        itemBuilder: (context, index) {
+          return BrendsLogoCard(
             src: data[index]['logo'],
             onTap: () {
               navigationPush(
@@ -153,9 +152,9 @@ class MyBrandTabScreen extends StatelessWidget {
                 ),
               );
             },
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }
@@ -173,8 +172,8 @@ class BrendsLogoCard extends StatelessWidget {
         color: Colors.white,
         elevation: 1,
         child: Container(
-          height: 127,
-          width: 148,
+          // height: 127,
+          // width: 148,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             color: Colors.white,

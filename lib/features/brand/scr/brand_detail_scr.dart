@@ -43,7 +43,7 @@ class Stores extends StatelessWidget {
                               }
                             },
                             child: SizedBox(
-                              height: 140.h,
+                              // height: 140.h,
                               width: 150.w,
                               child: Card(
                                 color: Colors.white,
@@ -142,13 +142,13 @@ class TopBanner extends StatelessWidget {
             ],
           ),
           SizedBox(
-            height: 140,
-            width: 150,
+            height: 120.h,
+            width: 150.w,
             child: Card(
                 color: Colors.white,
                 child: Container(
-                  height: 127,
-                  width: 148,
+                  height: 127.h,
+                  width: 148.w,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
                     color: Colors.white,
