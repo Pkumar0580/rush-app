@@ -1,6 +1,7 @@
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rush/utils/colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../utils/navigation.dart';
@@ -43,7 +44,7 @@ class Stores extends StatelessWidget {
                             },
                             child: SizedBox(
                               height: null,
-                              width: 150,
+                              width: 150.w,
                               child: Card(
                                 color: Colors.white,
                                 child: Padding(
