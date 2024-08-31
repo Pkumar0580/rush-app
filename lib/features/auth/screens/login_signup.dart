@@ -26,6 +26,7 @@ class LoginSignup extends ConsumerWidget {
       backgroundColor: AppColor.backgroundColor,
       appBar: AppBar(
         backgroundColor: AppColor.backgroundColor,
+        automaticallyImplyLeading: false,
       ),
       body: Padding(
         padding:
@@ -52,21 +53,22 @@ class LoginSignup extends ConsumerWidget {
                         color: Color(0xff000000),
                         fontWeight: FontWeight.w500),
                   ),
+                  // heightSizedBox(15.0),
+                  // Row(
+                  //   children: [
+                  //     widthSizedBox(10.0),
+                  //     const Text(
+                  //       "Enter Phone",
+                  //       style: TextStyle(
+                  //           fontSize: 13, fontWeight: FontWeight.w500),
+                  //     ),
+                  //   ],
+                  // ),
                   heightSizedBox(15.0),
-                  Row(
-                    children: [
-                      widthSizedBox(10.0),
-                      const Text(
-                        "Enter Phone",
-                        style: TextStyle(
-                            fontSize: 13, fontWeight: FontWeight.w500),
-                      ),
-                    ],
-                  ),
-                  heightSizedBox(5.0),
                   TxtField(
                       contentPadding: contentPadding,
                       controller: phone,
+                      labelText: "Phone Number",
                       maxLength: 10,
                       keyboardType: TextInputType.phone,
                       validator: validateMobile),

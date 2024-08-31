@@ -127,11 +127,12 @@ class TxtField extends StatelessWidget {
                 color: Colors.black54,
                 fontWeight: FontWeight.w500),
             labelText: labelText,
-            enabledBorder: enabledBorder?? OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: const BorderSide(
-                  color: Colors.black12,
-                )),
+            enabledBorder: enabledBorder ??
+                OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: const BorderSide(
+                      color: Colors.black12,
+                    )),
             focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
                 borderSide: const BorderSide(color: Colors.amber, width: 1)),
@@ -157,7 +158,6 @@ validateField(String value) {
   }
 }
 
-
 validateName(String value) {
   if (value.isEmpty) {
     return 'Name is Required.';
@@ -168,11 +168,7 @@ validateName(String value) {
 
 validateMobile(String value) {
   if (value.isEmpty) {
-    return 'Mobile Number is Required.';
-  } else if (value.length < 10) {
-    return 'Mobile Number required at least 10 numbers';
-  } else if (value.length > 11) {
-    return 'Mobile Number required 10 numbers';
+    return 'Please enter your mobile number..';
   } else {
     return null;
   }
