@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rush/features/offer/repo/offers_repo.dart';
 import 'package:rush/features/offer/screens/offer_detail_screen.dart';
 import 'package:rush/utils/navigation.dart';
@@ -32,8 +33,8 @@ class _OfferCardState extends ConsumerState<OfferCard> {
             color: Colors.white,
             elevation: 1,
             child: Container(
-              height: 140,
-              width: 150,
+              height: 120.h,
+              width: 150.w,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
                 color: Colors.white,
