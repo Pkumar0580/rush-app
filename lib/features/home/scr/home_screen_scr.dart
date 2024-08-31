@@ -28,7 +28,7 @@ class ProdItem extends StatelessWidget {
                   onTap: onTap,
                   child: Container(
                     height: 60.h,
-                    width: 80.w,
+                    width: 70.w,
                     decoration: BoxDecoration(
                         image: DecorationImage(image: AssetImage(src))),
                   ),
@@ -99,28 +99,28 @@ class HomeProdPage extends StatelessWidget {
           children: [
             ProdItem(
               text: "Men's Fashion",
-              src: "assets/images/mensFashion.png",
+              src: "assets/images/men's.jpg",
               onTap: () {
                 navigationPush(context, const OffersScreen(initialTabIndex: 0));
               },
             ),
             ProdItem(
               text: "Ladies Fashion",
-              src: "assets/images/womensfashion.png",
+              src: "assets/images/women's.jpg",
               onTap: () {
                 navigationPush(context, const OffersScreen(initialTabIndex: 1));
               },
             ),
             ProdItem(
               text: "Kids Wear",
-              src: "assets/images/kidsfashion.png",
+              src: "assets/images/kid's.png",
               onTap: () {
                 navigationPush(context, const OffersScreen(initialTabIndex: 2));
               },
             ),
             ProdItem(
               text: "Accessories",
-              src: "assets/images/accessories.png",
+              src: "assets/images/accessries.png",
               onTap: () {
                 navigationPush(context, const OffersScreen(initialTabIndex: 3));
               },
