@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../utils/api_method.dart';
 import '../../../utils/bottom_bar.dart';
 import '../../../utils/colors.dart';
@@ -172,8 +173,8 @@ class BrendsLogoCard extends StatelessWidget {
         color: Colors.white,
         elevation: 1,
         child: Container(
-          // height: 127,
-          // width: 148,
+          height: 127.h,
+          width: 148.w,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             color: Colors.white,

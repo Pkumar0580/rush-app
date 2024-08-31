@@ -80,7 +80,7 @@ class CategorieComp extends StatelessWidget {
                   children: [
                     ProdItem(
                       text: "Men'S Fashion",
-                      src: 'assets/images/mensFashion.png',
+                      src: "assets/images/men's.jpg",
                       onTap: () {},
                     ),
                     Expanded(

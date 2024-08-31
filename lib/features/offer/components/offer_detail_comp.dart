@@ -78,7 +78,7 @@ class TopContainer extends StatelessWidget {
     log("description${data['offer']['description']}");
     return Container(
       height: null,
-      width: 393,
+      width: null,
       color: Colors.white,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
