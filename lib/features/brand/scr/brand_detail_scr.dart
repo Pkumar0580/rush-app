@@ -52,7 +52,7 @@ class Stores extends StatelessWidget {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Image.asset("assets/images/Store.png"),
+                                      Image.asset("assets/images/Store.png",),
                                       heightSizedBox(5.0),
 
                                       RatingBarIndicator(
@@ -174,8 +174,10 @@ class TopBanner extends StatelessWidget {
           heightSizedBox(5.0),
           Text(
             title,
-            style: const TextStyle(
-                color: Colors.white, fontWeight: FontWeight.w500, fontSize: 22),
+            style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+                fontSize: 22.sp),
           ),
           heightSizedBox(5.0),
           Row(
