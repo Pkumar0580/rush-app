@@ -43,7 +43,7 @@ class Stores extends StatelessWidget {
                               }
                             },
                             child: SizedBox(
-                              height: null,
+                              height: 140.h,
                               width: 150.w,
                               child: Card(
                                 color: Colors.white,
