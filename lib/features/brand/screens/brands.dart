@@ -142,7 +142,7 @@ class MyBrandTabScreen extends StatelessWidget {
       itemBuilder: (context, index) {
         return Padding(
           padding:
-              const EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
+              const EdgeInsets.only(left: 15, right: 15, top: 0, bottom: 0),
           child: BrendsLogoCard(
             src: data[index]['logo'],
             onTap: () {

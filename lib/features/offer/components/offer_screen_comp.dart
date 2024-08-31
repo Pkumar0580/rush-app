@@ -22,7 +22,6 @@ class _OfferCardState extends ConsumerState<OfferCard> {
 
   @override
   Widget build(BuildContext context) {
-    log("====================>>>>>>>>>>${widget.data}");
     return Stack(
       children: [
         InkWell(

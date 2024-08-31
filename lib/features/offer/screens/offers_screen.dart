@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rush/features/offer/repo/offers_repo.dart';
@@ -105,8 +104,8 @@ class _OffersScreenState extends ConsumerState<OffersScreen>
                                 gridDelegate:
                                     const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
-                                  crossAxisSpacing: 10.0,
-                                  mainAxisSpacing: 10.0,
+                                  // crossAxisSpacing: 10.0,
+                                  // mainAxisSpacing: 10.0,
                                 ),
                                 itemBuilder: (context, index) {
                                   return Row(
