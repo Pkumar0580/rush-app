@@ -75,4 +75,15 @@ class AuthRepo {
       log("creataProfile Repo Error= $err");
     }
   }
+
+  deleteAccount() async {
+    try {
+      final token = await ref.read(secureStoargeProvider).readData('authToken');
+      log("Token$token");
+      final response = await ApiMethod(url: ApiUrl.deleteUser, token: token)
+          .deleteDioRequest();
+      log("Delete Response$response");
+      return response;
+    } catch (e) {}
+  }
 }

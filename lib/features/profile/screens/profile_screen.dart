@@ -11,6 +11,7 @@ import '../../../utils/bottom_bar.dart';
 import '../../../utils/colors.dart';
 import '../../../utils/fields.dart';
 import '../../../utils/navigation.dart';
+import '../../auth/screens/login_image.dart';
 
 // Providers for managing state
 final getProfileProvider = FutureProvider.autoDispose((ref) async {
@@ -200,6 +201,45 @@ class ProfileScreen extends ConsumerWidget {
                                       foregroundColor: Colors.white),
                                   child: const Text(
                                     "Edit",
+                                  ))),
+                          heightSizedBox(10.0),
+                          SizedBox(
+                              width: width(context),
+                              child: ElevatedButton(
+                                  onPressed: () async {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: const Text('Logout'),
+                                          content: const Text(
+                                              'Are you sure you want to Delete your Account?'),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              child: const Text('No'),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                            TextButton(
+                                              child: const Text('Yes'),
+                                              onPressed: () async {
+                                                await ref
+                                                    .read(authRepoProvider)
+                                                    .deleteAccount();
+                                                navigateTo(const LoginImage());
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: AppColor.appbarColor,
+                                      foregroundColor: Colors.white),
+                                  child: const Text(
+                                    "Delete Account",
                                   )))
                         ],
                       ),
@@ -212,6 +252,7 @@ class ProfileScreen extends ConsumerWidget {
                 const Center(child: Text("Something Went Wrong")),
             loading: () => const Center(child: CircularProgressIndicator()),
           ),
+
           // Loading indicator
           if (isLoading)
             Container(
