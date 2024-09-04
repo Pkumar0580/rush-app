@@ -104,13 +104,12 @@ class _OffersScreenState extends ConsumerState<OffersScreen>
                                 gridDelegate:
                                     const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
-                                  // crossAxisSpacing: 10.0,
-                                  // mainAxisSpacing: 10.0,
+                                  crossAxisSpacing: 10.0,
+                                  mainAxisSpacing: 10.0,
                                 ),
                                 itemBuilder: (context, index) {
                                   return Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       OfferCard(
                                         data: data[index],
