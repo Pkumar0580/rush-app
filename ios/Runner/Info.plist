@@ -13,7 +13,7 @@
 
     <!-- Only the required permission for accessing images -->
     <key>NSPhotoLibraryUsageDescription</key>
-    <string>We need access to your photo library to allow you to upload and share photos within the app.</string>
+    <string>This app requires access to your photo library to allow you to upload a profile picture. This profile picture will be used to personalize your experience and display on your profile page. You can choose not to upload a profile picture, and the app will still function normally.</string>
 
     <key>CFBundleInfoDictionaryVersion</key>
     <string>6.0</string>
