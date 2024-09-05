@@ -4,8 +4,10 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rush/features/auth/screens/login_signup.dart';
 import 'package:rush/utils/api_method.dart';
 import 'package:rush/utils/message.dart';
+import 'package:rush/utils/navigation.dart';
 import 'package:rush/utils/secure_storage.dart';
 
 final OffersRepoProvider = Provider.autoDispose((ref) => OffersRepo(ref));
@@ -110,7 +112,13 @@ class OffersRepo {
       return response;
     } on DioException catch (e) {
       if (Platform.isIOS && e.response!.data['error'] == "Unauthorized") {
-        showAlertDialog("title", "message");
+        showAlertDialog(
+          "title",
+          "message",
+          onOkPressed: () {
+            navigateTo(LoginSignup());
+          },
+        );
       } else {
         ShowSnackBarMsg("${e.response!.data['error']}", color: Colors.red);
       }

@@ -17,7 +17,7 @@ void ShowSnackBarMsg(String message, {Color? color}) {
 
 // final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-void showAlertDialog(String title, String message, {VoidCallback? onOkPressed}) {
+void showAlertDialog(String title, String message, {VoidCallback? onOkPressed, VoidCallback? onCancelPressed}) {
   showDialog(
     context: navigatorKey.currentState!.overlay!.context,
     builder: (context) => AlertDialog(
@@ -27,13 +27,23 @@ void showAlertDialog(String title, String message, {VoidCallback? onOkPressed}) 
         TextButton(
           onPressed: () {
             Navigator.pop(context); // Close the dialog
+            if (onCancelPressed != null) {
+              onCancelPressed();
+            }
+          },
+          child: Text("Cancel"),
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.pop(context); // Close the dialog
             if (onOkPressed != null) {
               onOkPressed();
             }
           },
-          child: Text("OK"),
+          child: Text("Login"),
         ),
       ],
     ),
   );
 }
+
