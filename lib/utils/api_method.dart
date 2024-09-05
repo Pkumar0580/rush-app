@@ -24,12 +24,10 @@ class ApiMethod {
       if (response.statusCode == 200) {
         return response.data;
       }
-    } on DioException catch (err) {
-      log("get statusCode ${err.response?.statusCode.toString()}");
-      log("get type ${err.response?.data.toString()} ");
+    } on DioException {
+      rethrow;
     }
   }
-
 
   Future postDioRequest({required Map data}) async {
     try {
@@ -70,7 +68,6 @@ class ApiMethod {
       log("post type ${err.response?.data.toString()} ");
     }
   }
-
 
   Future deleteDioRequest() async {
     try {

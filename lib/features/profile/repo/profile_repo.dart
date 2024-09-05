@@ -7,6 +7,7 @@ import 'package:rush/utils/api_method.dart';
 import 'package:rush/utils/secure_storage%20copy.dart';
 
 final profileRepoProvider = Provider.autoDispose((ref) => ProfileRepo(ref));
+final isLoginProvider = StateProvider<String>((ref) => "");
 
 class ProfileRepo {
   final AutoDisposeProviderRef<Object?> ref;
@@ -21,11 +22,11 @@ class ProfileRepo {
           await ApiMethod(url: ApiUrl.getUser, token: token).getDioRequest();
 
       return response;
-    } catch (err) {
-      log("Profile Repo Error=> $err");
+    } on DioException catch (err) {
+      ref.read(isLoginProvider.notifier).state = err.response!.data['error'];
+      log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa${err.response!.data['error']}");
     }
   }
-
 
   Future editProfile() async {
     try {
