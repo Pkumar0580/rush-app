@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rush/features/auth/screens/login_signup.dart';
+import 'package:rush/features/profile/repo/profile_repo.dart';
 import 'package:rush/utils/api_method.dart';
 import 'package:rush/utils/message.dart';
 import 'package:rush/utils/navigation.dart';
@@ -88,6 +89,7 @@ class OffersRepo {
           "Offer Save",
           "If you want to save this offer, you need to log in first.",
           onOkPressed: () {
+            ref.invalidate(isLoginProvider);
             navigateTo(LoginSignup());
           },
         );
@@ -126,6 +128,7 @@ class OffersRepo {
           "Offer Grab",
           "If you want to grab the deal, you need to log in first.",
           onOkPressed: () {
+            ref.invalidate(isLoginProvider);
             navigateTo(LoginSignup());
           },
         );

@@ -9,6 +9,7 @@ import '../../../utils/message.dart';
 import '../../../utils/navigation.dart';
 import '../../../utils/secure_storage copy.dart';
 import '../../auth/screens/login_signup.dart';
+import '../../profile/repo/profile_repo.dart';
 
 final homeRepoProvider = Provider.autoDispose((ref) => HomeRepo(ref));
 
@@ -31,6 +32,7 @@ class HomeRepo {
           "Rate Us",
           "If you want to rate this app, you need to log in first.",
           onOkPressed: () {
+            ref.invalidate(isLoginProvider);
             navigateTo(LoginSignup());
           },
         );
