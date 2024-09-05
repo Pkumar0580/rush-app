@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rush/features/auth/screens/login_image.dart';
@@ -26,109 +24,92 @@ class CusDrawer extends ConsumerWidget {
     final getProfile = ref.watch(getProfileProvider);
     return Column(
       children: [
-        Container(
-            height: 200,
-            width: width(context),
-            color: const Color(0xff133964),
-            child: getProfile.when(
-              data: (data) {
-                if (Platform.isIOS && data == null) {
-                  return Column(
-                    children: [
-                      CircleAvatar(
-                        radius: 50,
-                        backgroundColor: Colors.grey,
-                        child: ClipOval(
-                          child: data['profile_pic'] != null &&
-                                  data['profile_pic'].isNotEmpty
-                              ? FadeInImage.assetNetwork(
-                                  placeholder: 'assets/images/avator.png',
-                                  image: data['profile_pic'],
-                                  fit: BoxFit.cover,
-                                  width: 100.0,
-                                  height: 100.0,
-                                  imageErrorBuilder:
-                                      (context, error, stackTrace) {
-                                    return Image.asset(
-                                      'assets/images/avator.png',
-                                      fit: BoxFit.cover,
-                                      width: 100.0,
-                                      height: 100.0,
-                                    );
-                                  },
-                                )
-                              : Image.asset(
-                                  'assets/images/avator.png',
-                                  fit: BoxFit.cover,
-                                  width: 100.0,
-                                  height: 100.0,
-                                ),
-                        ),
-                      ),
-                    ],
-                  );
-                }
-                if (data == null) {
-                  return const Center(
-                    child: Text(
-                      "Something went wrong",
-                      style: TextStyle(color: Colors.white),
+      Container(
+  height: 200,
+  width: width(context),
+  color: const Color(0xff133964),
+  child: getProfile.when(
+    data: (data) {
+      if (data == null) {
+        // Show avatar image and "Rush" name when data is null
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircleAvatar(
+              radius: 50,
+              backgroundColor: Colors.grey,
+              child: Image.asset(
+                'assets/images/avator.png',
+                fit: BoxFit.cover,
+                width: 100.0,
+                height: 100.0,
+              ),
+            ),
+            heightSizedBox(15.0),
+            const Text(
+              "Rush",
+              style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white),
+            ),
+          ],
+        );
+      }
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircleAvatar(
+            radius: 50,
+            backgroundColor: Colors.grey,
+            child: ClipOval(
+              child: data['profile_pic'] != null &&
+                      data['profile_pic'].isNotEmpty
+                  ? FadeInImage.assetNetwork(
+                      placeholder: 'assets/images/avator.png',
+                      image: data['profile_pic'],
+                      fit: BoxFit.cover,
+                      width: 100.0,
+                      height: 100.0,
+                      imageErrorBuilder: (context, error, stackTrace) {
+                        return Image.asset(
+                          'assets/images/avator.png',
+                          fit: BoxFit.cover,
+                          width: 100.0,
+                          height: 100.0,
+                        );
+                      },
+                    )
+                  : Image.asset(
+                      'assets/images/avator.png',
+                      fit: BoxFit.cover,
+                      width: 100.0,
+                      height: 100.0,
                     ),
-                  );
-                }
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircleAvatar(
-                      radius: 50,
-                      backgroundColor: Colors.grey,
-                      child: ClipOval(
-                        child: data['profile_pic'] != null &&
-                                data['profile_pic'].isNotEmpty
-                            ? FadeInImage.assetNetwork(
-                                placeholder: 'assets/images/avator.png',
-                                image: data['profile_pic'],
-                                fit: BoxFit.cover,
-                                width: 100.0,
-                                height: 100.0,
-                                imageErrorBuilder:
-                                    (context, error, stackTrace) {
-                                  return Image.asset(
-                                    'assets/images/avator.png',
-                                    fit: BoxFit.cover,
-                                    width: 100.0,
-                                    height: 100.0,
-                                  );
-                                },
-                              )
-                            : Image.asset(
-                                'assets/images/avator.png',
-                                fit: BoxFit.cover,
-                                width: 100.0,
-                                height: 100.0,
-                              ),
-                      ),
-                    ),
-                    heightSizedBox(15.0),
-                    Text(
-                      data['name'] ?? "N/A",
-                      style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white),
-                    ),
-                  ],
-                );
-              },
-              error: (error, stackTrace) => const Text("Something went wrong"),
-              loading: () {
-                return const Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.white,
-                  ),
-                );
-              },
-            )),
+            ),
+          ),
+          heightSizedBox(15.0),
+          Text(
+            data['name'] ?? "N/A",
+            style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: Colors.white),
+          ),
+        ],
+      );
+    },
+    error: (error, stackTrace) => const Text("Something went wrong"),
+    loading: () {
+      return const Center(
+        child: CircularProgressIndicator(
+          color: Colors.white,
+        ),
+      );
+    },
+  ),
+),
+
         heightSizedBox(15.0),
         ListTile(
           leading: const Icon(Icons.home, color: Color(0xff000000)),
