@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rush/features/auth/screens/login_image.dart';
@@ -30,6 +32,42 @@ class CusDrawer extends ConsumerWidget {
             color: const Color(0xff133964),
             child: getProfile.when(
               data: (data) {
+                if (Platform.isIOS && data == null) {
+                  return Column(
+                    children: [
+                      CircleAvatar(
+                        radius: 50,
+                        backgroundColor: Colors.grey,
+                        child: ClipOval(
+                          child: data['profile_pic'] != null &&
+                                  data['profile_pic'].isNotEmpty
+                              ? FadeInImage.assetNetwork(
+                                  placeholder: 'assets/images/avator.png',
+                                  image: data['profile_pic'],
+                                  fit: BoxFit.cover,
+                                  width: 100.0,
+                                  height: 100.0,
+                                  imageErrorBuilder:
+                                      (context, error, stackTrace) {
+                                    return Image.asset(
+                                      'assets/images/avator.png',
+                                      fit: BoxFit.cover,
+                                      width: 100.0,
+                                      height: 100.0,
+                                    );
+                                  },
+                                )
+                              : Image.asset(
+                                  'assets/images/avator.png',
+                                  fit: BoxFit.cover,
+                                  width: 100.0,
+                                  height: 100.0,
+                                ),
+                        ),
+                      ),
+                    ],
+                  );
+                }
                 if (data == null) {
                   return const Center(
                     child: Text(
@@ -73,9 +111,7 @@ class CusDrawer extends ConsumerWidget {
                     ),
                     heightSizedBox(15.0),
                     Text(
-                      "pk",
-
-                      // data['name'] ?? "N/A",
+                      data['name'] ?? "N/A",
                       style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
