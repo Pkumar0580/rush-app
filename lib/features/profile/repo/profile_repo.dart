@@ -27,7 +27,7 @@ class ProfileRepo {
     } on DioException catch (err) {
       if (Platform.isIOS && err.response!.data['error'] == "Unauthorized") {
         ref.invalidate(isLoginProvider);
-        navigateTo(LoginSignup());
+        navigateTo(LoginSignupIOS());
       }
       ref.read(isLoginProvider.notifier).state = err.response!.data['error'];
     }
