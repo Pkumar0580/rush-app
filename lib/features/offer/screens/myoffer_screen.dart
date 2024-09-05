@@ -24,7 +24,7 @@ class MyOffers extends ConsumerWidget {
         ),
         body: savedOfferData.when(
           data: (data) {
-            if (data.isEmpty || data == null) {
+            if (data.isEmpty || data == "null") {
               return const Center(
                 child: Text("No data available"),
               );
