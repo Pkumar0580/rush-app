@@ -83,7 +83,17 @@ class OffersRepo {
       ShowSnackBarMsg(response['message'], color: Colors.green);
       return response;
     } on DioException catch (e) {
-      ShowSnackBarMsg("${e.response!.data['error']}", color: Colors.red);
+      if (Platform.isIOS && e.response!.data['error'] == "Unauthorized") {
+        showAlertDialog(
+          "Offer Save",
+          "If you want to save this offer, you need to log in first.",
+          onOkPressed: () {
+            navigateTo(LoginSignup());
+          },
+        );
+      } else {
+        ShowSnackBarMsg("${e.response!.data['error']}", color: Colors.red);
+      }
     }
   }
 
