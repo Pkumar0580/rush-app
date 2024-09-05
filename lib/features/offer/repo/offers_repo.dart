@@ -82,8 +82,8 @@ class OffersRepo {
       log("response$response");
       ShowSnackBarMsg(response['message'], color: Colors.green);
       return response;
-    } catch (e) {
-      log("Save offer error$e");
+    } on DioException catch (e) {
+      ShowSnackBarMsg("${e.response!.data['error']}", color: Colors.red);
     }
   }
 
@@ -113,8 +113,8 @@ class OffersRepo {
     } on DioException catch (e) {
       if (Platform.isIOS && e.response!.data['error'] == "Unauthorized") {
         showAlertDialog(
-          "title",
-          "message",
+          "Offer Grab",
+          "If you want to grab the deal, you need to log in first.",
           onOkPressed: () {
             navigateTo(LoginSignup());
           },
