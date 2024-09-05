@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -108,6 +109,10 @@ class OffersRepo {
       ShowSnackBarMsg("${response["message"]}", color: Colors.green);
       return response;
     } on DioException catch (e) {
+      if (Platform.isIOS && e.response!.data['error'] == "Unauthorized") {
+        showAlertDialog("title", "message");
+      }
+
       ShowSnackBarMsg("${e.response!.data['error']}", color: Colors.red);
     }
   }
