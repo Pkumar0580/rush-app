@@ -47,7 +47,7 @@ final checkAuthorizeProvider = FutureProvider.autoDispose((ref) async {
     navigateTo(const BottomBar());
   } else {
     if (Platform.isIOS) {
-      navigateTo(BottomBar());
+      navigateTo(const BottomBar());
     } else {
       navigateTo(LoginSignup());
     }
