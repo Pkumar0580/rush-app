@@ -16,7 +16,7 @@ import '../../auth/screens/login_image.dart';
 // Providers for managing state
 final getProfileProvider = FutureProvider.autoDispose((ref) async {
   final getdata = await ref.watch(profileRepoProvider).getProfile();
-  ref.keepAlive();
+ 
   return getdata;
 });
 

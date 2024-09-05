@@ -155,41 +155,45 @@ class CusDrawer extends ConsumerWidget {
             navigationPush(context, RatingPage());
           },
         ),
-        Consumer(builder: (BuildContext context, WidgetRef ref, Widget? child) {
-          return ListTile(
-              leading: const Icon(Icons.logout, color: Colors.red),
-              title: const Text("Logout",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w500, color: Colors.red)),
-              onTap: () async {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: const Text('Logout'),
-                      content: const Text('Are you sure you want to logout?'),
-                      actions: <Widget>[
-                        TextButton(
-                          child: const Text('No'),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                        TextButton(
-                          child: const Text('Yes'),
-                          onPressed: () {
-                            ref
-                                .read(secureStoargeProvider)
-                                .deleteData("authToken");
-                            navigateTo(const LoginImage());
-                          },
-                        ),
-                      ],
-                    );
-                  },
-                );
-              });
-        })
+        isLogin == "Unauthorized"
+            ? const SizedBox()
+            : Consumer(
+                builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                return ListTile(
+                    leading: const Icon(Icons.logout, color: Colors.red),
+                    title: const Text("Logout",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, color: Colors.red)),
+                    onTap: () async {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text('Logout'),
+                            content:
+                                const Text('Are you sure you want to logout?'),
+                            actions: <Widget>[
+                              TextButton(
+                                child: const Text('No'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              TextButton(
+                                child: const Text('Yes'),
+                                onPressed: () {
+                                  ref
+                                      .read(secureStoargeProvider)
+                                      .deleteData("authToken");
+                                  navigateTo(const LoginImage());
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    });
+              })
       ],
     );
   }
