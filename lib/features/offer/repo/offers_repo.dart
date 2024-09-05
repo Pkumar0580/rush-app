@@ -111,9 +111,9 @@ class OffersRepo {
     } on DioException catch (e) {
       if (Platform.isIOS && e.response!.data['error'] == "Unauthorized") {
         showAlertDialog("title", "message");
+      } else {
+        ShowSnackBarMsg("${e.response!.data['error']}", color: Colors.red);
       }
-
-      ShowSnackBarMsg("${e.response!.data['error']}", color: Colors.red);
     }
   }
 }
