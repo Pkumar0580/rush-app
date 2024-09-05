@@ -54,20 +54,14 @@ class ProfileScreen extends ConsumerWidget {
           icon: const Icon(Icons.arrow_back),
         ),
       ),
-      body: isLogin == "Unauthorized"
-          ? Center(
-              child: Btn(
-                  text: "Login Now",
-                  onPressed: () {
-                    navigateTo(LoginSignup());
-                  }),
-            )
-          : Stack(
+      body:  Stack(
               children: [
                 // Main content
                 getProfileData.when(
                   data: (data) {
-                    log("dataeaprofile=>>>$data");
+                 if(data.isEmpty|| data==null){
+                  Text("No Data");
+                 }
                     return SingleChildScrollView(
                       child: Column(
                         children: [
