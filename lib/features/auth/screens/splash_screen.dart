@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rush/features/auth/screens/login_image.dart';
@@ -45,6 +46,10 @@ final checkAuthorizeProvider = FutureProvider.autoDispose((ref) async {
   if (isLogin.isNotEmpty) {
     navigateTo(const BottomBar());
   } else {
-    navigateTo( LoginSignup());
+    if (Platform.isIOS) {
+      navigateTo(BottomBar());
+    } else {
+      navigateTo(LoginSignup());
+    }
   }
 });

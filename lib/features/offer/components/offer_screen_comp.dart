@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -131,33 +132,62 @@ class _OfferCardState extends ConsumerState<OfferCard> {
           top: 0,
           left: 0,
           child: Center(
-              child: IconButton(
-                  onPressed: () async {
-                    setState(() {
-                      isFavorite = !isFavorite;
-                    });
-                    if (isFavorite) {
-                      var data = await ref
-                          .read(OffersRepoProvider)
-                          .saveOffer(widget.data['_id']);
-
-                      ref
-                          .read(secureStoargeProvider)
-                          .writeData(key: "isFavorite", value: "True");
-                      // setState(() {
-                      //   isFavorite = data['data']['following'];
-                      // });
-                      log("data=$data");
-                    } else {
-                      ref
-                          .read(OffersRepoProvider)
-                          .removeOffer(widget.data['_id']);
-                    }
+  child: IconButton(
+    onPressed: () async {
+      if (Platform.isIOS) {
+        final token = await ref.read(secureStoargeProvider).readData('authToken');
+        
+        if (token == null) {
+          // Prompt the user to log in before saving the offer
+          // You can show a dialog or navigate to the login screen
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: Text("Login Required"),
+              content: Text("Please login to save the offer."),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context); // Close the dialog
+                    // Navigate to the login screen
                   },
-                  icon: Icon(
-                    isFavorite ? Icons.favorite : Icons.favorite_outline,
-                    color: isFavorite ? Colors.red : Colors.black,
-                  ))),
+                  child: Text("OK"),
+                ),
+              ],
+            ),
+          );
+          return; // Stop further execution
+        }
+      }
+
+      // Continue with the same logic for both Android and iOS
+      setState(() {
+        isFavorite = !isFavorite;
+      });
+
+      if (isFavorite) {
+        var data = await ref
+            .read(OffersRepoProvider)
+            .saveOffer(widget.data['_id']);
+
+        ref
+            .read(secureStoargeProvider)
+            .writeData(key: "isFavorite", value: "True");
+
+        log("data=$data");
+      } else {
+        ref
+            .read(OffersRepoProvider)
+            .removeOffer(widget.data['_id']);
+      }
+    },
+    icon: Icon(
+      isFavorite ? Icons.favorite : Icons.favorite_outline,
+      color: isFavorite ? Colors.red : Colors.black,
+    ),
+  ),
+),
+
         ),
       ],
     );

@@ -160,9 +160,6 @@ class ProfileScreen extends ConsumerWidget {
                           TxtField(
                             labelText: 'Phone no.',
                             enabled: false,
-                            // initialValue: data['phone_no'] != null
-                            //     ? "${data['phone_no']}"
-                            //     : "N/A",
                             controller: TextEditingController(
                                 text: data['phone_no'] != null
                                     ? "${data['phone_no']}"
@@ -172,9 +169,6 @@ class ProfileScreen extends ConsumerWidget {
                           TxtField(
                             labelText: 'Email id',
                             enabled: false,
-                            // initialValue: data['email'] != null
-                            //     ? "${data['email']}"
-                            //     : "N/A",
                             controller: TextEditingController(
                                 text: data['email'] != null
                                     ? "${data['email']}"
