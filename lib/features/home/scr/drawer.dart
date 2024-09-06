@@ -205,7 +205,11 @@ void openPhoneDialer(String phoneNumber) async {
   final Uri phoneDialerUri = Uri(scheme: 'tel', path: phoneNumber);
 
   if (await canLaunchUrl(phoneDialerUri)) {
-    await launchUrl(phoneDialerUri);
+    await launchUrl(
+      phoneDialerUri,
+      mode: LaunchMode
+          .externalApplication, // This helps on iOS to launch external apps
+    );
   } else {
     throw 'Could not launch $phoneDialerUri';
   }
