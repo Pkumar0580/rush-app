@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rush/features/auth/screens/login_image.dart';
+import 'package:rush/features/auth/screens/login_signup.dart';
 import 'package:rush/features/home/scr/rating_page.dart';
 import 'package:rush/features/offer/screens/myoffer_screen.dart';
 import 'package:rush/utils/bottom_bar.dart';
@@ -129,7 +130,7 @@ class CusDrawer extends ConsumerWidget {
                 title: const Text("My Offers",
                     style: TextStyle(fontWeight: FontWeight.w500)),
                 onTap: () {
-                  navigationPush(context, const MyOffers());
+                  navigationPush(context,  LoginSignup());
                 },
               ),
         // ListTile(

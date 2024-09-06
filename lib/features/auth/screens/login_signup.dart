@@ -28,7 +28,7 @@ class LoginSignup extends ConsumerWidget {
       backgroundColor: AppColor.backgroundColor,
       appBar: AppBar(
         backgroundColor: AppColor.backgroundColor,
-        automaticallyImplyLeading: true,
+        automaticallyImplyLeading: false,
       ),
       body: Padding(
         padding:
