@@ -22,6 +22,7 @@ class ApiMethod {
           await dio.get(url, options: Options(headers: headers));
 
       if (response.statusCode == 200) {
+        log("Profile data=> ${response.data}");
         return response.data;
       }
     } on DioException {
