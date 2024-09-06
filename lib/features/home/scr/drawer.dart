@@ -11,7 +11,8 @@ import '../../../utils/sizes.dart';
 import '../../profile/repo/profile_repo.dart';
 
 final getProfileProvider = FutureProvider.autoDispose((ref) async {
-  final getdata = await ref.watch(profileRepoProvider).getUserProfile();
+  final getdata = await ref.watch(profileRepoProvider).getProfile();
+  ref.keepAlive();
 
   return getdata;
 });
