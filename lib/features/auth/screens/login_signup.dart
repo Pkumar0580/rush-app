@@ -22,7 +22,6 @@ class LoginSignup extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.invalidate(isLoginProvider);
     final isLoading = ref.watch(loadingStateProvider);
 
     return Scaffold(
@@ -56,7 +55,6 @@ class LoginSignup extends ConsumerWidget {
                         color: Color(0xff000000),
                         fontWeight: FontWeight.w500),
                   ),
-                 
                   heightSizedBox(15.0),
                   TxtField(
                       contentPadding: contentPadding,
@@ -102,13 +100,6 @@ class LoginSignup extends ConsumerWidget {
   }
 }
 
-
-
-
-
-
-
-
 class LoginSignupIOS extends ConsumerWidget {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   final TextEditingController phone = TextEditingController();
@@ -122,9 +113,11 @@ class LoginSignupIOS extends ConsumerWidget {
       backgroundColor: AppColor.backgroundColor,
       appBar: AppBar(
         backgroundColor: AppColor.backgroundColor,
-      leading: IconButton(onPressed: (){
-   navigateTo( const BottomBar());
-      }, icon: const Icon(Icons.arrow_back)),
+        leading: IconButton(
+            onPressed: () {
+              navigateTo(const BottomBar());
+            },
+            icon: const Icon(Icons.arrow_back)),
       ),
       body: Padding(
         padding:
@@ -151,7 +144,6 @@ class LoginSignupIOS extends ConsumerWidget {
                         color: Color(0xff000000),
                         fontWeight: FontWeight.w500),
                   ),
-                 
                   heightSizedBox(15.0),
                   TxtField(
                       contentPadding: contentPadding,
@@ -196,11 +188,3 @@ class LoginSignupIOS extends ConsumerWidget {
     );
   }
 }
-
-
-
-
-
-
-
-
