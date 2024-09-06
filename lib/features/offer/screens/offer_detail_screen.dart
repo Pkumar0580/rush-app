@@ -65,64 +65,65 @@ class CategorieComp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return data["offer"]['brand']['categories'][0] != null
-        ? Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  "Categories/Sub Categories",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    ProdItem(
-                      text: "Men'S Fashion",
-                      src: "assets/images/men's.jpg",
-                      onTap: () {},
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            "Categories/Sub Categories",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              ProdItem(
+                text: data["offer"]['category']['name'] ?? "Unknown Category",
+                src: data["offer"]['category']['name'] == "Men's fashion"
+                    ? "assets/images/men's.jpg"
+                    : data["offer"]['category']['name'] == "Ladies fashion"
+                        ? "assets/images/women's.jpg"
+                        : data["offer"]['category']['name'] == "Accessories"
+                            ? "assets/images/accessries.png"
+                            : data["offer"]['category']['name'] == "Kids Wear"
+                                ? "assets/images/kid's.png"
+                                : "assets/images/default.jpg",
+                onTap: () {},
+              ),
+              Expanded(
+                  child: Wrap(
+                direction: Axis.horizontal,
+                spacing: 8.0,
+                runSpacing: 10.0,
+                children: [
+                  for (var i = 0;
+                      i < data["offer"]['category']['sub_categories'].length;
+                      i++)
+                    // if (data["offer"]['categories']
+                    //         ['sub_categories'][i] !=
+                    //     null)
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      height: 20,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(21),
+                        color: const Color(0xffD9D9D9),
+                        border: Border.all(
+                          color: const Color(0xff767676),
+                          width: 0.3,
+                        ),
+                      ),
+                      child: Text(
+                        "${data["offer"]['category']['sub_categories'][i]}",
+                        style: const TextStyle(color: Color(0xff5F5F5F)),
+                      ),
                     ),
-                    Expanded(
-                        child: Wrap(
-                      direction: Axis.horizontal,
-                      spacing: 8.0,
-                      runSpacing: 10.0,
-                      children: [
-                        for (var i = 0;
-                            i <
-                                data["offer"]['brand']['categories'][0]
-                                        ['sub_categories']
-                                    .length;
-                            i++)
-                          if (data["offer"]['brand']['categories'][0]
-                                  ['sub_categories'][i] !=
-                              null)
-                            Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8),
-                              height: 20,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(21),
-                                color: const Color(0xffD9D9D9),
-                                border: Border.all(
-                                  color: const Color(0xff767676),
-                                  width: 0.3,
-                                ),
-                              ),
-                              child: Text(
-                                "${data["offer"]['brand']['categories'][0]['sub_categories'][i]}",
-                                style:
-                                    const TextStyle(color: Color(0xff5F5F5F)),
-                              ),
-                            ),
-                      ],
-                    )),
-                  ],
-                ),
-              ],
-            ),
-          )
-        : const SizedBox();
+                ],
+              )),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }
