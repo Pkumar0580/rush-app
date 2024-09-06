@@ -130,7 +130,7 @@ class CusDrawer extends ConsumerWidget {
                 title: const Text("My Offers",
                     style: TextStyle(fontWeight: FontWeight.w500)),
                 onTap: () {
-                  navigationPush(context,  LoginSignup());
+                  navigationPush(context, const MyOffers());
                 },
               ),
         // ListTile(
@@ -187,7 +187,7 @@ class CusDrawer extends ConsumerWidget {
                                   ref
                                       .read(secureStoargeProvider)
                                       .deleteData("authToken");
-                                  navigateTo(const LoginImage());
+                                  navigateTo(LoginSignup());
                                 },
                               ),
                             ],
