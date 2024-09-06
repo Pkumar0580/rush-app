@@ -26,37 +26,37 @@ class CusDrawer extends ConsumerWidget {
     final getProfile = ref.watch(getProfileProvider);
     return Column(
       children: [
-        isLogin == "Unauthorized"
-            ? Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CircleAvatar(
-                    radius: 50,
-                    backgroundColor: Colors.grey,
-                    child: Image.asset(
-                      'assets/images/avator.png',
-                      fit: BoxFit.cover,
-                      width: 100.0,
-                      height: 100.0,
-                    ),
-                  ),
-                  heightSizedBox(15.0),
-                  const Text(
-                    "Rush",
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white),
-                  ),
-                ],
-              )
-            : Container(
-                height: 200,
-                width: width(context),
-                color: const Color(0xff133964),
-                child: getProfile.when(
-                  data: (data) {
-                    return Column(
+        Container(
+          height: 200,
+          width: width(context),
+          color: const Color(0xff133964),
+          child: getProfile.when(
+            data: (data) {
+              return isLogin == "Unauthorized"
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircleAvatar(
+                          radius: 50,
+                          backgroundColor: Colors.grey,
+                          child: Image.asset(
+                            'assets/images/avator.png',
+                            fit: BoxFit.cover,
+                            width: 100.0,
+                            height: 100.0,
+                          ),
+                        ),
+                        heightSizedBox(15.0),
+                        const Text(
+                          "Rush",
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white),
+                        ),
+                      ],
+                    )
+                  : Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CircleAvatar(
@@ -99,18 +99,17 @@ class CusDrawer extends ConsumerWidget {
                         ),
                       ],
                     );
-                  },
-                  error: (error, stackTrace) =>
-                      const Text("Something went wrong"),
-                  loading: () {
-                    return const Center(
-                      child: CircularProgressIndicator(
-                        color: Colors.white,
-                      ),
-                    );
-                  },
+            },
+            error: (error, stackTrace) => const Text("Something went wrong"),
+            loading: () {
+              return const Center(
+                child: CircularProgressIndicator(
+                  color: Colors.white,
                 ),
-              ),
+              );
+            },
+          ),
+        ),
 
         heightSizedBox(15.0),
         ListTile(
