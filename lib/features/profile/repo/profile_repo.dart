@@ -33,20 +33,6 @@ class ProfileRepo {
     }
   }
 
-  // Future getUserProfile() async {
-  //   try {
-  //     final token =
-  //         await ref.watch(secureStoargeProvider).readData('authToken');
-
-  //     final response =
-  //         await ApiMethod(url: ApiUrl.getUser, token: token).getDioRequest();
-
-  //     return response;
-  //   } on DioException catch (err) {
-  //     ref.read(isLoginProvider.notifier).state = err.response!.data['error'];
-  //   }
-  // }
-
   Future editProfile() async {
     try {
       final token =
