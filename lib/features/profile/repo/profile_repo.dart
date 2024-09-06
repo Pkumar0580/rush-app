@@ -25,11 +25,11 @@ class ProfileRepo {
 
       return response;
     } on DioException catch (err) {
-      if (Platform.isIOS && err.response!.data['error'] == "Unauthorized") {
-        ref.invalidate(isLoginProvider);
-        navigateTo(LoginSignupIOS());
-      }
-      ref.read(isLoginProvider.notifier).state = err.response!.data['error'];
+      // if (Platform.isIOS && err.response!.data['error'] == "Unauthorized") {
+      //   ref.invalidate(isLoginProvider);
+      //   navigateTo(LoginSignupIOS());
+      // }
+      // ref.read(isLoginProvider.notifier).state = err.response!.data['error'];
     }
   }
 

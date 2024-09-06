@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rush/features/auth/screens/login_signup.dart';
 import 'package:rush/features/brand/screens/brands.dart';
 import 'package:rush/features/offer/screens/offers_screen.dart';
+import 'package:rush/features/profile/repo/profile_repo.dart';
 import 'package:rush/features/profile/screens/profile_screen.dart';
 import 'package:rush/utils/secure_storage%20copy.dart';
 import '../features/home/screens/home_screen.dart';
@@ -22,16 +26,19 @@ class BottomBar extends ConsumerStatefulWidget {
 }
 
 class _BottomBarState extends ConsumerState<BottomBar> {
-  var pages = [
-    HomeScreen(),
-    const OffersScreen(),
-    const BrandScreen(),
-    ProfileScreen()
-  ];
   int selectedItem = 0;
 
   @override
   Widget build(BuildContext context) {
+    final isLogin = ref.watch(isLoginProvider);
+
+    var pages = [
+      HomeScreen(),
+      const OffersScreen(),
+      const BrandScreen(),
+      Platform.isIOS&&isLogin=="Unauthorized"?LoginSignup():
+      ProfileScreen()
+    ];
     return PopScope(
       canPop: false,
       onPopInvoked: (didPop) {
