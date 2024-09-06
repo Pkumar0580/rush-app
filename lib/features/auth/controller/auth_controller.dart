@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rush/features/auth/repo/auth_repo.dart';
 import 'package:rush/features/auth/screens/gender_selection.dart';
 import 'package:rush/features/auth/screens/otp_screen.dart';
+import 'package:rush/features/profile/repo/profile_repo.dart';
+import 'package:rush/features/profile/screens/profile_screen.dart';
 import 'package:rush/utils/bottom_bar.dart';
 import 'package:rush/utils/navigation.dart';
 import 'package:rush/utils/secure_storage%20copy.dart';
@@ -42,10 +44,12 @@ class AuthController {
             .watch(secureStoargeProvider)
             .writeData(key: "authToken", value: "${res['token']}");
       } else {
-        navigateTo(const BottomBar());
-        ref
+        await ref
             .watch(secureStoargeProvider)
             .writeData(key: "authToken", value: "${res['token']}");
+
+        ref.invalidate(isLoginProvider);
+        navigateTo(const BottomBar());
       }
     } catch (error) {
       log("Send Otp Controller Eror=>$error");

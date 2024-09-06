@@ -23,6 +23,7 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(getProfileProvider);
     return Scaffold(
         backgroundColor: AppColor.backgroundColor,
         key: drawerKey,
