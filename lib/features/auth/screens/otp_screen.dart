@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pinput/pinput.dart';
 import 'package:rush/features/auth/controller/auth_controller.dart';
 import 'package:rush/features/auth/screens/login_signup.dart';
+import 'package:rush/features/profile/repo/profile_repo.dart';
 import 'package:rush/utils/bottom_bar.dart';
 import 'package:rush/utils/colors.dart';
 import 'package:rush/utils/message.dart';
@@ -99,6 +100,7 @@ class OtpScreen extends ConsumerWidget {
                   Btn(
                     text: "Continue",
                     onPressed: () {
+                      ref.invalidate(isLoginProvider);
                       // if(mobile=="9782209395" && otpController.text=="123456"){
 
                       //    navigateTo(const BottomBar());
