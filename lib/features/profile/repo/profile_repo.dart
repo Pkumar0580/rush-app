@@ -29,7 +29,7 @@ class ProfileRepo {
       //   ref.invalidate(isLoginProvider);
       //   navigateTo(LoginSignupIOS());
       // }
-      // ref.read(isLoginProvider.notifier).state = err.response!.data['error'];
+      ref.read(isLoginProvider.notifier).state = err.response!.data['error'];
     }
   }
 
