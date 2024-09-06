@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rush/features/auth/controller/auth_controller.dart';
 import 'package:rush/features/auth/screens/otp_screen.dart';
+import 'package:rush/features/profile/repo/profile_repo.dart';
 import 'package:rush/utils/bottom_bar.dart';
 import 'package:rush/utils/button.dart';
 import 'package:rush/utils/fields.dart';
@@ -21,6 +22,7 @@ class LoginSignup extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.invalidate(isLoginProvider);
     final isLoading = ref.watch(loadingStateProvider);
 
     return Scaffold(
