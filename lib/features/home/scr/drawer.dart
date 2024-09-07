@@ -10,10 +10,10 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../utils/sizes.dart';
 import '../../profile/repo/profile_repo.dart';
 
+
 final getProfileProvider = FutureProvider.autoDispose((ref) async {
   final getdata = await ref.watch(profileRepoProvider).getProfile();
   ref.keepAlive();
-
   return getdata;
 });
 
@@ -111,7 +111,6 @@ class CusDrawer extends ConsumerWidget {
             },
           ),
         ),
-
         heightSizedBox(15.0),
         ListTile(
           leading: const Icon(Icons.home, color: Color(0xff000000)),
@@ -160,7 +159,7 @@ class CusDrawer extends ConsumerWidget {
             ? const SizedBox()
             : Consumer(
                 builder: (BuildContext context, WidgetRef ref, Widget? child) {
-                return ListTile(
+                  return ListTile(
                     leading: const Icon(Icons.logout, color: Colors.red),
                     title: const Text("Logout",
                         style: TextStyle(
@@ -193,8 +192,10 @@ class CusDrawer extends ConsumerWidget {
                           );
                         },
                       );
-                    });
-              })
+                    },
+                  );
+                },
+              )
       ],
     );
   }
@@ -202,12 +203,10 @@ class CusDrawer extends ConsumerWidget {
 
 void openPhoneDialer(String phoneNumber) async {
   final Uri phoneDialerUri = Uri(scheme: 'tel', path: phoneNumber);
-
   if (await canLaunchUrl(phoneDialerUri)) {
     await launchUrl(
       phoneDialerUri,
-      mode: LaunchMode
-          .externalApplication, // This helps on iOS to launch external apps
+      mode: LaunchMode.externalApplication,
     );
   } else {
     throw 'Could not launch $phoneDialerUri';

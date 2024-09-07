@@ -1,11 +1,8 @@
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rush/features/auth/screens/login_signup.dart';
 import 'package:rush/utils/api_method.dart';
-import 'package:rush/utils/navigation.dart';
 import 'package:rush/utils/secure_storage%20copy.dart';
 
 final profileRepoProvider = Provider.autoDispose((ref) => ProfileRepo(ref));

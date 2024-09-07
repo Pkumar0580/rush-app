@@ -5,6 +5,7 @@ import 'package:rush/features/auth/screens/splash_screen.dart';
 import 'package:rush/utils/navigation.dart';
 import 'utils/message.dart';
 
+
 void main() {
   runApp(
     const ProviderScope(

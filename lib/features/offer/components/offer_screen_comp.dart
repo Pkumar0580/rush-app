@@ -21,6 +21,27 @@ class _OfferCardState extends ConsumerState<OfferCard> {
   bool isFavorite = false;
 
   @override
+  void initState() {
+    super.initState();
+    // Check if the specific offer is already saved based on its ID
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      String? favoriteStatus = await ref
+          .read(secureStoargeProvider)
+          .readData( "isFavorite_${widget.data['_id']}");
+
+      if (favoriteStatus == "True") {
+        setState(() {
+          isFavorite = true;
+        });
+      } else {
+        setState(() {
+          isFavorite = false;
+        });
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
@@ -137,21 +158,25 @@ class _OfferCardState extends ConsumerState<OfferCard> {
                       isFavorite = !isFavorite;
                     });
                     if (isFavorite) {
+                      // Save the offer
                       var data = await ref
                           .read(OffersRepoProvider)
                           .saveOffer(widget.data['_id']);
 
-                      ref
+                      // Store the offer's favorite status in storage
+                      await ref
                           .read(secureStoargeProvider)
-                          .writeData(key: "isFavorite", value: "True");
-                      // setState(() {
-                      //   isFavorite = data['data']['following'];
-                      // });
-                      log("data=$data");
+                          .writeData(key: "isFavorite_${widget.data['_id']}", value: "True");
                     } else {
-                      ref
+                      // Unsave the offer
+                      await ref
                           .read(OffersRepoProvider)
                           .removeOffer(widget.data['_id']);
+
+                      // Remove the favorite status from storage
+                      await ref
+                          .read(secureStoargeProvider)
+                          .writeData(key: "isFavorite_${widget.data['_id']}", value: "False");
                     }
                   },
                   icon: Icon(
@@ -163,6 +188,9 @@ class _OfferCardState extends ConsumerState<OfferCard> {
     );
   }
 }
+
+
+
 
 String _calculateDiscountText(Map<String, dynamic> data) {
   // Convert amount and discount_value to double, defaulting to 0.0 if null or not parsable

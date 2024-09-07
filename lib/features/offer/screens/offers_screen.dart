@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rush/features/offer/repo/offers_repo.dart';
 import 'package:rush/utils/bottom_bar.dart';
 import 'package:rush/utils/navigation.dart';
+import 'package:rush/utils/sizes.dart';
 import '../../../common/image_slider.dart';
 import '../../../utils/colors.dart';
 import '../components/offer_screen_comp.dart';
@@ -85,6 +86,27 @@ class _OffersScreenState extends ConsumerState<OffersScreen>
                   Tab(text: 'Accessories'),
                 ],
               ),
+              heightSizedBox(10.0),
+              Padding(
+                padding: const EdgeInsets.only(top: 0, right: 10, left: 10),
+                child: Row(
+                  children: [
+                    for (int i = 0;
+                        i < data['category']['sub_categories'].length;
+                        i++)
+                      Container(
+                        height: 20,
+                        width: 80,
+                        decoration: BoxDecoration(
+                            color: Colors.orange,
+                            borderRadius: BorderRadius.circular(21)),
+                        child: Center(
+                            child: Text(
+                                "${data['category']['sub_categories'][i]}")),
+                      ),
+                  ],
+                ),
+              ),
               Expanded(
                 child: TabBarView(
                   controller: tabController,
@@ -95,6 +117,7 @@ class _OffersScreenState extends ConsumerState<OffersScreen>
                             getMensOfferProvider('66332c9a65beb9b60342c7de'));
                         return getMensData.when(
                           data: (data) {
+                            final category = data['category']['sub_categories'];
                             if (data.isEmpty) {
                               return const Center(child: Text("No Data"));
                             }
