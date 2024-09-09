@@ -45,7 +45,7 @@ class _BrandScreenState extends State<BrandScreen>
   final Map<int, List<String>> buttonLabelsMap = {
     0: ["Formals", "Casuals", "Ethnic", "Sports", "Lounge"], // Men's fashion
     1: ["Formals", "Casuals", "Ethnic", "Sports", "Lounge"], // Women's fashion
-    2: ["Kids' Dresses", "Kids' Tops", "Kids' Bottoms", "Kids' Outerwear"],
+    2: [],
     3: ["Shoes", "Watches", "Leather", "Sunglasses"], // Accessories
   };
 
@@ -157,7 +157,7 @@ class _BrandScreenState extends State<BrandScreen>
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: List.generate(
                     buttonLabelsMap[currentTabIndex]!.length,
                     (index) {
@@ -282,8 +282,6 @@ class _BrandScreenState extends State<BrandScreen>
     );
   }
 }
-
-
 
 class MyBrandTabScreen extends StatelessWidget {
   final data;
