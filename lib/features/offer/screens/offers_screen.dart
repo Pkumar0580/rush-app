@@ -87,26 +87,26 @@ class _OffersScreenState extends ConsumerState<OffersScreen>
                 ],
               ),
               heightSizedBox(10.0),
-              Padding(
-                padding: const EdgeInsets.only(top: 0, right: 10, left: 10),
-                child: Row(
-                  children: [
-                    for (int i = 0;
-                        i < data['category']['sub_categories'].length;
-                        i++)
-                      Container(
-                        height: 20,
-                        width: 80,
-                        decoration: BoxDecoration(
-                            color: Colors.orange,
-                            borderRadius: BorderRadius.circular(21)),
-                        child: Center(
-                            child: Text(
-                                "${data['category']['sub_categories'][i]}")),
-                      ),
-                  ],
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.only(top: 0, right: 10, left: 10),
+              //   child: Row(
+              //     children: [
+              //       for (int i = 0;
+              //           i < data['category']['sub_categories'].length;
+              //           i++)
+              //         Container(
+              //           height: 20,
+              //           width: 80,
+              //           decoration: BoxDecoration(
+              //               color: Colors.orange,
+              //               borderRadius: BorderRadius.circular(21)),
+              //           child: Center(
+              //               child: Text(
+              //                   "${data['category']['sub_categories'][i]}")),
+              //         ),
+              //     ],
+              //   ),
+              // ),
               Expanded(
                 child: TabBarView(
                   controller: tabController,
@@ -115,12 +115,13 @@ class _OffersScreenState extends ConsumerState<OffersScreen>
                       builder: (context, ref, child) {
                         final getMensData = ref.watch(
                             getMensOfferProvider('66332c9a65beb9b60342c7de'));
+
                         return getMensData.when(
                           data: (data) {
-                            final category = data['category']['sub_categories'];
                             if (data.isEmpty) {
                               return const Center(child: Text("No Data"));
                             }
+
                             return GridView.builder(
                                 shrinkWrap: true,
                                 itemCount: data.length,
@@ -132,7 +133,8 @@ class _OffersScreenState extends ConsumerState<OffersScreen>
                                 ),
                                 itemBuilder: (context, index) {
                                   return Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
                                     children: [
                                       OfferCard(
                                         data: data[index],
