@@ -87,26 +87,7 @@ class _OffersScreenState extends ConsumerState<OffersScreen>
                 ],
               ),
               heightSizedBox(10.0),
-              // Padding(
-              //   padding: const EdgeInsets.only(top: 0, right: 10, left: 10),
-              //   child: Row(
-              //     children: [
-              //       for (int i = 0;
-              //           i < data['category']['sub_categories'].length;
-              //           i++)
-              //         Container(
-              //           height: 20,
-              //           width: 80,
-              //           decoration: BoxDecoration(
-              //               color: Colors.orange,
-              //               borderRadius: BorderRadius.circular(21)),
-              //           child: Center(
-              //               child: Text(
-              //                   "${data['category']['sub_categories'][i]}")),
-              //         ),
-              //     ],
-              //   ),
-              // ),
+          
               Expanded(
                 child: TabBarView(
                   controller: tabController,

@@ -23,7 +23,6 @@ class _OfferCardState extends ConsumerState<OfferCard> {
   @override
   void initState() {
     super.initState();
-    // Check if the specific offer is already saved based on its ID
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       String? favoriteStatus = await ref
           .read(secureStoargeProvider)

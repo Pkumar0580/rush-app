@@ -22,7 +22,7 @@ class ApiMethod {
           await dio.get(url, options: Options(headers: headers));
 
       if (response.statusCode == 200) {
-        log("Profile data=> ${response.data}");
+        // log("Profile data=> ${response.data}");
         return response.data;
       }
     } on DioException {
@@ -93,6 +93,7 @@ class ApiUrl {
   static const baseUrl = "https://offers-listing-app-backend.vercel.app";
   static const getUser = "$baseUrl/user";
   static const getBrands = "$baseUrl/brand";
+    static const getBrandsCategory = "$baseUrl/brand?category=";
   static const getBrandsOffer = "$baseUrl/offers";
 
   static const getOffers = "$baseUrl/offer";

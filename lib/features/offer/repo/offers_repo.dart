@@ -57,19 +57,19 @@ class OffersRepo {
               .getDioRequest();
       return response;
     } catch (e) {
-      log("Get Offer Error=> $e");
+
     }
   }
 
   Future getCategoriOffers({required String id}) async {
-    log("id$id");
+   
     try {
       final response = await ApiMethod(
         url: "${ApiUrl.getMansOffers}$id",
       ).getDioRequest();
       return response;
     } catch (e) {
-      log("Get Offer Error=> $e");
+     
     }
   }
 
@@ -80,7 +80,7 @@ class OffersRepo {
       final response =
           await ApiMethod(url: "${ApiUrl.saveOffer}/$id/save", token: token)
               .putDioRequest();
-      log("response$response");
+    
       ShowSnackBarMsg(response['message'], color: Colors.green);
       return response;
     } on DioException catch (e) {

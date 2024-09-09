@@ -8,12 +8,25 @@ final brandRepoProvider = Provider((ref) => BrandRepo());
 class BrandRepo {
   getBrands() async {
     try {
-      final response = ApiMethod(url: ApiUrl.getBrands).getDioRequest();
-
-      // log("Response=>$response");
+      final response = await ApiMethod(url: ApiUrl.getBrands).getDioRequest();
       return response;
     } catch (error) {
       log(error.toString());
+    }
+  }
+
+  getBrandsCategory({String? category, String? subCategory}) async {
+    try {
+      String url = "${ApiUrl.getBrandsCategory}$category";
+      if (subCategory != null && subCategory.isNotEmpty) {
+        url += "&sub_category=$subCategory";
+      }
+      final response = await ApiMethod(url: url).getDioRequest();
+      // log("Response=>$response");
+      return response;
+    } catch (error) {
+      log("Error fetching brands: $error");
+      return null;
     }
   }
 
@@ -21,8 +34,6 @@ class BrandRepo {
     try {
       final response =
           await ApiMethod(url: "${ApiUrl.getBrands}/$id").getDioRequest();
-
-      // log("Profile Repo Response => $response");
       return response;
     } catch (err) {
       log("Profile Repo Error=> $err");
