@@ -10,7 +10,6 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../utils/sizes.dart';
 import '../../profile/repo/profile_repo.dart';
 
-
 final getProfileProvider = FutureProvider.autoDispose((ref) async {
   final getdata = await ref.watch(profileRepoProvider).getProfile();
   ref.keepAlive();
@@ -182,9 +181,7 @@ class CusDrawer extends ConsumerWidget {
                               TextButton(
                                 child: const Text('Yes'),
                                 onPressed: () {
-                                  ref
-                                      .read(secureStoargeProvider)
-                                      .deleteData("authToken");
+                                  ref.read(secureStoargeProvider).clearData();
                                   navigateTo(LoginSignup());
                                 },
                               ),

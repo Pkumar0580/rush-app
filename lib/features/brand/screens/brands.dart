@@ -56,17 +56,6 @@ class _BrandScreenState extends State<BrandScreen>
     3: [false, false, false, false], // Accessories
   };
 
-  Future<void> _refreshData() async {
-    await Future.delayed(const Duration(seconds: 1));
-    fetchData((responseData) {
-      setState(() {
-        data = responseData;
-        filteredData = responseData;
-        isLoading = false;
-      });
-    });
-  }
-
   @override
   void initState() {
     super.initState();
@@ -80,6 +69,30 @@ class _BrandScreenState extends State<BrandScreen>
           currentTabIndex = tabController.index;
         });
       });
+
+    searchController.addListener(() {
+      setState(() {
+        _filterData();
+      });
+    });
+  }
+
+  void _filterData() {
+    final query = searchController.text.toLowerCase();
+    filteredData = data.where((item) {
+      return item.toString().toLowerCase().contains(query);
+    }).toList();
+  }
+
+  Future<void> _refreshData() async {
+    await Future.delayed(const Duration(seconds: 1));
+    fetchData((responseData) {
+      setState(() {
+        data = responseData;
+        filteredData = responseData;
+        isLoading = false;
+      });
+    });
   }
 
   void _onButtonClick(int index) {
@@ -89,6 +102,7 @@ class _BrandScreenState extends State<BrandScreen>
         (i) => i == index,
       );
       selectedSubcategory = buttonLabelsMap[currentTabIndex]![index];
+      _filterData(); // Apply filter when a button is clicked
     });
   }
 
@@ -206,7 +220,12 @@ class _BrandScreenState extends State<BrandScreen>
                           if (data.isEmpty) {
                             return const Center(child: Text("No Data"));
                           }
-                          return MyBrandTabScreen(data: data);
+                          // Update filteredData for Men's
+                          filteredData = data.where((item) {
+                            return item.toString().toLowerCase()
+                                .contains(searchController.text.toLowerCase());
+                          }).toList();
+                          return MyBrandTabScreen(data: filteredData);
                         },
                         error: (error, stackTrace) => const Text("Error"),
                         loading: () => const Center(
@@ -225,7 +244,12 @@ class _BrandScreenState extends State<BrandScreen>
                           if (data.isEmpty) {
                             return const Center(child: Text("No Data"));
                           }
-                          return MyBrandTabScreen(data: data);
+                          // Update filteredData for Women's
+                          filteredData = data.where((item) {
+                            return item.toString().toLowerCase()
+                                .contains(searchController.text.toLowerCase());
+                          }).toList();
+                          return MyBrandTabScreen(data: filteredData);
                         },
                         error: (error, stackTrace) => const Text("Error"),
                         loading: () => const Center(
@@ -244,7 +268,12 @@ class _BrandScreenState extends State<BrandScreen>
                           if (data.isEmpty) {
                             return const Center(child: Text("No Data"));
                           }
-                          return MyBrandTabScreen(data: data);
+                          // Update filteredData for Kids
+                          filteredData = data.where((item) {
+                            return item.toString().toLowerCase()
+                                .contains(searchController.text.toLowerCase());
+                          }).toList();
+                          return MyBrandTabScreen(data: filteredData);
                         },
                         error: (error, stackTrace) => const Text("Error"),
                         loading: () => const Center(
@@ -264,7 +293,12 @@ class _BrandScreenState extends State<BrandScreen>
                           if (data.isEmpty) {
                             return const Center(child: Text("No Data"));
                           }
-                          return MyBrandTabScreen(data: data);
+                          // Update filteredData for Accessories
+                          filteredData = data.where((item) {
+                            return item.toString().toLowerCase()
+                                .contains(searchController.text.toLowerCase());
+                          }).toList();
+                          return MyBrandTabScreen(data: filteredData);
                         },
                         error: (error, stackTrace) => const Text("Error"),
                         loading: () => const Center(
@@ -282,6 +316,7 @@ class _BrandScreenState extends State<BrandScreen>
     );
   }
 }
+
 
 class MyBrandTabScreen extends StatelessWidget {
   final data;
