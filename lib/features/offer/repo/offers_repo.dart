@@ -26,6 +26,8 @@ class OffersRepo {
     }
   }
 
+
+
   Future getHomeOffers() async {
     try {
       final response =
@@ -61,17 +63,23 @@ class OffersRepo {
     }
   }
 
-  Future getCategoriOffers({required String id}) async {
-   
-    try {
-      final response = await ApiMethod(
-        url: "${ApiUrl.getMansOffers}$id",
-      ).getDioRequest();
-      return response;
-    } catch (e) {
-     
+  Future getCategoriOffers({required String id, String? subCategory}) async {
+  try {
+    // Construct the URL with subCategory if provided
+    String url = "${ApiUrl.getMansOffers}$id";
+    if (subCategory != null && subCategory.isNotEmpty) {
+      url += "&sub_category=$subCategory";
     }
+
+    final response = await ApiMethod(
+      url: url,
+    ).getDioRequest();
+    return response;
+  } catch (e) {
+    // Handle error here
   }
+}
+
 
   Future saveOffer(String id) async {
     try {
