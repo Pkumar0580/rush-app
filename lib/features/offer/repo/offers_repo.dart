@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,8 +24,6 @@ class OffersRepo {
       log("Get Offer Error=> $e");
     }
   }
-
-
 
   Future getHomeOffers() async {
     try {
@@ -59,27 +56,25 @@ class OffersRepo {
               .getDioRequest();
       return response;
     } catch (e) {
-
+      log(e.toString());
     }
   }
 
   Future getCategoriOffers({required String id, String? subCategory}) async {
-  try {
-    // Construct the URL with subCategory if provided
-    String url = "${ApiUrl.getMansOffers}$id";
-    if (subCategory != null && subCategory.isNotEmpty) {
-      url += "&sub_category=$subCategory";
+    try {
+      // Construct the URL with subCategory if provided
+      String url = "${ApiUrl.getMansOffers}$id";
+      if (subCategory != null && subCategory.isNotEmpty) {
+        url += "&sub_category=$subCategory";
+      }
+      final response = await ApiMethod(
+        url: url,
+      ).getDioRequest();
+      return response;
+    } catch (e) {
+      log(e.toString());
     }
-
-    final response = await ApiMethod(
-      url: url,
-    ).getDioRequest();
-    return response;
-  } catch (e) {
-    // Handle error here
   }
-}
-
 
   Future saveOffer(String id) async {
     try {
@@ -88,7 +83,7 @@ class OffersRepo {
       final response =
           await ApiMethod(url: "${ApiUrl.saveOffer}/$id/save", token: token)
               .putDioRequest();
-    
+
       ShowSnackBarMsg(response['message'], color: Colors.green);
       return response;
     } on DioException catch (e) {

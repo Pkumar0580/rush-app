@@ -5,7 +5,6 @@ import 'package:rush/features/auth/repo/auth_repo.dart';
 import 'package:rush/features/auth/screens/gender_selection.dart';
 import 'package:rush/features/auth/screens/otp_screen.dart';
 import 'package:rush/features/profile/repo/profile_repo.dart';
-import 'package:rush/features/profile/screens/profile_screen.dart';
 import 'package:rush/utils/bottom_bar.dart';
 import 'package:rush/utils/navigation.dart';
 import 'package:rush/utils/secure_storage%20copy.dart';

@@ -14,7 +14,7 @@ final ratingProvider = StateProvider<double>((ref) {
 class RatingPage extends ConsumerWidget {
   RatingPage({super.key});
 
-  TextEditingController ratingController = TextEditingController();
+  final TextEditingController ratingController = TextEditingController();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
